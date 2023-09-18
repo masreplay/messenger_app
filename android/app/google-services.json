@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "188321973442",
+    "firebase_url": "https://the-key-messenger-default-rtdb.firebaseio.com",
     "project_id": "the-key-messenger",
     "storage_bucket": "the-key-messenger.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.messenger_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "188321973442-ht1t4v1l5a0442cgm50u6c50m6vi7a4t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.messenger_app",
+            "certificate_hash": "c43186a9f7d7ead85370502e67949f77799d8071"
+          }
+        },
+        {
+          "client_id": "188321973442-ram3c4fchohjok88lvotnkjl60g5g1dk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAhAnzt4VznkNWMgqqxKefkgaZnjs2GAgA"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188321973442-ram3c4fchohjok88lvotnkjl60g5g1dk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "188321973442-61575u49fsgu23e31u029me36714ua7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.messengerApp"
+              }
+            }
+          ]
         }
       }
     }

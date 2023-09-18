@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:188321973442:android:956a4048b35d63130c275b',
     messagingSenderId: '188321973442',
     projectId: 'the-key-messenger',
+    databaseURL: 'https://the-key-messenger-default-rtdb.firebaseio.com',
     storageBucket: 'the-key-messenger.appspot.com',
   );
 
@@ -62,7 +63,10 @@ class DefaultFirebaseOptions {
     appId: '1:188321973442:ios:80710b9d232957650c275b',
     messagingSenderId: '188321973442',
     projectId: 'the-key-messenger',
+    databaseURL: 'https://the-key-messenger-default-rtdb.firebaseio.com',
     storageBucket: 'the-key-messenger.appspot.com',
+    androidClientId: '188321973442-ht1t4v1l5a0442cgm50u6c50m6vi7a4t.apps.googleusercontent.com',
+    iosClientId: '188321973442-61575u49fsgu23e31u029me36714ua7q.apps.googleusercontent.com',
     iosBundleId: 'com.example.messengerApp',
   );
 }
