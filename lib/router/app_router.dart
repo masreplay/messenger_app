@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:messenger_app/login_screen.dart';
+import 'package:messenger_app/src/login/login_screen.dart';
 
 part 'app_router.gr.dart';
 
