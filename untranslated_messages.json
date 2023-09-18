@@ -1,5 +1,8 @@
 {
   "ar": [
-    "defaultErrorMessage"
+    "defaultErrorMessage",
+    "validationRequired",
+    "validationMaxLength",
+    "validationMinLength"
   ]
 }

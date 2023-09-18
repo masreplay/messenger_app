@@ -36,6 +36,8 @@ class State<Data, Error> with _$State<Data, Error> {
     FromJsonGeneric<Error> fromJsonError,
   ) =>
       _$StateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
+
+  bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
 }
 
 typedef FromJsonGeneric<R> = R Function(Object?);

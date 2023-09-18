@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/state.dart';
+import 'package:messenger_app/models/user.dart';
 
 part 'sign_up_bloc.freezed.dart';
 part 'sign_up_bloc.g.dart';
@@ -16,14 +18,36 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
   SignUpCubit() : super(const SignUpCubitState.initial());
 
   Future<void> signUp(String email, String password) async {
-    emit(const State.initial());
+    emit(const State.loading());
 
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final auth = FirebaseAuth.instance;
+
+      final credential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      final uid = credential.user!.uid;
+
+      if (credential.additionalUserInfo?.isNewUser == true) {
+        final result =
+            await FirebaseFirestore.instance.collection("users").doc(uid).get();
+
+        if (!result.exists) {
+          final user = UserCreate(
+            uid: uid,
+            email: email,
+            createdAt: FieldValue.serverTimestamp(),
+            avatar: null,
+            name: null,
+          );
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .set(user.toJson());
+        }
+      }
 
       emit(SignUpCubitState.data(credential));
     } on FirebaseAuthException catch (e, stackTrace) {

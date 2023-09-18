@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:messenger_app/faker.dart';
-import 'package:messenger_app/l10n/l10n.dart';
-import 'package:messenger_app/snake_bar.dart';
-
-import 'sign_up_bloc.dart';
+import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
+import 'package:messenger_app/src/widgets/email_form_field.dart';
+import 'package:messenger_app/src/widgets/logo.dart';
+import 'package:messenger_app/src/widgets/password_form_field.dart';
 
 @RoutePage()
 class SignUpScreen extends HookWidget {
@@ -16,17 +15,18 @@ class SignUpScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final textTheme = Theme.of(context).textTheme;
 
     final email = useTextEditingController(
-      text: kDebugMode ? null : Faker.email,
+      text: kDebugMode ? Faker.email : null,
     );
     final password = useTextEditingController(
-      text: kDebugMode ? null : Faker.password,
+      text: kDebugMode ? Faker.password : null,
     );
 
     final obscure = useState(true);
     final cubit = useBloc<SignUpCubit>();
+
+    print(cubit.state.runtimeType);
 
     const gap = SizedBox.square(dimension: 16.0);
 
@@ -37,37 +37,14 @@ class SignUpScreen extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Spacer(),
-            _Logo(),
-            gap,
-            Text(
-              l10n.greetingMessage,
-              style: textTheme.displayMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const Slogan(),
             const Spacer(),
-            TextFormField(
-              controller: email,
-              decoration: InputDecoration(
-                labelText: l10n.email,
-                suffixIcon: const Icon(Icons.email_outlined),
-              ),
-            ),
+            EmailFormField(controller: email),
             gap,
-            TextFormField(
+            PasswordFormField(
               controller: password,
-              obscureText: obscure.value,
-              decoration: InputDecoration(
-                labelText: l10n.password,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscure.value
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () => obscure.value = !obscure.value,
-                ),
-              ),
+              obscure: obscure.value,
+              onToggle: () => obscure.value = !obscure.value,
             ),
             gap,
             Expanded(
@@ -76,27 +53,29 @@ class SignUpScreen extends HookWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      debugPrint("test");
+                      context.router.push(const LoginRoute());
                     },
-                    child: Text(l10n.signUp),
+                    child: Text(l10n.login),
                   ),
                   FilledButton(
-                    onPressed: () async {
-                      debugPrint("test");
-                      await cubit.signUp(email.text, password.text);
-                      cubit.state.whenOrNull(
-                        data: (data) {
-                          debugPrint(data.toString());
-                        },
-                        error: (error, stackTrace) {
-                          error.maybeWhen(
-                            emailAlreadyInUse: () {},
-                            orElse: context.showDefaultErrorSnackBar,
-                          );
-                        },
-                      );
-                    },
-                    child: Text(l10n.signUp),
+                    onPressed: cubit.state.isLoading
+                        ? null
+                        : () async {
+                            await cubit.signUp(email.text, password.text);
+                            cubit.state.whenOrNull(
+                              data: (data) {},
+                              error: (error, stackTrace) {
+                                error.maybeWhen(
+                                  emailAlreadyInUse: () {},
+                                  orElse: context.showDefaultErrorSnackBar,
+                                );
+                              },
+                            );
+                          },
+                    child: cubit.state.maybeWhen(
+                      loading: () => const CircularProgressIndicator(),
+                      orElse: () => Text(l10n.signUp),
+                    ),
                   ),
                 ],
               ),
@@ -104,16 +83,6 @@ class SignUpScreen extends HookWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Icon(
-      Icons.messenger_outline,
-      size: 64.0,
     );
   }
 }

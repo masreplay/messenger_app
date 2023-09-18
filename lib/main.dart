@@ -4,7 +4,7 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:messenger_app/app.dart';
 import 'package:messenger_app/firebase_options.dart';
-import 'package:messenger_app/injectable.dart';
+import 'package:messenger_app/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {

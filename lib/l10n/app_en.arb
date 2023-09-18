@@ -4,5 +4,22 @@
     "login": "Login",
     "signUp": "Sign Up",
     "greetingMessage": "Welcome\nBack!",
-    "defaultErrorMessage": "Something went wrong, please try again later"
+    "defaultErrorMessage": "Something went wrong, please try again later",
+    "validationRequired": "This field is required",
+    "validationMaxLength": "Maximum length is {n}",
+    "@validationMinLength": {
+        "placeholders": {
+            "n": {
+                "type": "num"
+            }
+        }
+    },
+    "validationMinLength": "Minimum length is {n}",
+    "@validationMaxLength": {
+        "placeholders": {
+            "n": {
+                "type": "num"
+            }
+        }
+    }
 }

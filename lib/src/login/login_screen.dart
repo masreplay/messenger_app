@@ -1,12 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:messenger_app/faker.dart';
-import 'package:messenger_app/l10n/l10n.dart';
-import 'package:messenger_app/router/app_router.dart';
-import 'package:messenger_app/snake_bar.dart';
+import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/src/widgets/email_form_field.dart';
+import 'package:messenger_app/src/widgets/logo.dart';
+import 'package:messenger_app/src/widgets/password_form_field.dart';
 
 import 'login_bloc.dart';
 
@@ -17,7 +16,6 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final textTheme = Theme.of(context).textTheme;
 
     final email = useTextEditingController(
       text: kDebugMode ? Faker.email : null,
@@ -28,6 +26,7 @@ class LoginScreen extends HookWidget {
 
     final obscure = useState(true);
     final cubit = useBloc<LoginCubit>();
+    final state = useBlocBuilder(cubit);
 
     const gap = SizedBox.square(dimension: 16.0);
 
@@ -38,37 +37,14 @@ class LoginScreen extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Spacer(),
-            _Logo(),
-            gap,
-            Text(
-              l10n.greetingMessage,
-              style: textTheme.displayMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const Slogan(),
             const Spacer(),
-            TextFormField(
-              controller: email,
-              decoration: InputDecoration(
-                labelText: l10n.email,
-                suffixIcon: const Icon(Icons.email_outlined),
-              ),
-            ),
+            EmailFormField(controller: email),
             gap,
-            TextFormField(
+            PasswordFormField(
               controller: password,
-              obscureText: obscure.value,
-              decoration: InputDecoration(
-                labelText: l10n.password,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscure.value
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () => obscure.value = !obscure.value,
-                ),
-              ),
+              obscure: obscure.value,
+              onToggle: () => obscure.value = !obscure.value,
             ),
             gap,
             Expanded(
@@ -82,19 +58,30 @@ class LoginScreen extends HookWidget {
                     child: Text(l10n.signUp),
                   ),
                   FilledButton(
-                    onPressed: () async {
-                      await cubit.login(email.text, password.text);
-                      cubit.state.whenOrNull(
-                        data: (data) {},
-                        error: (error, stackTrace) {
-                          error.maybeWhen(
-                            emailAlreadyInUse: () {},
-                            orElse: context.showDefaultErrorSnackBar,
-                          );
-                        },
-                      );
-                    },
-                    child: Text(l10n.login),
+                    onPressed: state.isLoading
+                        ? null
+                        : () async {
+                            await cubit.login(email.text, password.text);
+
+                            cubit.state.whenOrNull(
+                              data: (data) {
+                                context.router.push(MainRoute());
+                              },
+                              error: (error, stackTrace) {
+                                error.maybeWhen(
+                                  emailAlreadyInUse: () {},
+                                  orElse: context.showDefaultErrorSnackBar,
+                                );
+                              },
+                            );
+                          },
+                    child: state.maybeWhen(
+                      loading: () => const SizedBox.square(
+                        dimension: 24,
+                        child: CircularProgressIndicator(),
+                      ),
+                      orElse: () => Text(l10n.login),
+                    ),
                   ),
                 ],
               ),
@@ -102,16 +89,6 @@ class LoginScreen extends HookWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Icon(
-      Icons.messenger_outline,
-      size: 64.0,
     );
   }
 }
