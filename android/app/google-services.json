@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "188321973442",
+    "project_id": "the-key-messenger",
+    "storage_bucket": "the-key-messenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188321973442:android:956a4048b35d63130c275b",
+        "android_client_info": {
+          "package_name": "com.example.messenger_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhAnzt4VznkNWMgqqxKefkgaZnjs2GAgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
