@@ -56,12 +56,11 @@ class SignUpCubitException with _$SignUpCubitException {
   const factory SignUpCubitException.emailAlreadyInUse() =
       SignUpCubitExceptionEmailAlreadyInUse;
 
-  const factory SignUpCubitException.other(Object? e) = SignUpCubitExceptionOther;
+  const factory SignUpCubitException.other(Object? e) =
+      SignUpCubitExceptionOther;
 
-  factory SignUpCubitException.fromType(String type) {
-    print("SignUpCubitException $type");
-    return SignUpCubitException.fromJson({"type": type});
-  }
+  factory SignUpCubitException.fromType(String type) =>
+      SignUpCubitException.fromJson({"type": type});
 
   factory SignUpCubitException.fromJson(Map<String, dynamic> json) =>
       _$SignUpCubitExceptionFromJson(json);

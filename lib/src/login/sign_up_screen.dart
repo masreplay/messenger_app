@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:messenger_app/faker.dart';
 import 'package:messenger_app/l10n/l10n.dart';
+import 'package:messenger_app/router/app_router.dart';
 import 'package:messenger_app/snake_bar.dart';
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
 
@@ -18,10 +19,10 @@ class SignUpScreen extends HookWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final email = useTextEditingController(
-      text: kDebugMode ? null : Faker.email,
+      text: kDebugMode ? Faker.email : null,
     );
     final password = useTextEditingController(
-      text: kDebugMode ? null : Faker.password,
+      text: kDebugMode ? Faker.password : null,
     );
 
     final obscure = useState(true);
@@ -75,18 +76,15 @@ class SignUpScreen extends HookWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      debugPrint("test");
+                      context.router.push(const LoginRoute());
                     },
-                    child: Text(l10n.signUp),
+                    child: Text(l10n.login),
                   ),
                   FilledButton(
                     onPressed: () async {
-                      debugPrint("test");
                       await cubit.signUp(email.text, password.text);
                       cubit.state.whenOrNull(
-                        data: (data) {
-                          debugPrint(data.toString());
-                        },
+                        data: (data) {},
                         error: (error, stackTrace) {
                           error.maybeWhen(
                             emailAlreadyInUse: () {},

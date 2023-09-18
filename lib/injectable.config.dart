@@ -11,8 +11,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
+import 'package:messenger_app/settings/settings_bloc.dart' as _i4;
 import 'package:messenger_app/src/login/login_bloc.dart' as _i3;
-import 'package:messenger_app/src/sign_up/sign_up_bloc.dart' as _i4;
+import 'package:messenger_app/src/sign_up/sign_up_bloc.dart' as _i5;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,7 +27,8 @@ extension GetItInjectableX on _i1.GetIt {
       environmentFilter,
     );
     gh.factory<_i3.LoginCubit>(() => _i3.LoginCubit());
-    gh.factory<_i4.SignUpCubit>(() => _i4.SignUpCubit());
+    gh.factory<_i4.SettingsCubit>(() => _i4.SettingsCubit());
+    gh.factory<_i5.SignUpCubit>(() => _i5.SignUpCubit());
     return this;
   }
 }

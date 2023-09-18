@@ -57,10 +57,8 @@ class LoginCubitException with _$LoginCubitException {
 
   const factory LoginCubitException.other(Object? e) = LoginCubitExceptionOther;
 
-  factory LoginCubitException.fromType(String type) {
-    print("LoginCubitException $type");
-    return LoginCubitException.fromJson({"type": type});
-  }
+  factory LoginCubitException.fromType(String type) =>
+      LoginCubitException.fromJson({"type": type});
 
   factory LoginCubitException.fromJson(Map<String, dynamic> json) =>
       _$LoginCubitExceptionFromJson(json);
