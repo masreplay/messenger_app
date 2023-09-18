@@ -1,0 +1,7 @@
+{
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "greetingMessage": "Welcome\nBack!"
+}

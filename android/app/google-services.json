@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:188321973442:android:956a4048b35d63130c275b",
         "android_client_info": {
-          "package_name": "com.example.messenger_app"
+          "package_name": "com.thekey.messenger"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "188321973442-ht1t4v1l5a0442cgm50u6c50m6vi7a4t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.messenger_app",
+            "package_name": "com.thekey.messenger",
             "certificate_hash": "c43186a9f7d7ead85370502e67949f77799d8071"
           }
         },
