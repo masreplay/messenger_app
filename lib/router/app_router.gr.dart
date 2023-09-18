@@ -15,10 +15,28 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    DiscussionsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DiscussionsScreen(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginScreen(),
+      );
+    },
+    MainRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MainScreen(),
+      );
+    },
+    MoreRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MoreScreen(),
       );
     },
     SignUpRoute.name: (routeData) {
@@ -31,6 +49,20 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [DiscussionsScreen]
+class DiscussionsRoute extends PageRouteInfo<void> {
+  const DiscussionsRoute({List<PageRouteInfo>? children})
+      : super(
+          DiscussionsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DiscussionsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginScreen]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -40,6 +72,34 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MainScreen]
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute({List<PageRouteInfo>? children})
+      : super(
+          MainRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MoreScreen]
+class MoreRoute extends PageRouteInfo<void> {
+  const MoreRoute({List<PageRouteInfo>? children})
+      : super(
+          MoreRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MoreRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -3,5 +3,19 @@
     "password": "كلمة المرور",
     "login": "تسجيل الدخول",
     "signUp": "انشاء حساب",
-    "greetingMessage": "مرحبا بعودتك \n في تطبيق مراسلة"
+    "greetingMessage": "مرحبا بعودتك \n في تطبيق مراسلة",
+    "defaultErrorMessage": "حدث خطأ ما ، يرجى المحاولة مرة أخرى",
+    "validationRequired": "هذا الحقل مطلوب",
+    "validationMaxLength": "يجب ألا يتجاوز هذا الحقل {n} حرفًا",
+    "discussions": "المحادثات",
+    "more": "المزيد",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "validationMinLength": "يجب أن يكون هذا الحقل على الأقل {n} حرفًا",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "deviceLanguage": "لغة الجهاز",
+    "systemTheme": "مظهر النظام",
+    "lightTheme": "مظهر فاتح",
+    "darkTheme": "مظهر داكن"
 }

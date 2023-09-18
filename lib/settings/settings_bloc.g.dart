@@ -11,17 +11,18 @@ _$_AppSettings _$$_AppSettingsFromJson(Map<String, dynamic> json) =>
       locale: _$JsonConverterFromJson<String, Locale>(
               json['locale'], const LocalStringJsonConverter().fromJson) ??
           null,
-      theme: json['theme'] == null
+      themeMode: json['themeMode'] == null
           ? ThemeMode.system
           : const ThemeModeStringJsonConverter()
-              .fromJson(json['theme'] as String),
+              .fromJson(json['themeMode'] as String),
     );
 
 Map<String, dynamic> _$$_AppSettingsToJson(_$_AppSettings instance) =>
     <String, dynamic>{
       'locale': _$JsonConverterToJson<String, Locale>(
           instance.locale, const LocalStringJsonConverter().toJson),
-      'theme': const ThemeModeStringJsonConverter().toJson(instance.theme),
+      'themeMode':
+          const ThemeModeStringJsonConverter().toJson(instance.themeMode),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

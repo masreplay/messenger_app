@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:messenger_app/app.dart';
 import 'package:messenger_app/firebase_options.dart';
 import 'package:messenger_app/get_it.dart';
+import 'package:messenger_app/settings/settings_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -27,7 +29,10 @@ Future<void> main() async {
       injector: () => getIt.get,
       builderCondition: (state) => state != null,
       listenerCondition: (state) => state != null,
-      child: const MainApp(),
+      child: MultiBlocProvider(
+        providers: [BlocProvider(create: (_) => SettingsCubit())],
+        child: const MainApp(),
+      ),
     ),
   );
 }

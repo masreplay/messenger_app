@@ -11,14 +11,14 @@ import 'package:messenger_app/models/user.dart';
 part 'sign_up_bloc.freezed.dart';
 part 'sign_up_bloc.g.dart';
 
-typedef SignUpCubitState = State<UserCredential, SignUpCubitException>;
+typedef SignUpCubitState = FutureState<UserCredential, SignUpCubitException>;
 
 @injectable
 class SignUpCubit extends Cubit<SignUpCubitState> {
   SignUpCubit() : super(const SignUpCubitState.initial());
 
   Future<void> signUp(String email, String password) async {
-    emit(const State.loading());
+    emit(const SignUpCubitState.loading());
 
     try {
       final auth = FirebaseAuth.instance;

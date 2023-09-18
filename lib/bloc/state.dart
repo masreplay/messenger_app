@@ -15,27 +15,27 @@ const _jsonSerializable = JsonSerializable(
   unionValueCase: FreezedUnionCase.pascal,
   genericArgumentFactories: true,
 )
-class State<Data, Error> with _$State<Data, Error> {
-  const State._();
+class FutureState<Data, Error> with _$FutureState<Data, Error> {
+  const FutureState._();
 
   @_jsonSerializable
-  const factory State.initial() = StateInitial<Data, Error>;
+  const factory FutureState.initial() = FutureStateInitial<Data, Error>;
   @_jsonSerializable
-  const factory State.loading() = StateLoading<Data, Error>;
+  const factory FutureState.loading() = FutureStateLoading<Data, Error>;
   @_jsonSerializable
-  const factory State.data(Data data) = StateData<Data, Error>;
+  const factory FutureState.data(Data data) = FutureStateData<Data, Error>;
   @_jsonSerializable
-  const factory State.error(
+  const factory FutureState.error(
     Error error,
     @StackTraceConverter() StackTrace stackTrace,
-  ) = StateError<Data, Error>;
+  ) = FutureStateError<Data, Error>;
 
-  factory State.fromJson(
+  factory FutureState.fromJson(
     Map<String, dynamic> json,
     FromJsonGeneric<Data> fromJsonData,
     FromJsonGeneric<Error> fromJsonError,
   ) =>
-      _$StateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
+      _$FutureStateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
 
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
 }

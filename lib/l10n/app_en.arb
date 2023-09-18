@@ -7,6 +7,16 @@
     "defaultErrorMessage": "Something went wrong, please try again later",
     "validationRequired": "This field is required",
     "validationMaxLength": "Maximum length is {n}",
+    "discussions": "Discussions",
+    "more": "More",
+    "settings": "Settings",
+    "logout": "Logout",
+    "language": "Language",
+    "theme": "Theme",
+    "deviceLanguage": "Device Language",
+    "systemTheme": "System Theme",
+    "lightTheme": "Light Theme",
+    "darkTheme": "Dark Theme",
     "@validationMinLength": {
         "placeholders": {
             "n": {

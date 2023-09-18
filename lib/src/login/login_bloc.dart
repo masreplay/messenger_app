@@ -9,7 +9,7 @@ import 'package:messenger_app/bloc/state.dart';
 part 'login_bloc.freezed.dart';
 part 'login_bloc.g.dart';
 
-typedef LoginCubitState = State<UserCredential, LoginCubitException>;
+typedef LoginCubitState = FutureState<UserCredential, LoginCubitException>;
 
 @injectable
 class LoginCubit extends Cubit<LoginCubitState> {

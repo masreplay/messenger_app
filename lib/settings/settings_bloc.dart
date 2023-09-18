@@ -34,8 +34,10 @@ class ThemeModeStringJsonConverter extends JsonConverter<ThemeMode, String> {
 class AppSettings with _$AppSettings {
   @JsonSerializable(explicitToJson: true)
   factory AppSettings({
-    @Default(null) @LocalStringJsonConverter() Locale? locale,
-    @Default(ThemeMode.system) @ThemeModeStringJsonConverter() ThemeMode theme,
+    @LocalStringJsonConverter() Locale? locale,
+    @Default(ThemeMode.system)
+    @ThemeModeStringJsonConverter()
+    ThemeMode themeMode,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +47,11 @@ class AppSettings with _$AppSettings {
 @injectable
 class SettingsCubit extends HydratedCubit<AppSettings> {
   SettingsCubit() : super(AppSettings());
+
+  void setThemeMode(ThemeMode themeMode) =>
+      emit(state.copyWith(themeMode: themeMode));
+
+  void setLocale(Locale? locale) => emit(state.copyWith(locale: locale));
 
   @override
   AppSettings fromJson(Map<String, dynamic> json) => AppSettings.fromJson(json);
