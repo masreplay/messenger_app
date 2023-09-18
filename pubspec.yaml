@@ -10,6 +10,7 @@ dependencies:
   auto_route: ^7.8.3
   cached_network_image: ^3.2.3
   cloud_firestore: ^4.9.1
+
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
   firebase_storage: ^11.2.6
@@ -20,10 +21,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   freezed_annotation: ^2.4.1
+  get_it: ^7.6.4
   google_fonts: ^6.0.0
   google_sign_in: ^6.1.5
   hooked_bloc: ^1.4.3
   image_picker: ^1.0.4
+  injectable: ^2.3.0
   intl: any
   json_annotation: ^4.8.1
   shared_preferences: ^2.2.1
@@ -36,6 +39,7 @@ dev_dependencies:
   freezed: ^2.4.2
   json_serializable: ^6.7.1
   auto_route_generator: ^7.3.1
+  injectable_generator: ^2.4.0
 
 flutter:
   uses-material-design: true

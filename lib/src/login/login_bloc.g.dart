@@ -34,7 +34,7 @@ Map<String, dynamic> _$$LoginCubitExceptionEmailAlreadyInUseToJson(
 _$LoginCubitExceptionOther _$$LoginCubitExceptionOtherFromJson(
         Map<String, dynamic> json) =>
     _$LoginCubitExceptionOther(
-      json['e'] as String,
+      json['e'],
       $type: json['type'] as String?,
     );
 

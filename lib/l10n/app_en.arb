@@ -3,5 +3,6 @@
     "password": "Password",
     "login": "Login",
     "signUp": "Sign Up",
-    "greetingMessage": "Welcome\nBack!"
+    "greetingMessage": "Welcome\nBack!",
+    "defaultErrorMessage": "Something went wrong, please try again later"
 }

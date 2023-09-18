@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:188321973442:android:956a4048b35d63130c275b",
+        "mobilesdk_app_id": "1:188321973442:android:0853542e47f2617f0c275b",
         "android_client_info": {
           "package_name": "com.thekey.messenger"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "188321973442-ht1t4v1l5a0442cgm50u6c50m6vi7a4t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.thekey.messenger",
-            "certificate_hash": "c43186a9f7d7ead85370502e67949f77799d8071"
-          }
-        },
         {
           "client_id": "188321973442-ram3c4fchohjok88lvotnkjl60g5g1dk.apps.googleusercontent.com",
           "client_type": 3

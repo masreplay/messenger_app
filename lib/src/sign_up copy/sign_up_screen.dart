@@ -6,12 +6,11 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:messenger_app/faker.dart';
 import 'package:messenger_app/l10n/l10n.dart';
 import 'package:messenger_app/snake_bar.dart';
-
-import 'login_bloc.dart';
+import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
 
 @RoutePage()
-class LoginScreen extends HookWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends HookWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class LoginScreen extends HookWidget {
     );
 
     final obscure = useState(true);
-    final cubit = useBloc<LoginCubit>();
+    final cubit = useBloc<SignUpCubit>();
 
     const gap = SizedBox.square(dimension: 16.0);
 
@@ -83,7 +82,7 @@ class LoginScreen extends HookWidget {
                   FilledButton(
                     onPressed: () async {
                       debugPrint("test");
-                      await cubit.login(email.text, password.text);
+                      await cubit.signUp(email.text, password.text);
                       cubit.state.whenOrNull(
                         data: (data) {
                           debugPrint(data.toString());

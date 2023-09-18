@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAhAnzt4VznkNWMgqqxKefkgaZnjs2GAgA',
-    appId: '1:188321973442:android:956a4048b35d63130c275b',
+    appId: '1:188321973442:android:0853542e47f2617f0c275b',
     messagingSenderId: '188321973442',
     projectId: 'the-key-messenger',
     databaseURL: 'https://the-key-messenger-default-rtdb.firebaseio.com',
@@ -60,7 +60,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBP-3PgbFufWBvt6wj6F0rdZgDzISNvPtM',
-    appId: '1:188321973442:ios:80710b9d232957650c275b',
+    appId: '1:188321973442:ios:eee2477602ef5cc60c275b',
     messagingSenderId: '188321973442',
     projectId: 'the-key-messenger',
     databaseURL: 'https://the-key-messenger-default-rtdb.firebaseio.com',

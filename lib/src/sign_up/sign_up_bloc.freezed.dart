@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'login_bloc.dart';
+part of 'sign_up_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,20 +14,20 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-LoginCubitException _$LoginCubitExceptionFromJson(Map<String, dynamic> json) {
+SignUpCubitException _$SignUpCubitExceptionFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'weak-password':
-      return LoginCubitExceptionWeakPassword.fromJson(json);
+      return SignUpCubitExceptionWeakPassword.fromJson(json);
     case 'email-already-in-use':
-      return LoginCubitExceptionEmailAlreadyInUse.fromJson(json);
+      return SignUpCubitExceptionEmailAlreadyInUse.fromJson(json);
 
     default:
-      return LoginCubitExceptionOther.fromJson(json);
+      return SignUpCubitExceptionOther.fromJson(json);
   }
 }
 
 /// @nodoc
-mixin _$LoginCubitException {
+mixin _$SignUpCubitException {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() weakPassword,
@@ -52,27 +52,27 @@ mixin _$LoginCubitException {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoginCubitExceptionWeakPassword value)
+    required TResult Function(SignUpCubitExceptionWeakPassword value)
         weakPassword,
-    required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
+    required TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)
         emailAlreadyInUse,
-    required TResult Function(LoginCubitExceptionOther value) other,
+    required TResult Function(SignUpCubitExceptionOther value) other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult? Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult? Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult? Function(LoginCubitExceptionOther value)? other,
+    TResult? Function(SignUpCubitExceptionOther value)? other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult Function(LoginCubitExceptionOther value)? other,
+    TResult Function(SignUpCubitExceptionOther value)? other,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -80,16 +80,17 @@ mixin _$LoginCubitException {
 }
 
 /// @nodoc
-abstract class $LoginCubitExceptionCopyWith<$Res> {
-  factory $LoginCubitExceptionCopyWith(
-          LoginCubitException value, $Res Function(LoginCubitException) then) =
-      _$LoginCubitExceptionCopyWithImpl<$Res, LoginCubitException>;
+abstract class $SignUpCubitExceptionCopyWith<$Res> {
+  factory $SignUpCubitExceptionCopyWith(SignUpCubitException value,
+          $Res Function(SignUpCubitException) then) =
+      _$SignUpCubitExceptionCopyWithImpl<$Res, SignUpCubitException>;
 }
 
 /// @nodoc
-class _$LoginCubitExceptionCopyWithImpl<$Res, $Val extends LoginCubitException>
-    implements $LoginCubitExceptionCopyWith<$Res> {
-  _$LoginCubitExceptionCopyWithImpl(this._value, this._then);
+class _$SignUpCubitExceptionCopyWithImpl<$Res,
+        $Val extends SignUpCubitException>
+    implements $SignUpCubitExceptionCopyWith<$Res> {
+  _$SignUpCubitExceptionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -98,49 +99,49 @@ class _$LoginCubitExceptionCopyWithImpl<$Res, $Val extends LoginCubitException>
 }
 
 /// @nodoc
-abstract class _$$LoginCubitExceptionWeakPasswordCopyWith<$Res> {
-  factory _$$LoginCubitExceptionWeakPasswordCopyWith(
-          _$LoginCubitExceptionWeakPassword value,
-          $Res Function(_$LoginCubitExceptionWeakPassword) then) =
-      __$$LoginCubitExceptionWeakPasswordCopyWithImpl<$Res>;
+abstract class _$$SignUpCubitExceptionWeakPasswordCopyWith<$Res> {
+  factory _$$SignUpCubitExceptionWeakPasswordCopyWith(
+          _$SignUpCubitExceptionWeakPassword value,
+          $Res Function(_$SignUpCubitExceptionWeakPassword) then) =
+      __$$SignUpCubitExceptionWeakPasswordCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoginCubitExceptionWeakPasswordCopyWithImpl<$Res>
-    extends _$LoginCubitExceptionCopyWithImpl<$Res,
-        _$LoginCubitExceptionWeakPassword>
-    implements _$$LoginCubitExceptionWeakPasswordCopyWith<$Res> {
-  __$$LoginCubitExceptionWeakPasswordCopyWithImpl(
-      _$LoginCubitExceptionWeakPassword _value,
-      $Res Function(_$LoginCubitExceptionWeakPassword) _then)
+class __$$SignUpCubitExceptionWeakPasswordCopyWithImpl<$Res>
+    extends _$SignUpCubitExceptionCopyWithImpl<$Res,
+        _$SignUpCubitExceptionWeakPassword>
+    implements _$$SignUpCubitExceptionWeakPasswordCopyWith<$Res> {
+  __$$SignUpCubitExceptionWeakPasswordCopyWithImpl(
+      _$SignUpCubitExceptionWeakPassword _value,
+      $Res Function(_$SignUpCubitExceptionWeakPassword) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginCubitExceptionWeakPassword
-    extends LoginCubitExceptionWeakPassword {
-  const _$LoginCubitExceptionWeakPassword({final String? $type})
+class _$SignUpCubitExceptionWeakPassword
+    extends SignUpCubitExceptionWeakPassword {
+  const _$SignUpCubitExceptionWeakPassword({final String? $type})
       : $type = $type ?? 'weak-password',
         super._();
 
-  factory _$LoginCubitExceptionWeakPassword.fromJson(
+  factory _$SignUpCubitExceptionWeakPassword.fromJson(
           Map<String, dynamic> json) =>
-      _$$LoginCubitExceptionWeakPasswordFromJson(json);
+      _$$SignUpCubitExceptionWeakPasswordFromJson(json);
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'LoginCubitException.weakPassword()';
+    return 'SignUpCubitException.weakPassword()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginCubitExceptionWeakPassword);
+            other is _$SignUpCubitExceptionWeakPassword);
   }
 
   @JsonKey(ignore: true)
@@ -184,11 +185,11 @@ class _$LoginCubitExceptionWeakPassword
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoginCubitExceptionWeakPassword value)
+    required TResult Function(SignUpCubitExceptionWeakPassword value)
         weakPassword,
-    required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
+    required TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)
         emailAlreadyInUse,
-    required TResult Function(LoginCubitExceptionOther value) other,
+    required TResult Function(SignUpCubitExceptionOther value) other,
   }) {
     return weakPassword(this);
   }
@@ -196,10 +197,10 @@ class _$LoginCubitExceptionWeakPassword
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult? Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult? Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult? Function(LoginCubitExceptionOther value)? other,
+    TResult? Function(SignUpCubitExceptionOther value)? other,
   }) {
     return weakPassword?.call(this);
   }
@@ -207,10 +208,10 @@ class _$LoginCubitExceptionWeakPassword
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult Function(LoginCubitExceptionOther value)? other,
+    TResult Function(SignUpCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
     if (weakPassword != null) {
@@ -221,65 +222,65 @@ class _$LoginCubitExceptionWeakPassword
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginCubitExceptionWeakPasswordToJson(
+    return _$$SignUpCubitExceptionWeakPasswordToJson(
       this,
     );
   }
 }
 
-abstract class LoginCubitExceptionWeakPassword extends LoginCubitException {
-  const factory LoginCubitExceptionWeakPassword() =
-      _$LoginCubitExceptionWeakPassword;
-  const LoginCubitExceptionWeakPassword._() : super._();
+abstract class SignUpCubitExceptionWeakPassword extends SignUpCubitException {
+  const factory SignUpCubitExceptionWeakPassword() =
+      _$SignUpCubitExceptionWeakPassword;
+  const SignUpCubitExceptionWeakPassword._() : super._();
 
-  factory LoginCubitExceptionWeakPassword.fromJson(Map<String, dynamic> json) =
-      _$LoginCubitExceptionWeakPassword.fromJson;
+  factory SignUpCubitExceptionWeakPassword.fromJson(Map<String, dynamic> json) =
+      _$SignUpCubitExceptionWeakPassword.fromJson;
 }
 
 /// @nodoc
-abstract class _$$LoginCubitExceptionEmailAlreadyInUseCopyWith<$Res> {
-  factory _$$LoginCubitExceptionEmailAlreadyInUseCopyWith(
-          _$LoginCubitExceptionEmailAlreadyInUse value,
-          $Res Function(_$LoginCubitExceptionEmailAlreadyInUse) then) =
-      __$$LoginCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>;
+abstract class _$$SignUpCubitExceptionEmailAlreadyInUseCopyWith<$Res> {
+  factory _$$SignUpCubitExceptionEmailAlreadyInUseCopyWith(
+          _$SignUpCubitExceptionEmailAlreadyInUse value,
+          $Res Function(_$SignUpCubitExceptionEmailAlreadyInUse) then) =
+      __$$SignUpCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoginCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>
-    extends _$LoginCubitExceptionCopyWithImpl<$Res,
-        _$LoginCubitExceptionEmailAlreadyInUse>
-    implements _$$LoginCubitExceptionEmailAlreadyInUseCopyWith<$Res> {
-  __$$LoginCubitExceptionEmailAlreadyInUseCopyWithImpl(
-      _$LoginCubitExceptionEmailAlreadyInUse _value,
-      $Res Function(_$LoginCubitExceptionEmailAlreadyInUse) _then)
+class __$$SignUpCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>
+    extends _$SignUpCubitExceptionCopyWithImpl<$Res,
+        _$SignUpCubitExceptionEmailAlreadyInUse>
+    implements _$$SignUpCubitExceptionEmailAlreadyInUseCopyWith<$Res> {
+  __$$SignUpCubitExceptionEmailAlreadyInUseCopyWithImpl(
+      _$SignUpCubitExceptionEmailAlreadyInUse _value,
+      $Res Function(_$SignUpCubitExceptionEmailAlreadyInUse) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginCubitExceptionEmailAlreadyInUse
-    extends LoginCubitExceptionEmailAlreadyInUse {
-  const _$LoginCubitExceptionEmailAlreadyInUse({final String? $type})
+class _$SignUpCubitExceptionEmailAlreadyInUse
+    extends SignUpCubitExceptionEmailAlreadyInUse {
+  const _$SignUpCubitExceptionEmailAlreadyInUse({final String? $type})
       : $type = $type ?? 'email-already-in-use',
         super._();
 
-  factory _$LoginCubitExceptionEmailAlreadyInUse.fromJson(
+  factory _$SignUpCubitExceptionEmailAlreadyInUse.fromJson(
           Map<String, dynamic> json) =>
-      _$$LoginCubitExceptionEmailAlreadyInUseFromJson(json);
+      _$$SignUpCubitExceptionEmailAlreadyInUseFromJson(json);
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'LoginCubitException.emailAlreadyInUse()';
+    return 'SignUpCubitException.emailAlreadyInUse()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginCubitExceptionEmailAlreadyInUse);
+            other is _$SignUpCubitExceptionEmailAlreadyInUse);
   }
 
   @JsonKey(ignore: true)
@@ -323,11 +324,11 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoginCubitExceptionWeakPassword value)
+    required TResult Function(SignUpCubitExceptionWeakPassword value)
         weakPassword,
-    required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
+    required TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)
         emailAlreadyInUse,
-    required TResult Function(LoginCubitExceptionOther value) other,
+    required TResult Function(SignUpCubitExceptionOther value) other,
   }) {
     return emailAlreadyInUse(this);
   }
@@ -335,10 +336,10 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult? Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult? Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult? Function(LoginCubitExceptionOther value)? other,
+    TResult? Function(SignUpCubitExceptionOther value)? other,
   }) {
     return emailAlreadyInUse?.call(this);
   }
@@ -346,10 +347,10 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult Function(LoginCubitExceptionOther value)? other,
+    TResult Function(SignUpCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
     if (emailAlreadyInUse != null) {
@@ -360,38 +361,40 @@ class _$LoginCubitExceptionEmailAlreadyInUse
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginCubitExceptionEmailAlreadyInUseToJson(
+    return _$$SignUpCubitExceptionEmailAlreadyInUseToJson(
       this,
     );
   }
 }
 
-abstract class LoginCubitExceptionEmailAlreadyInUse
-    extends LoginCubitException {
-  const factory LoginCubitExceptionEmailAlreadyInUse() =
-      _$LoginCubitExceptionEmailAlreadyInUse;
-  const LoginCubitExceptionEmailAlreadyInUse._() : super._();
+abstract class SignUpCubitExceptionEmailAlreadyInUse
+    extends SignUpCubitException {
+  const factory SignUpCubitExceptionEmailAlreadyInUse() =
+      _$SignUpCubitExceptionEmailAlreadyInUse;
+  const SignUpCubitExceptionEmailAlreadyInUse._() : super._();
 
-  factory LoginCubitExceptionEmailAlreadyInUse.fromJson(
+  factory SignUpCubitExceptionEmailAlreadyInUse.fromJson(
           Map<String, dynamic> json) =
-      _$LoginCubitExceptionEmailAlreadyInUse.fromJson;
+      _$SignUpCubitExceptionEmailAlreadyInUse.fromJson;
 }
 
 /// @nodoc
-abstract class _$$LoginCubitExceptionOtherCopyWith<$Res> {
-  factory _$$LoginCubitExceptionOtherCopyWith(_$LoginCubitExceptionOther value,
-          $Res Function(_$LoginCubitExceptionOther) then) =
-      __$$LoginCubitExceptionOtherCopyWithImpl<$Res>;
+abstract class _$$SignUpCubitExceptionOtherCopyWith<$Res> {
+  factory _$$SignUpCubitExceptionOtherCopyWith(
+          _$SignUpCubitExceptionOther value,
+          $Res Function(_$SignUpCubitExceptionOther) then) =
+      __$$SignUpCubitExceptionOtherCopyWithImpl<$Res>;
   @useResult
   $Res call({Object? e});
 }
 
 /// @nodoc
-class __$$LoginCubitExceptionOtherCopyWithImpl<$Res>
-    extends _$LoginCubitExceptionCopyWithImpl<$Res, _$LoginCubitExceptionOther>
-    implements _$$LoginCubitExceptionOtherCopyWith<$Res> {
-  __$$LoginCubitExceptionOtherCopyWithImpl(_$LoginCubitExceptionOther _value,
-      $Res Function(_$LoginCubitExceptionOther) _then)
+class __$$SignUpCubitExceptionOtherCopyWithImpl<$Res>
+    extends _$SignUpCubitExceptionCopyWithImpl<$Res,
+        _$SignUpCubitExceptionOther>
+    implements _$$SignUpCubitExceptionOtherCopyWith<$Res> {
+  __$$SignUpCubitExceptionOtherCopyWithImpl(_$SignUpCubitExceptionOther _value,
+      $Res Function(_$SignUpCubitExceptionOther) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -399,7 +402,7 @@ class __$$LoginCubitExceptionOtherCopyWithImpl<$Res>
   $Res call({
     Object? e = freezed,
   }) {
-    return _then(_$LoginCubitExceptionOther(
+    return _then(_$SignUpCubitExceptionOther(
       freezed == e ? _value.e : e,
     ));
   }
@@ -407,13 +410,13 @@ class __$$LoginCubitExceptionOtherCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
-  const _$LoginCubitExceptionOther(this.e, {final String? $type})
+class _$SignUpCubitExceptionOther extends SignUpCubitExceptionOther {
+  const _$SignUpCubitExceptionOther(this.e, {final String? $type})
       : $type = $type ?? 'other',
         super._();
 
-  factory _$LoginCubitExceptionOther.fromJson(Map<String, dynamic> json) =>
-      _$$LoginCubitExceptionOtherFromJson(json);
+  factory _$SignUpCubitExceptionOther.fromJson(Map<String, dynamic> json) =>
+      _$$SignUpCubitExceptionOtherFromJson(json);
 
   @override
   final Object? e;
@@ -423,14 +426,14 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
 
   @override
   String toString() {
-    return 'LoginCubitException.other(e: $e)';
+    return 'SignUpCubitException.other(e: $e)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginCubitExceptionOther &&
+            other is _$SignUpCubitExceptionOther &&
             const DeepCollectionEquality().equals(other.e, e));
   }
 
@@ -442,10 +445,9 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginCubitExceptionOtherCopyWith<_$LoginCubitExceptionOther>
-      get copyWith =>
-          __$$LoginCubitExceptionOtherCopyWithImpl<_$LoginCubitExceptionOther>(
-              this, _$identity);
+  _$$SignUpCubitExceptionOtherCopyWith<_$SignUpCubitExceptionOther>
+      get copyWith => __$$SignUpCubitExceptionOtherCopyWithImpl<
+          _$SignUpCubitExceptionOther>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -484,11 +486,11 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoginCubitExceptionWeakPassword value)
+    required TResult Function(SignUpCubitExceptionWeakPassword value)
         weakPassword,
-    required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
+    required TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)
         emailAlreadyInUse,
-    required TResult Function(LoginCubitExceptionOther value) other,
+    required TResult Function(SignUpCubitExceptionOther value) other,
   }) {
     return other(this);
   }
@@ -496,10 +498,10 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult? Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult? Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult? Function(LoginCubitExceptionOther value)? other,
+    TResult? Function(SignUpCubitExceptionOther value)? other,
   }) {
     return other?.call(this);
   }
@@ -507,10 +509,10 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
-    TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
+    TResult Function(SignUpCubitExceptionWeakPassword value)? weakPassword,
+    TResult Function(SignUpCubitExceptionEmailAlreadyInUse value)?
         emailAlreadyInUse,
-    TResult Function(LoginCubitExceptionOther value)? other,
+    TResult Function(SignUpCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
     if (other != null) {
@@ -521,22 +523,22 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginCubitExceptionOtherToJson(
+    return _$$SignUpCubitExceptionOtherToJson(
       this,
     );
   }
 }
 
-abstract class LoginCubitExceptionOther extends LoginCubitException {
-  const factory LoginCubitExceptionOther(final Object? e) =
-      _$LoginCubitExceptionOther;
-  const LoginCubitExceptionOther._() : super._();
+abstract class SignUpCubitExceptionOther extends SignUpCubitException {
+  const factory SignUpCubitExceptionOther(final Object? e) =
+      _$SignUpCubitExceptionOther;
+  const SignUpCubitExceptionOther._() : super._();
 
-  factory LoginCubitExceptionOther.fromJson(Map<String, dynamic> json) =
-      _$LoginCubitExceptionOther.fromJson;
+  factory SignUpCubitExceptionOther.fromJson(Map<String, dynamic> json) =
+      _$SignUpCubitExceptionOther.fromJson;
 
   Object? get e;
   @JsonKey(ignore: true)
-  _$$LoginCubitExceptionOtherCopyWith<_$LoginCubitExceptionOther>
+  _$$SignUpCubitExceptionOtherCopyWith<_$SignUpCubitExceptionOther>
       get copyWith => throw _privateConstructorUsedError;
 }
