@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  const AppTheme(this.locale);
+  const AppTheme({
+    required this.locale,
+    required this.seedColor,
+  });
 
   final Locale locale;
+  final Color seedColor;
 
   TextTheme Function([TextTheme? textTheme]) get _buildTextTheme {
     final textThemes = {
@@ -20,7 +24,7 @@ class AppTheme {
   ThemeData _buildTheme(Brightness brightness) {
     final colorScheme = ColorScheme.fromSeed(
       brightness: brightness,
-      seedColor: const Color(0xff7543F5),
+      seedColor: seedColor,
     );
 
     final theme = ThemeData(

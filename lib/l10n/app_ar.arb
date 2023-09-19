@@ -17,5 +17,6 @@
     "deviceLanguage": "لغة الجهاز",
     "systemTheme": "مظهر النظام",
     "lightTheme": "مظهر فاتح",
-    "darkTheme": "مظهر داكن"
+    "darkTheme": "مظهر داكن",
+    "unimplementedFeature": "هذه الميزة غير متوفرة حاليًا"
 }

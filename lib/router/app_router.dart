@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:messenger_app/router/auth_guard.dart';
+import 'package:messenger_app/settings/settings_screen.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
 import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
@@ -15,6 +17,7 @@ class AppRouter extends _$AppRouter {
       AutoRoute(
         initial: true,
         page: MainRoute.page,
+        guards: const [AuthenticatedGuard()],
         children: [
           AutoRoute(
             path: "discussions",
@@ -29,11 +32,18 @@ class AppRouter extends _$AppRouter {
       AutoRoute(
         path: "/login",
         page: LoginRoute.page,
+        guards: const [NotAuthenticatedGuard()],
       ),
       AutoRoute(
         path: "/sign-up",
         page: SignUpRoute.page,
-      )
+        guards: const [NotAuthenticatedGuard()],
+      ),
+      AutoRoute(
+        path: "/settings",
+        page: SettingsRoute.page,
+        guards: const [AuthenticatedGuard()],
+      ),
     ];
   }
 }

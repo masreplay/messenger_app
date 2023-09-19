@@ -65,7 +65,7 @@ class LoginScreen extends HookWidget {
 
                             cubit.state.whenOrNull(
                               data: (data) {
-                                context.router.push(const MainRoute());
+                                context.router.replace(const MainRoute());
                               },
                               error: (error, stackTrace) {
                                 error.maybeWhen(

@@ -19,7 +19,12 @@ class MainApp extends HookWidget {
       builder: (context, state) {
         final themeMode = state.themeMode;
         final locale = state.locale;
-        final theme = AppTheme(locale ?? getDeviceLocale());
+        final seedColor = state.seedColor;
+
+        final theme = AppTheme(
+          locale: locale ?? getDeviceLocale(),
+          seedColor: seedColor,
+        );
         return MaterialApp.router(
           title: 'Messenger App',
           debugShowCheckedModeBanner: false,

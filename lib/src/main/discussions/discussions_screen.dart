@@ -63,47 +63,69 @@ class DiscussionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     final email = data.email;
-
-    const colors = Colors.primaries;
-    final backgroundColor = colors.elementAt(email.hashCode % colors.length);
-    final foregroundColor =
-        switch (ThemeData.estimateBrightnessForColor(backgroundColor)) {
-      Brightness.dark => Colors.white,
-      Brightness.light => Colors.black,
-    };
 
     return ListTile(
       onTap: onTap,
       title: Text(data.name ?? ''),
       subtitle: Text(email),
-      leading: data.avatar == null
-          ? Container(
-              height: 56,
-              width: 56,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: colorScheme.outline,
-                  width: 1.0,
-                ),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                email.substring(0, 2).toUpperCase(),
-                style: TextStyle(
-                  color: foregroundColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          : CircleAvatar(
-              backgroundImage: NetworkImage(data.avatar!),
-            ),
+      leading: UserAvatar(
+        alt: email,
+        photoURL: data.avatar,
+      ),
     );
   }
 }
+
+class UserAvatar extends StatelessWidget {
+  const UserAvatar({
+    super.key,
+    required this.alt,
+    required this.photoURL,
+  });
+
+  /// Random text to replace the avatar if the user doesn't have one
+  final String alt;
+  final String? photoURL;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    const colors = Colors.primaries;
+    final backgroundColor = colors.elementAt(alt.hashCode % colors.length);
+    final foregroundColor = estimateForegroundColor(backgroundColor);
+
+    return photoURL == null
+        ? Container(
+            height: 56,
+            width: 56,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: colorScheme.outline,
+                width: 1.0,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              alt.substring(0, 2).toUpperCase(),
+              style: TextStyle(
+                color: foregroundColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          )
+        : CircleAvatar(
+            backgroundImage: NetworkImage(photoURL!),
+          );
+  }
+}
+
+Color estimateForegroundColor(Color backgroundColor) =>
+    switch (ThemeData.estimateBrightnessForColor(backgroundColor)) {
+      Brightness.dark => Colors.white,
+      Brightness.light => Colors.black,
+    };

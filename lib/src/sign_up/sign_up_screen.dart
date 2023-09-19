@@ -26,8 +26,6 @@ class SignUpScreen extends HookWidget {
     final obscure = useState(true);
     final cubit = useBloc<SignUpCubit>();
 
-    print(cubit.state.runtimeType);
-
     const gap = SizedBox.square(dimension: 16.0);
 
     return Scaffold(

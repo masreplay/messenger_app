@@ -6,9 +6,10 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
+    return Icon(
       Icons.messenger_outline,
       size: 64.0,
+      color: Theme.of(context).colorScheme.tertiary,
     );
   }
 }

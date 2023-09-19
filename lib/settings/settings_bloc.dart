@@ -30,6 +30,14 @@ class ThemeModeStringJsonConverter extends JsonConverter<ThemeMode, String> {
   String toJson(ThemeMode object) => object.name;
 }
 
+class ColorStringJsonConverter extends JsonConverter<Color, String> {
+  const ColorStringJsonConverter();
+  @override
+  Color fromJson(String json) => Color(int.parse(json));
+  @override
+  String toJson(Color object) => object.value.toString();
+}
+
 @freezed
 class AppSettings with _$AppSettings {
   @JsonSerializable(explicitToJson: true)
@@ -38,24 +46,33 @@ class AppSettings with _$AppSettings {
     @Default(ThemeMode.system)
     @ThemeModeStringJsonConverter()
     ThemeMode themeMode,
+    @Default(defaultSeedColor) @ColorStringJsonConverter() Color seedColor,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>
       _$AppSettingsFromJson(json);
 }
 
+const Color defaultSeedColor = Color(0xff7543F5);
+
+
+typedef SettingsState = AppSettings;
+
 @injectable
-class SettingsCubit extends HydratedCubit<AppSettings> {
-  SettingsCubit() : super(AppSettings());
+class SettingsCubit extends HydratedCubit<SettingsState> {
+  SettingsCubit() : super(SettingsState());
 
   void setThemeMode(ThemeMode themeMode) =>
       emit(state.copyWith(themeMode: themeMode));
 
   void setLocale(Locale? locale) => emit(state.copyWith(locale: locale));
 
-  @override
-  AppSettings fromJson(Map<String, dynamic> json) => AppSettings.fromJson(json);
+  void setSeedColor(Color seedColor) =>
+      emit(state.copyWith(seedColor: seedColor));
 
   @override
-  Map<String, dynamic> toJson(AppSettings state) => state.toJson();
+  SettingsState fromJson(Map<String, dynamic> json) => SettingsState.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(SettingsState state) => state.toJson();
 }

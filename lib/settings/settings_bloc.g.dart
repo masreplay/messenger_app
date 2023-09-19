@@ -14,6 +14,10 @@ _$_AppSettings _$$_AppSettingsFromJson(Map<String, dynamic> json) =>
           ? ThemeMode.system
           : const ThemeModeStringJsonConverter()
               .fromJson(json['themeMode'] as String),
+      seedColor: json['seedColor'] == null
+          ? defaultSeedColor
+          : const ColorStringJsonConverter()
+              .fromJson(json['seedColor'] as String),
     );
 
 Map<String, dynamic> _$$_AppSettingsToJson(_$_AppSettings instance) =>
@@ -22,6 +26,7 @@ Map<String, dynamic> _$$_AppSettingsToJson(_$_AppSettings instance) =>
           instance.locale, const LocalStringJsonConverter().toJson),
       'themeMode':
           const ThemeModeStringJsonConverter().toJson(instance.themeMode),
+      'seedColor': const ColorStringJsonConverter().toJson(instance.seedColor),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
