@@ -18,6 +18,7 @@
     "lightTheme": "Light Theme",
     "darkTheme": "Dark Theme",
     "unimplementedFeature": "This feature is not implemented yet",
+    "name": "Name",
     "@validationMinLength": {
         "placeholders": {
             "n": {

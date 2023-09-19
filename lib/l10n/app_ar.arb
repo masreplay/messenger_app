@@ -3,7 +3,7 @@
     "password": "كلمة المرور",
     "login": "تسجيل الدخول",
     "signUp": "انشاء حساب",
-    "greetingMessage": "مرحبا بعودتك \n في تطبيق مراسلة",
+    "greetingMessage": "مرحبا بعودتك \nفي تطبيق مراسلة",
     "defaultErrorMessage": "حدث خطأ ما ، يرجى المحاولة مرة أخرى",
     "validationRequired": "هذا الحقل مطلوب",
     "validationMaxLength": "يجب ألا يتجاوز هذا الحقل {n} حرفًا",
@@ -18,5 +18,6 @@
     "systemTheme": "مظهر النظام",
     "lightTheme": "مظهر فاتح",
     "darkTheme": "مظهر داكن",
-    "unimplementedFeature": "هذه الميزة غير متوفرة حاليًا"
+    "unimplementedFeature": "هذه الميزة غير متوفرة حاليًا",
+    "name": "الاسم"
 }

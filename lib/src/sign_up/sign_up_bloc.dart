@@ -9,6 +9,8 @@ import 'package:messenger_app/bloc/async_state.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/models/user.dart';
 
+import 'sign_up_model.dart';
+
 part 'sign_up_bloc.freezed.dart';
 part 'sign_up_bloc.g.dart';
 
@@ -18,15 +20,15 @@ typedef SignUpCubitState = AsyncState<UserCredential, SignUpCubitException>;
 class SignUpCubit extends Cubit<SignUpCubitState> {
   SignUpCubit() : super(const SignUpCubitState.initial());
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(SignUpModel body) async {
     emit(const SignUpCubitState.loading());
 
     try {
       final auth = FirebaseAuth.instance;
 
       final credential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: body.email,
+        password: body.password,
       );
 
       final uid = credential.user!.uid;
@@ -40,10 +42,10 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
         if (!result.exists) {
           final user = UserCreate(
             uid: uid,
-            email: email,
+            email: body.email,
+            name: body.name,
             createdAt: FieldValue.serverTimestamp(),
             avatar: null,
-            name: null,
           );
           await FirebaseFirestore.instance
               .collection('users')

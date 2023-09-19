@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/async_state.dart';
+import 'package:messenger_app/src/login/login_model.dart';
 
 part 'login_bloc.freezed.dart';
 part 'login_bloc.g.dart';
@@ -15,13 +16,13 @@ typedef LoginCubitState = AsyncState<UserCredential, LoginCubitException>;
 class LoginCubit extends Cubit<LoginCubitState> {
   LoginCubit() : super(const LoginCubitState.initial());
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(LoginModel body) async {
     emit(const LoginCubitState.loading());
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: body.email,
+        password: body.password,
       );
 
       emit(LoginCubitState.data(credential));
@@ -52,7 +53,7 @@ class LoginCubitException with _$LoginCubitException {
   const factory LoginCubitException.weakPassword() =
       LoginCubitExceptionWeakPassword;
 
-  const factory LoginCubitException.emailAlreadyInUse() =
+  const factory LoginCubitException.invalidLoginCredentials() =
       LoginCubitExceptionEmailAlreadyInUse;
 
   const factory LoginCubitException.other(Object? e) = LoginCubitExceptionOther;

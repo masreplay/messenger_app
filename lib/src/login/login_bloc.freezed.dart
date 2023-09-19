@@ -18,7 +18,7 @@ LoginCubitException _$LoginCubitExceptionFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'weak-password':
       return LoginCubitExceptionWeakPassword.fromJson(json);
-    case 'email-already-in-use':
+    case 'invalid-login-credentials':
       return LoginCubitExceptionEmailAlreadyInUse.fromJson(json);
 
     default:
@@ -31,21 +31,21 @@ mixin _$LoginCubitException {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() weakPassword,
-    required TResult Function() emailAlreadyInUse,
+    required TResult Function() invalidLoginCredentials,
     required TResult Function(Object? e) other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? weakPassword,
-    TResult? Function()? emailAlreadyInUse,
+    TResult? Function()? invalidLoginCredentials,
     TResult? Function(Object? e)? other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? weakPassword,
-    TResult Function()? emailAlreadyInUse,
+    TResult Function()? invalidLoginCredentials,
     TResult Function(Object? e)? other,
     required TResult orElse(),
   }) =>
@@ -55,7 +55,7 @@ mixin _$LoginCubitException {
     required TResult Function(LoginCubitExceptionWeakPassword value)
         weakPassword,
     required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     required TResult Function(LoginCubitExceptionOther value) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ mixin _$LoginCubitException {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult? Function(LoginCubitExceptionOther value)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -71,7 +71,7 @@ mixin _$LoginCubitException {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult Function(LoginCubitExceptionOther value)? other,
     required TResult orElse(),
   }) =>
@@ -151,7 +151,7 @@ class _$LoginCubitExceptionWeakPassword
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() weakPassword,
-    required TResult Function() emailAlreadyInUse,
+    required TResult Function() invalidLoginCredentials,
     required TResult Function(Object? e) other,
   }) {
     return weakPassword();
@@ -161,7 +161,7 @@ class _$LoginCubitExceptionWeakPassword
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? weakPassword,
-    TResult? Function()? emailAlreadyInUse,
+    TResult? Function()? invalidLoginCredentials,
     TResult? Function(Object? e)? other,
   }) {
     return weakPassword?.call();
@@ -171,7 +171,7 @@ class _$LoginCubitExceptionWeakPassword
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? weakPassword,
-    TResult Function()? emailAlreadyInUse,
+    TResult Function()? invalidLoginCredentials,
     TResult Function(Object? e)? other,
     required TResult orElse(),
   }) {
@@ -187,7 +187,7 @@ class _$LoginCubitExceptionWeakPassword
     required TResult Function(LoginCubitExceptionWeakPassword value)
         weakPassword,
     required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     required TResult Function(LoginCubitExceptionOther value) other,
   }) {
     return weakPassword(this);
@@ -198,7 +198,7 @@ class _$LoginCubitExceptionWeakPassword
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult? Function(LoginCubitExceptionOther value)? other,
   }) {
     return weakPassword?.call(this);
@@ -209,7 +209,7 @@ class _$LoginCubitExceptionWeakPassword
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult Function(LoginCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
@@ -260,7 +260,7 @@ class __$$LoginCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>
 class _$LoginCubitExceptionEmailAlreadyInUse
     extends LoginCubitExceptionEmailAlreadyInUse {
   const _$LoginCubitExceptionEmailAlreadyInUse({final String? $type})
-      : $type = $type ?? 'email-already-in-use',
+      : $type = $type ?? 'invalid-login-credentials',
         super._();
 
   factory _$LoginCubitExceptionEmailAlreadyInUse.fromJson(
@@ -272,7 +272,7 @@ class _$LoginCubitExceptionEmailAlreadyInUse
 
   @override
   String toString() {
-    return 'LoginCubitException.emailAlreadyInUse()';
+    return 'LoginCubitException.invalidLoginCredentials()';
   }
 
   @override
@@ -290,32 +290,32 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() weakPassword,
-    required TResult Function() emailAlreadyInUse,
+    required TResult Function() invalidLoginCredentials,
     required TResult Function(Object? e) other,
   }) {
-    return emailAlreadyInUse();
+    return invalidLoginCredentials();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? weakPassword,
-    TResult? Function()? emailAlreadyInUse,
+    TResult? Function()? invalidLoginCredentials,
     TResult? Function(Object? e)? other,
   }) {
-    return emailAlreadyInUse?.call();
+    return invalidLoginCredentials?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? weakPassword,
-    TResult Function()? emailAlreadyInUse,
+    TResult Function()? invalidLoginCredentials,
     TResult Function(Object? e)? other,
     required TResult orElse(),
   }) {
-    if (emailAlreadyInUse != null) {
-      return emailAlreadyInUse();
+    if (invalidLoginCredentials != null) {
+      return invalidLoginCredentials();
     }
     return orElse();
   }
@@ -326,10 +326,10 @@ class _$LoginCubitExceptionEmailAlreadyInUse
     required TResult Function(LoginCubitExceptionWeakPassword value)
         weakPassword,
     required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     required TResult Function(LoginCubitExceptionOther value) other,
   }) {
-    return emailAlreadyInUse(this);
+    return invalidLoginCredentials(this);
   }
 
   @override
@@ -337,10 +337,10 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult? Function(LoginCubitExceptionOther value)? other,
   }) {
-    return emailAlreadyInUse?.call(this);
+    return invalidLoginCredentials?.call(this);
   }
 
   @override
@@ -348,12 +348,12 @@ class _$LoginCubitExceptionEmailAlreadyInUse
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult Function(LoginCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
-    if (emailAlreadyInUse != null) {
-      return emailAlreadyInUse(this);
+    if (invalidLoginCredentials != null) {
+      return invalidLoginCredentials(this);
     }
     return orElse();
   }
@@ -451,7 +451,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() weakPassword,
-    required TResult Function() emailAlreadyInUse,
+    required TResult Function() invalidLoginCredentials,
     required TResult Function(Object? e) other,
   }) {
     return other(e);
@@ -461,7 +461,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? weakPassword,
-    TResult? Function()? emailAlreadyInUse,
+    TResult? Function()? invalidLoginCredentials,
     TResult? Function(Object? e)? other,
   }) {
     return other?.call(e);
@@ -471,7 +471,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? weakPassword,
-    TResult Function()? emailAlreadyInUse,
+    TResult Function()? invalidLoginCredentials,
     TResult Function(Object? e)? other,
     required TResult orElse(),
   }) {
@@ -487,7 +487,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
     required TResult Function(LoginCubitExceptionWeakPassword value)
         weakPassword,
     required TResult Function(LoginCubitExceptionEmailAlreadyInUse value)
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     required TResult Function(LoginCubitExceptionOther value) other,
   }) {
     return other(this);
@@ -498,7 +498,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult? Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult? Function(LoginCubitExceptionOther value)? other,
   }) {
     return other?.call(this);
@@ -509,7 +509,7 @@ class _$LoginCubitExceptionOther extends LoginCubitExceptionOther {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginCubitExceptionWeakPassword value)? weakPassword,
     TResult Function(LoginCubitExceptionEmailAlreadyInUse value)?
-        emailAlreadyInUse,
+        invalidLoginCredentials,
     TResult Function(LoginCubitExceptionOther value)? other,
     required TResult orElse(),
   }) {
