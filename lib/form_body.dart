@@ -15,6 +15,7 @@ class FormBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: children,

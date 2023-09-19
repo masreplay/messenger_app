@@ -6,6 +6,7 @@ import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/form_body.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/hook/form_key.dart';
+import 'package:messenger_app/router/extension.dart';
 import 'package:messenger_app/src/login/login_model.dart';
 import 'package:messenger_app/src/widgets/email_form_field.dart';
 import 'package:messenger_app/src/widgets/logo.dart';
@@ -22,11 +23,11 @@ class LoginScreen extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
 
     final email = useTextEditingController(
-        // text: kDebugMode ? Faker.email : null,
-        );
+      text: kDebugMode ? Faker.email : null,
+    );
     final password = useTextEditingController(
-        // text: kDebugMode ? Faker.password : null,
-        );
+      text: kDebugMode ? Faker.password : null,
+    );
 
     final obscure = useState(true);
     final formKey = useFormKey();
@@ -64,6 +65,9 @@ class LoginScreen extends HookWidget {
                   onPressed: state.isLoading
                       ? null
                       : () async {
+                          if (!formKey.currentState!.validate()) {
+                            return;
+                          }
                           final body = LoginModel(
                             email: email.text,
                             password: password.text,
@@ -72,7 +76,7 @@ class LoginScreen extends HookWidget {
                           await cubit.login(body);
                           cubit.state.whenOrNull(
                             data: (data) {
-                              context.router.replace(const MainRoute());
+                              context.router.replaceInitialRoute();
                             },
                             error: (error, stackTrace) {
                               error.maybeWhen(

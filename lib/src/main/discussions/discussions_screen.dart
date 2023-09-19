@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/models/user.dart';
 
@@ -111,9 +112,9 @@ class UserAvatar extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               alt.substring(0, 2).toUpperCase(),
-              style: TextStyle(
+              style: GoogleFonts.jetBrainsMono(
                 color: foregroundColor,
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
