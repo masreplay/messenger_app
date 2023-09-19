@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'state.dart';
+part of 'async_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,32 +14,32 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-FutureState<Data, Error> _$FutureStateFromJson<Data, Error>(
+AsyncState<Data, Error> _$AsyncStateFromJson<Data, Error>(
     Map<String, dynamic> json,
     Data Function(Object?) fromJsonData,
     Error Function(Object?) fromJsonError) {
   switch (json['type']) {
     case 'Initial':
-      return FutureStateInitial<Data, Error>.fromJson(
+      return AsyncStateInitial<Data, Error>.fromJson(
           json, fromJsonData, fromJsonError);
     case 'Loading':
-      return FutureStateLoading<Data, Error>.fromJson(
+      return AsyncStateLoading<Data, Error>.fromJson(
           json, fromJsonData, fromJsonError);
     case 'Data':
-      return FutureStateData<Data, Error>.fromJson(
+      return AsyncStateData<Data, Error>.fromJson(
           json, fromJsonData, fromJsonError);
     case 'Error':
-      return FutureStateError<Data, Error>.fromJson(
+      return AsyncStateError<Data, Error>.fromJson(
           json, fromJsonData, fromJsonError);
 
     default:
       throw CheckedFromJsonException(
-          json, 'type', 'FutureState', 'Invalid union type "${json['type']}"!');
+          json, 'type', 'AsyncState', 'Invalid union type "${json['type']}"!');
   }
 }
 
 /// @nodoc
-mixin _$FutureState<Data, Error> {
+mixin _$AsyncState<Data, Error> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -72,26 +72,26 @@ mixin _$FutureState<Data, Error> {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(FutureStateInitial<Data, Error> value) initial,
-    required TResult Function(FutureStateLoading<Data, Error> value) loading,
-    required TResult Function(FutureStateData<Data, Error> value) data,
-    required TResult Function(FutureStateError<Data, Error> value) error,
+    required TResult Function(AsyncStateInitial<Data, Error> value) initial,
+    required TResult Function(AsyncStateLoading<Data, Error> value) loading,
+    required TResult Function(AsyncStateData<Data, Error> value) data,
+    required TResult Function(AsyncStateError<Data, Error> value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult? Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult? Function(FutureStateData<Data, Error> value)? data,
-    TResult? Function(FutureStateError<Data, Error> value)? error,
+    TResult? Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult? Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult? Function(AsyncStateData<Data, Error> value)? data,
+    TResult? Function(AsyncStateError<Data, Error> value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult Function(FutureStateData<Data, Error> value)? data,
-    TResult Function(FutureStateError<Data, Error> value)? error,
+    TResult Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult Function(AsyncStateData<Data, Error> value)? data,
+    TResult Function(AsyncStateError<Data, Error> value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -101,17 +101,17 @@ mixin _$FutureState<Data, Error> {
 }
 
 /// @nodoc
-abstract class $FutureStateCopyWith<Data, Error, $Res> {
-  factory $FutureStateCopyWith(FutureState<Data, Error> value,
-          $Res Function(FutureState<Data, Error>) then) =
-      _$FutureStateCopyWithImpl<Data, Error, $Res, FutureState<Data, Error>>;
+abstract class $AsyncStateCopyWith<Data, Error, $Res> {
+  factory $AsyncStateCopyWith(AsyncState<Data, Error> value,
+          $Res Function(AsyncState<Data, Error>) then) =
+      _$AsyncStateCopyWithImpl<Data, Error, $Res, AsyncState<Data, Error>>;
 }
 
 /// @nodoc
-class _$FutureStateCopyWithImpl<Data, Error, $Res,
-        $Val extends FutureState<Data, Error>>
-    implements $FutureStateCopyWith<Data, Error, $Res> {
-  _$FutureStateCopyWithImpl(this._value, this._then);
+class _$AsyncStateCopyWithImpl<Data, Error, $Res,
+        $Val extends AsyncState<Data, Error>>
+    implements $AsyncStateCopyWith<Data, Error, $Res> {
+  _$AsyncStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -120,50 +120,49 @@ class _$FutureStateCopyWithImpl<Data, Error, $Res,
 }
 
 /// @nodoc
-abstract class _$$FutureStateInitialCopyWith<Data, Error, $Res> {
-  factory _$$FutureStateInitialCopyWith(_$FutureStateInitial<Data, Error> value,
-          $Res Function(_$FutureStateInitial<Data, Error>) then) =
-      __$$FutureStateInitialCopyWithImpl<Data, Error, $Res>;
+abstract class _$$AsyncStateInitialCopyWith<Data, Error, $Res> {
+  factory _$$AsyncStateInitialCopyWith(_$AsyncStateInitial<Data, Error> value,
+          $Res Function(_$AsyncStateInitial<Data, Error>) then) =
+      __$$AsyncStateInitialCopyWithImpl<Data, Error, $Res>;
 }
 
 /// @nodoc
-class __$$FutureStateInitialCopyWithImpl<Data, Error, $Res>
-    extends _$FutureStateCopyWithImpl<Data, Error, $Res,
-        _$FutureStateInitial<Data, Error>>
-    implements _$$FutureStateInitialCopyWith<Data, Error, $Res> {
-  __$$FutureStateInitialCopyWithImpl(_$FutureStateInitial<Data, Error> _value,
-      $Res Function(_$FutureStateInitial<Data, Error>) _then)
+class __$$AsyncStateInitialCopyWithImpl<Data, Error, $Res>
+    extends _$AsyncStateCopyWithImpl<Data, Error, $Res,
+        _$AsyncStateInitial<Data, Error>>
+    implements _$$AsyncStateInitialCopyWith<Data, Error, $Res> {
+  __$$AsyncStateInitialCopyWithImpl(_$AsyncStateInitial<Data, Error> _value,
+      $Res Function(_$AsyncStateInitial<Data, Error>) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
 @_jsonSerializable
-class _$FutureStateInitial<Data, Error>
-    extends FutureStateInitial<Data, Error> {
-  const _$FutureStateInitial({final String? $type})
+class _$AsyncStateInitial<Data, Error> extends AsyncStateInitial<Data, Error> {
+  const _$AsyncStateInitial({final String? $type})
       : $type = $type ?? 'Initial',
         super._();
 
-  factory _$FutureStateInitial.fromJson(
+  factory _$AsyncStateInitial.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =>
-      _$$FutureStateInitialFromJson(json, fromJsonData, fromJsonError);
+      _$$AsyncStateInitialFromJson(json, fromJsonData, fromJsonError);
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'FutureState<$Data, $Error>.initial()';
+    return 'AsyncState<$Data, $Error>.initial()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FutureStateInitial<Data, Error>);
+            other is _$AsyncStateInitial<Data, Error>);
   }
 
   @JsonKey(ignore: true)
@@ -215,10 +214,10 @@ class _$FutureStateInitial<Data, Error>
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(FutureStateInitial<Data, Error> value) initial,
-    required TResult Function(FutureStateLoading<Data, Error> value) loading,
-    required TResult Function(FutureStateData<Data, Error> value) data,
-    required TResult Function(FutureStateError<Data, Error> value) error,
+    required TResult Function(AsyncStateInitial<Data, Error> value) initial,
+    required TResult Function(AsyncStateLoading<Data, Error> value) loading,
+    required TResult Function(AsyncStateData<Data, Error> value) data,
+    required TResult Function(AsyncStateError<Data, Error> value) error,
   }) {
     return initial(this);
   }
@@ -226,10 +225,10 @@ class _$FutureStateInitial<Data, Error>
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult? Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult? Function(FutureStateData<Data, Error> value)? data,
-    TResult? Function(FutureStateError<Data, Error> value)? error,
+    TResult? Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult? Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult? Function(AsyncStateData<Data, Error> value)? data,
+    TResult? Function(AsyncStateError<Data, Error> value)? error,
   }) {
     return initial?.call(this);
   }
@@ -237,10 +236,10 @@ class _$FutureStateInitial<Data, Error>
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult Function(FutureStateData<Data, Error> value)? data,
-    TResult Function(FutureStateError<Data, Error> value)? error,
+    TResult Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult Function(AsyncStateData<Data, Error> value)? data,
+    TResult Function(AsyncStateError<Data, Error> value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -252,68 +251,66 @@ class _$FutureStateInitial<Data, Error>
   @override
   Map<String, dynamic> toJson(
       Object? Function(Data) toJsonData, Object? Function(Error) toJsonError) {
-    return _$$FutureStateInitialToJson<Data, Error>(
+    return _$$AsyncStateInitialToJson<Data, Error>(
         this, toJsonData, toJsonError);
   }
 }
 
-abstract class FutureStateInitial<Data, Error>
-    extends FutureState<Data, Error> {
-  const factory FutureStateInitial() = _$FutureStateInitial<Data, Error>;
-  const FutureStateInitial._() : super._();
+abstract class AsyncStateInitial<Data, Error> extends AsyncState<Data, Error> {
+  const factory AsyncStateInitial() = _$AsyncStateInitial<Data, Error>;
+  const AsyncStateInitial._() : super._();
 
-  factory FutureStateInitial.fromJson(
+  factory AsyncStateInitial.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =
-      _$FutureStateInitial<Data, Error>.fromJson;
+      _$AsyncStateInitial<Data, Error>.fromJson;
 }
 
 /// @nodoc
-abstract class _$$FutureStateLoadingCopyWith<Data, Error, $Res> {
-  factory _$$FutureStateLoadingCopyWith(_$FutureStateLoading<Data, Error> value,
-          $Res Function(_$FutureStateLoading<Data, Error>) then) =
-      __$$FutureStateLoadingCopyWithImpl<Data, Error, $Res>;
+abstract class _$$AsyncStateLoadingCopyWith<Data, Error, $Res> {
+  factory _$$AsyncStateLoadingCopyWith(_$AsyncStateLoading<Data, Error> value,
+          $Res Function(_$AsyncStateLoading<Data, Error>) then) =
+      __$$AsyncStateLoadingCopyWithImpl<Data, Error, $Res>;
 }
 
 /// @nodoc
-class __$$FutureStateLoadingCopyWithImpl<Data, Error, $Res>
-    extends _$FutureStateCopyWithImpl<Data, Error, $Res,
-        _$FutureStateLoading<Data, Error>>
-    implements _$$FutureStateLoadingCopyWith<Data, Error, $Res> {
-  __$$FutureStateLoadingCopyWithImpl(_$FutureStateLoading<Data, Error> _value,
-      $Res Function(_$FutureStateLoading<Data, Error>) _then)
+class __$$AsyncStateLoadingCopyWithImpl<Data, Error, $Res>
+    extends _$AsyncStateCopyWithImpl<Data, Error, $Res,
+        _$AsyncStateLoading<Data, Error>>
+    implements _$$AsyncStateLoadingCopyWith<Data, Error, $Res> {
+  __$$AsyncStateLoadingCopyWithImpl(_$AsyncStateLoading<Data, Error> _value,
+      $Res Function(_$AsyncStateLoading<Data, Error>) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
 @_jsonSerializable
-class _$FutureStateLoading<Data, Error>
-    extends FutureStateLoading<Data, Error> {
-  const _$FutureStateLoading({final String? $type})
+class _$AsyncStateLoading<Data, Error> extends AsyncStateLoading<Data, Error> {
+  const _$AsyncStateLoading({final String? $type})
       : $type = $type ?? 'Loading',
         super._();
 
-  factory _$FutureStateLoading.fromJson(
+  factory _$AsyncStateLoading.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =>
-      _$$FutureStateLoadingFromJson(json, fromJsonData, fromJsonError);
+      _$$AsyncStateLoadingFromJson(json, fromJsonData, fromJsonError);
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'FutureState<$Data, $Error>.loading()';
+    return 'AsyncState<$Data, $Error>.loading()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FutureStateLoading<Data, Error>);
+            other is _$AsyncStateLoading<Data, Error>);
   }
 
   @JsonKey(ignore: true)
@@ -365,10 +362,10 @@ class _$FutureStateLoading<Data, Error>
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(FutureStateInitial<Data, Error> value) initial,
-    required TResult Function(FutureStateLoading<Data, Error> value) loading,
-    required TResult Function(FutureStateData<Data, Error> value) data,
-    required TResult Function(FutureStateError<Data, Error> value) error,
+    required TResult Function(AsyncStateInitial<Data, Error> value) initial,
+    required TResult Function(AsyncStateLoading<Data, Error> value) loading,
+    required TResult Function(AsyncStateData<Data, Error> value) data,
+    required TResult Function(AsyncStateError<Data, Error> value) error,
   }) {
     return loading(this);
   }
@@ -376,10 +373,10 @@ class _$FutureStateLoading<Data, Error>
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult? Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult? Function(FutureStateData<Data, Error> value)? data,
-    TResult? Function(FutureStateError<Data, Error> value)? error,
+    TResult? Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult? Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult? Function(AsyncStateData<Data, Error> value)? data,
+    TResult? Function(AsyncStateError<Data, Error> value)? error,
   }) {
     return loading?.call(this);
   }
@@ -387,10 +384,10 @@ class _$FutureStateLoading<Data, Error>
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult Function(FutureStateData<Data, Error> value)? data,
-    TResult Function(FutureStateError<Data, Error> value)? error,
+    TResult Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult Function(AsyncStateData<Data, Error> value)? data,
+    TResult Function(AsyncStateError<Data, Error> value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -402,39 +399,38 @@ class _$FutureStateLoading<Data, Error>
   @override
   Map<String, dynamic> toJson(
       Object? Function(Data) toJsonData, Object? Function(Error) toJsonError) {
-    return _$$FutureStateLoadingToJson<Data, Error>(
+    return _$$AsyncStateLoadingToJson<Data, Error>(
         this, toJsonData, toJsonError);
   }
 }
 
-abstract class FutureStateLoading<Data, Error>
-    extends FutureState<Data, Error> {
-  const factory FutureStateLoading() = _$FutureStateLoading<Data, Error>;
-  const FutureStateLoading._() : super._();
+abstract class AsyncStateLoading<Data, Error> extends AsyncState<Data, Error> {
+  const factory AsyncStateLoading() = _$AsyncStateLoading<Data, Error>;
+  const AsyncStateLoading._() : super._();
 
-  factory FutureStateLoading.fromJson(
+  factory AsyncStateLoading.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =
-      _$FutureStateLoading<Data, Error>.fromJson;
+      _$AsyncStateLoading<Data, Error>.fromJson;
 }
 
 /// @nodoc
-abstract class _$$FutureStateDataCopyWith<Data, Error, $Res> {
-  factory _$$FutureStateDataCopyWith(_$FutureStateData<Data, Error> value,
-          $Res Function(_$FutureStateData<Data, Error>) then) =
-      __$$FutureStateDataCopyWithImpl<Data, Error, $Res>;
+abstract class _$$AsyncStateDataCopyWith<Data, Error, $Res> {
+  factory _$$AsyncStateDataCopyWith(_$AsyncStateData<Data, Error> value,
+          $Res Function(_$AsyncStateData<Data, Error>) then) =
+      __$$AsyncStateDataCopyWithImpl<Data, Error, $Res>;
   @useResult
   $Res call({Data data});
 }
 
 /// @nodoc
-class __$$FutureStateDataCopyWithImpl<Data, Error, $Res>
-    extends _$FutureStateCopyWithImpl<Data, Error, $Res,
-        _$FutureStateData<Data, Error>>
-    implements _$$FutureStateDataCopyWith<Data, Error, $Res> {
-  __$$FutureStateDataCopyWithImpl(_$FutureStateData<Data, Error> _value,
-      $Res Function(_$FutureStateData<Data, Error>) _then)
+class __$$AsyncStateDataCopyWithImpl<Data, Error, $Res>
+    extends _$AsyncStateCopyWithImpl<Data, Error, $Res,
+        _$AsyncStateData<Data, Error>>
+    implements _$$AsyncStateDataCopyWith<Data, Error, $Res> {
+  __$$AsyncStateDataCopyWithImpl(_$AsyncStateData<Data, Error> _value,
+      $Res Function(_$AsyncStateData<Data, Error>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -442,7 +438,7 @@ class __$$FutureStateDataCopyWithImpl<Data, Error, $Res>
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(_$FutureStateData<Data, Error>(
+    return _then(_$AsyncStateData<Data, Error>(
       freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -454,16 +450,16 @@ class __$$FutureStateDataCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
-  const _$FutureStateData(this.data, {final String? $type})
+class _$AsyncStateData<Data, Error> extends AsyncStateData<Data, Error> {
+  const _$AsyncStateData(this.data, {final String? $type})
       : $type = $type ?? 'Data',
         super._();
 
-  factory _$FutureStateData.fromJson(
+  factory _$AsyncStateData.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =>
-      _$$FutureStateDataFromJson(json, fromJsonData, fromJsonError);
+      _$$AsyncStateDataFromJson(json, fromJsonData, fromJsonError);
 
   @override
   final Data data;
@@ -473,14 +469,14 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
 
   @override
   String toString() {
-    return 'FutureState<$Data, $Error>.data(data: $data)';
+    return 'AsyncState<$Data, $Error>.data(data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FutureStateData<Data, Error> &&
+            other is _$AsyncStateData<Data, Error> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -492,9 +488,9 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FutureStateDataCopyWith<Data, Error, _$FutureStateData<Data, Error>>
-      get copyWith => __$$FutureStateDataCopyWithImpl<Data, Error,
-          _$FutureStateData<Data, Error>>(this, _$identity);
+  _$$AsyncStateDataCopyWith<Data, Error, _$AsyncStateData<Data, Error>>
+      get copyWith => __$$AsyncStateDataCopyWithImpl<Data, Error,
+          _$AsyncStateData<Data, Error>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -541,10 +537,10 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(FutureStateInitial<Data, Error> value) initial,
-    required TResult Function(FutureStateLoading<Data, Error> value) loading,
-    required TResult Function(FutureStateData<Data, Error> value) data,
-    required TResult Function(FutureStateError<Data, Error> value) error,
+    required TResult Function(AsyncStateInitial<Data, Error> value) initial,
+    required TResult Function(AsyncStateLoading<Data, Error> value) loading,
+    required TResult Function(AsyncStateData<Data, Error> value) data,
+    required TResult Function(AsyncStateError<Data, Error> value) error,
   }) {
     return data(this);
   }
@@ -552,10 +548,10 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult? Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult? Function(FutureStateData<Data, Error> value)? data,
-    TResult? Function(FutureStateError<Data, Error> value)? error,
+    TResult? Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult? Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult? Function(AsyncStateData<Data, Error> value)? data,
+    TResult? Function(AsyncStateError<Data, Error> value)? error,
   }) {
     return data?.call(this);
   }
@@ -563,10 +559,10 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult Function(FutureStateData<Data, Error> value)? data,
-    TResult Function(FutureStateError<Data, Error> value)? error,
+    TResult Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult Function(AsyncStateData<Data, Error> value)? data,
+    TResult Function(AsyncStateError<Data, Error> value)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
@@ -578,43 +574,42 @@ class _$FutureStateData<Data, Error> extends FutureStateData<Data, Error> {
   @override
   Map<String, dynamic> toJson(
       Object? Function(Data) toJsonData, Object? Function(Error) toJsonError) {
-    return _$$FutureStateDataToJson<Data, Error>(this, toJsonData, toJsonError);
+    return _$$AsyncStateDataToJson<Data, Error>(this, toJsonData, toJsonError);
   }
 }
 
-abstract class FutureStateData<Data, Error> extends FutureState<Data, Error> {
-  const factory FutureStateData(final Data data) =
-      _$FutureStateData<Data, Error>;
-  const FutureStateData._() : super._();
+abstract class AsyncStateData<Data, Error> extends AsyncState<Data, Error> {
+  const factory AsyncStateData(final Data data) = _$AsyncStateData<Data, Error>;
+  const AsyncStateData._() : super._();
 
-  factory FutureStateData.fromJson(
+  factory AsyncStateData.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =
-      _$FutureStateData<Data, Error>.fromJson;
+      _$AsyncStateData<Data, Error>.fromJson;
 
   Data get data;
   @JsonKey(ignore: true)
-  _$$FutureStateDataCopyWith<Data, Error, _$FutureStateData<Data, Error>>
+  _$$AsyncStateDataCopyWith<Data, Error, _$AsyncStateData<Data, Error>>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FutureStateErrorCopyWith<Data, Error, $Res> {
-  factory _$$FutureStateErrorCopyWith(_$FutureStateError<Data, Error> value,
-          $Res Function(_$FutureStateError<Data, Error>) then) =
-      __$$FutureStateErrorCopyWithImpl<Data, Error, $Res>;
+abstract class _$$AsyncStateErrorCopyWith<Data, Error, $Res> {
+  factory _$$AsyncStateErrorCopyWith(_$AsyncStateError<Data, Error> value,
+          $Res Function(_$AsyncStateError<Data, Error>) then) =
+      __$$AsyncStateErrorCopyWithImpl<Data, Error, $Res>;
   @useResult
   $Res call({Error error, @StackTraceConverter() StackTrace stackTrace});
 }
 
 /// @nodoc
-class __$$FutureStateErrorCopyWithImpl<Data, Error, $Res>
-    extends _$FutureStateCopyWithImpl<Data, Error, $Res,
-        _$FutureStateError<Data, Error>>
-    implements _$$FutureStateErrorCopyWith<Data, Error, $Res> {
-  __$$FutureStateErrorCopyWithImpl(_$FutureStateError<Data, Error> _value,
-      $Res Function(_$FutureStateError<Data, Error>) _then)
+class __$$AsyncStateErrorCopyWithImpl<Data, Error, $Res>
+    extends _$AsyncStateCopyWithImpl<Data, Error, $Res,
+        _$AsyncStateError<Data, Error>>
+    implements _$$AsyncStateErrorCopyWith<Data, Error, $Res> {
+  __$$AsyncStateErrorCopyWithImpl(_$AsyncStateError<Data, Error> _value,
+      $Res Function(_$AsyncStateError<Data, Error>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -623,7 +618,7 @@ class __$$FutureStateErrorCopyWithImpl<Data, Error, $Res>
     Object? error = freezed,
     Object? stackTrace = null,
   }) {
-    return _then(_$FutureStateError<Data, Error>(
+    return _then(_$AsyncStateError<Data, Error>(
       freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -639,17 +634,17 @@ class __$$FutureStateErrorCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
-  const _$FutureStateError(this.error, @StackTraceConverter() this.stackTrace,
+class _$AsyncStateError<Data, Error> extends AsyncStateError<Data, Error> {
+  const _$AsyncStateError(this.error, @StackTraceConverter() this.stackTrace,
       {final String? $type})
       : $type = $type ?? 'Error',
         super._();
 
-  factory _$FutureStateError.fromJson(
+  factory _$AsyncStateError.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =>
-      _$$FutureStateErrorFromJson(json, fromJsonData, fromJsonError);
+      _$$AsyncStateErrorFromJson(json, fromJsonData, fromJsonError);
 
   @override
   final Error error;
@@ -662,14 +657,14 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
 
   @override
   String toString() {
-    return 'FutureState<$Data, $Error>.error(error: $error, stackTrace: $stackTrace)';
+    return 'AsyncState<$Data, $Error>.error(error: $error, stackTrace: $stackTrace)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FutureStateError<Data, Error> &&
+            other is _$AsyncStateError<Data, Error> &&
             const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.stackTrace, stackTrace) ||
                 other.stackTrace == stackTrace));
@@ -683,9 +678,9 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FutureStateErrorCopyWith<Data, Error, _$FutureStateError<Data, Error>>
-      get copyWith => __$$FutureStateErrorCopyWithImpl<Data, Error,
-          _$FutureStateError<Data, Error>>(this, _$identity);
+  _$$AsyncStateErrorCopyWith<Data, Error, _$AsyncStateError<Data, Error>>
+      get copyWith => __$$AsyncStateErrorCopyWithImpl<Data, Error,
+          _$AsyncStateError<Data, Error>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -732,10 +727,10 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(FutureStateInitial<Data, Error> value) initial,
-    required TResult Function(FutureStateLoading<Data, Error> value) loading,
-    required TResult Function(FutureStateData<Data, Error> value) data,
-    required TResult Function(FutureStateError<Data, Error> value) error,
+    required TResult Function(AsyncStateInitial<Data, Error> value) initial,
+    required TResult Function(AsyncStateLoading<Data, Error> value) loading,
+    required TResult Function(AsyncStateData<Data, Error> value) data,
+    required TResult Function(AsyncStateError<Data, Error> value) error,
   }) {
     return error(this);
   }
@@ -743,10 +738,10 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult? Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult? Function(FutureStateData<Data, Error> value)? data,
-    TResult? Function(FutureStateError<Data, Error> value)? error,
+    TResult? Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult? Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult? Function(AsyncStateData<Data, Error> value)? data,
+    TResult? Function(AsyncStateError<Data, Error> value)? error,
   }) {
     return error?.call(this);
   }
@@ -754,10 +749,10 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(FutureStateInitial<Data, Error> value)? initial,
-    TResult Function(FutureStateLoading<Data, Error> value)? loading,
-    TResult Function(FutureStateData<Data, Error> value)? data,
-    TResult Function(FutureStateError<Data, Error> value)? error,
+    TResult Function(AsyncStateInitial<Data, Error> value)? initial,
+    TResult Function(AsyncStateLoading<Data, Error> value)? loading,
+    TResult Function(AsyncStateData<Data, Error> value)? data,
+    TResult Function(AsyncStateError<Data, Error> value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -769,27 +764,26 @@ class _$FutureStateError<Data, Error> extends FutureStateError<Data, Error> {
   @override
   Map<String, dynamic> toJson(
       Object? Function(Data) toJsonData, Object? Function(Error) toJsonError) {
-    return _$$FutureStateErrorToJson<Data, Error>(
-        this, toJsonData, toJsonError);
+    return _$$AsyncStateErrorToJson<Data, Error>(this, toJsonData, toJsonError);
   }
 }
 
-abstract class FutureStateError<Data, Error> extends FutureState<Data, Error> {
-  const factory FutureStateError(final Error error,
+abstract class AsyncStateError<Data, Error> extends AsyncState<Data, Error> {
+  const factory AsyncStateError(final Error error,
           @StackTraceConverter() final StackTrace stackTrace) =
-      _$FutureStateError<Data, Error>;
-  const FutureStateError._() : super._();
+      _$AsyncStateError<Data, Error>;
+  const AsyncStateError._() : super._();
 
-  factory FutureStateError.fromJson(
+  factory AsyncStateError.fromJson(
           Map<String, dynamic> json,
           Data Function(Object?) fromJsonData,
           Error Function(Object?) fromJsonError) =
-      _$FutureStateError<Data, Error>.fromJson;
+      _$AsyncStateError<Data, Error>.fromJson;
 
   Error get error;
   @StackTraceConverter()
   StackTrace get stackTrace;
   @JsonKey(ignore: true)
-  _$$FutureStateErrorCopyWith<Data, Error, _$FutureStateError<Data, Error>>
+  _$$AsyncStateErrorCopyWith<Data, Error, _$AsyncStateError<Data, Error>>
       get copyWith => throw _privateConstructorUsedError;
 }

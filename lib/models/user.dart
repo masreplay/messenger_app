@@ -12,10 +12,34 @@ class UserCreate with _$UserCreate {
   factory UserCreate({
     required String uid,
     required String email,
-    @JsonKey(toJson: UserCreate.fieldValueToJson) required FieldValue createdAt,
+    @JsonKey(toJson: fieldValueToJson) required FieldValue createdAt,
     required String? avatar,
     required String? name,
   }) = _UserCreate;
+}
 
-  static FieldValue fieldValueToJson(FieldValue fieldValue) => fieldValue;
+FieldValue fieldValueToJson(FieldValue fieldValue) => fieldValue;
+
+@freezed
+class UserData with _$UserData {
+  factory UserData({
+    required String uid,
+    required String email,
+    @TimeStampJsonConverter() required DateTime createdAt,
+    required String? avatar,
+    required String? name,
+  }) = _UserData;
+
+  factory UserData.fromJson(Map<String, dynamic> json) =>
+      _$UserDataFromJson(json);
+}
+
+class TimeStampJsonConverter extends JsonConverter<DateTime, Timestamp> {
+  const TimeStampJsonConverter();
+
+  @override
+  DateTime fromJson(Timestamp json) => json.toDate();
+
+  @override
+  Timestamp toJson(DateTime object) => Timestamp.fromDate(object);
 }

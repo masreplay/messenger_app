@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
-import 'package:messenger_app/src/main/discussions_screen.dart';
+import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
 import 'package:messenger_app/src/main/more_screen.dart';
 import 'package:messenger_app/src/sign_up/sign_up_screen.dart';

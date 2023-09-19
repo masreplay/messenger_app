@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:messenger_app/bloc/state.dart';
+import 'package:messenger_app/bloc/async_state.dart';
 
 part 'login_bloc.freezed.dart';
 part 'login_bloc.g.dart';
 
-typedef LoginCubitState = FutureState<UserCredential, LoginCubitException>;
+typedef LoginCubitState = AsyncState<UserCredential, LoginCubitException>;
 
 @injectable
 class LoginCubit extends Cubit<LoginCubitState> {

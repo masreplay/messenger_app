@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:messenger_app/l10n/l10n.dart';
 import 'package:messenger_app/router/app_router.dart';
 import 'package:messenger_app/settings/settings_bloc.dart';

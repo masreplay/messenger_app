@@ -9,8 +9,7 @@ part of 'settings_bloc.dart';
 _$_AppSettings _$$_AppSettingsFromJson(Map<String, dynamic> json) =>
     _$_AppSettings(
       locale: _$JsonConverterFromJson<String, Locale>(
-              json['locale'], const LocalStringJsonConverter().fromJson) ??
-          null,
+          json['locale'], const LocalStringJsonConverter().fromJson),
       themeMode: json['themeMode'] == null
           ? ThemeMode.system
           : const ThemeModeStringJsonConverter()

@@ -116,14 +116,13 @@ class __$$_AppSettingsCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_AppSettings implements _AppSettings {
   _$_AppSettings(
-      {@LocalStringJsonConverter() this.locale = null,
+      {@LocalStringJsonConverter() this.locale,
       @ThemeModeStringJsonConverter() this.themeMode = ThemeMode.system});
 
   factory _$_AppSettings.fromJson(Map<String, dynamic> json) =>
       _$$_AppSettingsFromJson(json);
 
   @override
-  @JsonKey()
   @LocalStringJsonConverter()
   final Locale? locale;
   @override

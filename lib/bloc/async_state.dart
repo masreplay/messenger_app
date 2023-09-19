@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'state.freezed.dart';
-part 'state.g.dart';
+part 'async_state.freezed.dart';
+part 'async_state.g.dart';
 
 const _jsonSerializable = JsonSerializable(
   createFactory: true,
@@ -15,27 +15,27 @@ const _jsonSerializable = JsonSerializable(
   unionValueCase: FreezedUnionCase.pascal,
   genericArgumentFactories: true,
 )
-class FutureState<Data, Error> with _$FutureState<Data, Error> {
-  const FutureState._();
+class AsyncState<Data, Error> with _$AsyncState<Data, Error> {
+  const AsyncState._();
 
   @_jsonSerializable
-  const factory FutureState.initial() = FutureStateInitial<Data, Error>;
+  const factory AsyncState.initial() = AsyncStateInitial<Data, Error>;
   @_jsonSerializable
-  const factory FutureState.loading() = FutureStateLoading<Data, Error>;
+  const factory AsyncState.loading() = AsyncStateLoading<Data, Error>;
   @_jsonSerializable
-  const factory FutureState.data(Data data) = FutureStateData<Data, Error>;
+  const factory AsyncState.data(Data data) = AsyncStateData<Data, Error>;
   @_jsonSerializable
-  const factory FutureState.error(
+  const factory AsyncState.error(
     Error error,
     @StackTraceConverter() StackTrace stackTrace,
-  ) = FutureStateError<Data, Error>;
+  ) = AsyncStateError<Data, Error>;
 
-  factory FutureState.fromJson(
+  factory AsyncState.fromJson(
     Map<String, dynamic> json,
     FromJsonGeneric<Data> fromJsonData,
     FromJsonGeneric<Error> fromJsonError,
   ) =>
-      _$FutureStateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
+      _$AsyncStateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
 
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
 }

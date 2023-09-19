@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'state.dart';
+part of 'async_state.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FutureStateInitial<Data, Error> _$$FutureStateInitialFromJson<Data, Error>(
+_$AsyncStateInitial<Data, Error> _$$AsyncStateInitialFromJson<Data, Error>(
   Map<String, dynamic> json,
   Data Function(Object? json) fromJsonData,
   Error Function(Object? json) fromJsonError,
 ) =>
-    _$FutureStateInitial<Data, Error>(
+    _$AsyncStateInitial<Data, Error>(
       $type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$FutureStateInitialToJson<Data, Error>(
-  _$FutureStateInitial<Data, Error> instance,
+Map<String, dynamic> _$$AsyncStateInitialToJson<Data, Error>(
+  _$AsyncStateInitial<Data, Error> instance,
   Object? Function(Data value) toJsonData,
   Object? Function(Error value) toJsonError,
 ) =>
@@ -24,17 +24,17 @@ Map<String, dynamic> _$$FutureStateInitialToJson<Data, Error>(
       'type': instance.$type,
     };
 
-_$FutureStateLoading<Data, Error> _$$FutureStateLoadingFromJson<Data, Error>(
+_$AsyncStateLoading<Data, Error> _$$AsyncStateLoadingFromJson<Data, Error>(
   Map<String, dynamic> json,
   Data Function(Object? json) fromJsonData,
   Error Function(Object? json) fromJsonError,
 ) =>
-    _$FutureStateLoading<Data, Error>(
+    _$AsyncStateLoading<Data, Error>(
       $type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$FutureStateLoadingToJson<Data, Error>(
-  _$FutureStateLoading<Data, Error> instance,
+Map<String, dynamic> _$$AsyncStateLoadingToJson<Data, Error>(
+  _$AsyncStateLoading<Data, Error> instance,
   Object? Function(Data value) toJsonData,
   Object? Function(Error value) toJsonError,
 ) =>
@@ -42,18 +42,18 @@ Map<String, dynamic> _$$FutureStateLoadingToJson<Data, Error>(
       'type': instance.$type,
     };
 
-_$FutureStateData<Data, Error> _$$FutureStateDataFromJson<Data, Error>(
+_$AsyncStateData<Data, Error> _$$AsyncStateDataFromJson<Data, Error>(
   Map<String, dynamic> json,
   Data Function(Object? json) fromJsonData,
   Error Function(Object? json) fromJsonError,
 ) =>
-    _$FutureStateData<Data, Error>(
+    _$AsyncStateData<Data, Error>(
       fromJsonData(json['data']),
       $type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$FutureStateDataToJson<Data, Error>(
-  _$FutureStateData<Data, Error> instance,
+Map<String, dynamic> _$$AsyncStateDataToJson<Data, Error>(
+  _$AsyncStateData<Data, Error> instance,
   Object? Function(Data value) toJsonData,
   Object? Function(Error value) toJsonError,
 ) =>
@@ -62,19 +62,19 @@ Map<String, dynamic> _$$FutureStateDataToJson<Data, Error>(
       'type': instance.$type,
     };
 
-_$FutureStateError<Data, Error> _$$FutureStateErrorFromJson<Data, Error>(
+_$AsyncStateError<Data, Error> _$$AsyncStateErrorFromJson<Data, Error>(
   Map<String, dynamic> json,
   Data Function(Object? json) fromJsonData,
   Error Function(Object? json) fromJsonError,
 ) =>
-    _$FutureStateError<Data, Error>(
+    _$AsyncStateError<Data, Error>(
       fromJsonError(json['error']),
       const StackTraceConverter().fromJson(json['stackTrace'] as String),
       $type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$FutureStateErrorToJson<Data, Error>(
-  _$FutureStateError<Data, Error> instance,
+Map<String, dynamic> _$$AsyncStateErrorToJson<Data, Error>(
+  _$AsyncStateError<Data, Error> instance,
   Object? Function(Data value) toJsonData,
   Object? Function(Error value) toJsonError,
 ) =>

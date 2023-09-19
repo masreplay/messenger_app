@@ -5,13 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:messenger_app/bloc/state.dart';
+import 'package:messenger_app/bloc/async_state.dart';
+import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/models/user.dart';
 
 part 'sign_up_bloc.freezed.dart';
 part 'sign_up_bloc.g.dart';
 
-typedef SignUpCubitState = FutureState<UserCredential, SignUpCubitException>;
+typedef SignUpCubitState = AsyncState<UserCredential, SignUpCubitException>;
 
 @injectable
 class SignUpCubit extends Cubit<SignUpCubitState> {
@@ -31,8 +32,10 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
       final uid = credential.user!.uid;
 
       if (credential.additionalUserInfo?.isNewUser == true) {
-        final result =
-            await FirebaseFirestore.instance.collection("users").doc(uid).get();
+        final result = await FirebaseFirestore.instance
+            .collection(Collections.users)
+            .doc(uid)
+            .get();
 
         if (!result.exists) {
           final user = UserCreate(
