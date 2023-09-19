@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/models/user.dart';
 
@@ -22,28 +23,30 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('users')
+            .collection(FirebaseCollections.users)
             .limit(10)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            final docs = snapshot.data?.docs
+            final chats = snapshot.data?.docs
                     .map((e) => UserData.fromJson(e.data()))
                     .toList() ??
                 [];
 
             return ListView.builder(
               padding: const EdgeInsets.all(10.0),
+              itemCount: chats.length,
               itemBuilder: (context, index) {
-                final chat = docs[index];
+                final chat = chats[index];
                 return DiscussionListTile(
                   data: chat,
-                  onTap: () {},
+                  onTap: () {
+                    context.router.push(ChatRoute(peerId: chat.uid));
+                  },
                 );
               },
-              itemCount: docs.length,
             );
           }
         },

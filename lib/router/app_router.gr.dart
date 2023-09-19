@@ -15,6 +15,18 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ChatRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ChatRouteArgs>(
+          orElse: () => ChatRouteArgs(peerId: pathParams.getString('peerId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatScreen(
+          key: args.key,
+          peerId: args.peerId,
+        ),
+      );
+    },
     DiscussionsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -52,6 +64,44 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [ChatScreen]
+class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
+  ChatRoute({
+    Key? key,
+    required String peerId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatRoute.name,
+          args: ChatRouteArgs(
+            key: key,
+            peerId: peerId,
+          ),
+          rawPathParams: {'peerId': peerId},
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatRoute';
+
+  static const PageInfo<ChatRouteArgs> page = PageInfo<ChatRouteArgs>(name);
+}
+
+class ChatRouteArgs {
+  const ChatRouteArgs({
+    this.key,
+    required this.peerId,
+  });
+
+  final Key? key;
+
+  final String peerId;
+
+  @override
+  String toString() {
+    return 'ChatRouteArgs{key: $key, peerId: $peerId}';
+  }
 }
 
 /// generated route for

@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:messenger_app/router/auth_guard.dart';
 import 'package:messenger_app/settings/settings_screen.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
+import 'package:messenger_app/src/main/discussions/chat_screen.dart';
 import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
 import 'package:messenger_app/src/main/more_screen.dart';
@@ -38,6 +40,11 @@ class AppRouter extends _$AppRouter {
         path: "/sign-up",
         page: SignUpRoute.page,
         guards: const [NotAuthenticatedGuard()],
+      ),
+      AutoRoute(
+        path: "/discussions/:id",
+        page: ChatRoute.page,
+        guards: const [AuthenticatedGuard()],
       ),
       AutoRoute(
         path: "/settings",

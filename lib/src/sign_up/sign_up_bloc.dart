@@ -35,7 +35,7 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
 
       if (credential.additionalUserInfo?.isNewUser == true) {
         final result = await FirebaseFirestore.instance
-            .collection(Collections.users)
+            .collection(FirebaseCollections.users)
             .doc(uid)
             .get();
 

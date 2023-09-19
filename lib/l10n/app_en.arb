@@ -19,6 +19,7 @@
     "darkTheme": "Dark Theme",
     "unimplementedFeature": "This feature is not implemented yet",
     "name": "Name",
+    "messageHintText": "Message",
     "@validationMinLength": {
         "placeholders": {
             "n": {
