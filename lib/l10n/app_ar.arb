@@ -4,6 +4,7 @@
     "login": "تسجيل الدخول",
     "signUp": "انشاء حساب",
     "greetingMessage": "مرحبا بعودتك \nفي تطبيق مراسلة",
+    "copyMessage": "نسخ",
     "defaultErrorMessage": "حدث خطأ ما ، يرجى المحاولة مرة أخرى",
     "validationRequired": "هذا الحقل مطلوب",
     "validationMaxLength": "يجب ألا يتجاوز هذا الحقل {n} حرفًا",

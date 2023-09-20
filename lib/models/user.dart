@@ -14,7 +14,7 @@ class UserCreate with _$UserCreate {
     required String email,
     @JsonKey(toJson: fieldValueToJson) required FieldValue createdAt,
     required String? avatar,
-    required String? name,
+    required String name,
   }) = _UserCreate;
 }
 
@@ -27,7 +27,7 @@ class UserData with _$UserData {
     required String email,
     @TimeStampJsonConverter() required DateTime createdAt,
     required String? avatar,
-    required String? name,
+    required String name,
   }) = _UserData;
 
   factory UserData.fromJson(Map<String, dynamic> json) =>

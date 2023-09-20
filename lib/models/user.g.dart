@@ -21,7 +21,7 @@ _$_UserData _$$_UserDataFromJson(Map<String, dynamic> json) => _$_UserData(
       createdAt: const TimeStampJsonConverter()
           .fromJson(json['createdAt'] as Timestamp),
       avatar: json['avatar'] as String?,
-      name: json['name'] as String?,
+      name: json['name'] as String,
     );
 
 Map<String, dynamic> _$$_UserDataToJson(_$_UserData instance) =>

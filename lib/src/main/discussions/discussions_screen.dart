@@ -43,7 +43,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                 return DiscussionListTile(
                   data: chat,
                   onTap: () {
-                    context.router.push(ChatRoute(peerId: chat.uid));
+                    context.router.push(DiscussionRoute(peerId: chat.uid));
                   },
                 );
               },
@@ -71,7 +71,7 @@ class DiscussionListTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      title: Text(data.name ?? ''),
+      title: Text(data.name),
       subtitle: Text(email),
       leading: UserAvatar(
         alt: email,

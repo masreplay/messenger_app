@@ -15,13 +15,14 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    ChatRoute.name: (routeData) {
+    DiscussionRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ChatRouteArgs>(
-          orElse: () => ChatRouteArgs(peerId: pathParams.getString('peerId')));
+      final args = routeData.argsAs<DiscussionRouteArgs>(
+          orElse: () =>
+              DiscussionRouteArgs(peerId: pathParams.getString('peerId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ChatScreen(
+        child: DiscussionScreen(
           key: args.key,
           peerId: args.peerId,
         ),
@@ -67,15 +68,15 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [ChatScreen]
-class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
-  ChatRoute({
+/// [DiscussionScreen]
+class DiscussionRoute extends PageRouteInfo<DiscussionRouteArgs> {
+  DiscussionRoute({
     Key? key,
     required String peerId,
     List<PageRouteInfo>? children,
   }) : super(
-          ChatRoute.name,
-          args: ChatRouteArgs(
+          DiscussionRoute.name,
+          args: DiscussionRouteArgs(
             key: key,
             peerId: peerId,
           ),
@@ -83,13 +84,14 @@ class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
           initialChildren: children,
         );
 
-  static const String name = 'ChatRoute';
+  static const String name = 'DiscussionRoute';
 
-  static const PageInfo<ChatRouteArgs> page = PageInfo<ChatRouteArgs>(name);
+  static const PageInfo<DiscussionRouteArgs> page =
+      PageInfo<DiscussionRouteArgs>(name);
 }
 
-class ChatRouteArgs {
-  const ChatRouteArgs({
+class DiscussionRouteArgs {
+  const DiscussionRouteArgs({
     this.key,
     required this.peerId,
   });
@@ -100,7 +102,7 @@ class ChatRouteArgs {
 
   @override
   String toString() {
-    return 'ChatRouteArgs{key: $key, peerId: $peerId}';
+    return 'DiscussionRouteArgs{key: $key, peerId: $peerId}';
   }
 }
 

@@ -20,6 +20,8 @@
     "unimplementedFeature": "This feature is not implemented yet",
     "name": "Name",
     "messageHintText": "Message",
+    "copyMessage": "Copy Message",
+    "refresh": "Refresh",
     "@validationMinLength": {
         "placeholders": {
             "n": {

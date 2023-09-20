@@ -21,7 +21,7 @@ mixin _$UserCreate {
   @JsonKey(toJson: fieldValueToJson)
   FieldValue get createdAt => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +40,7 @@ abstract class $UserCreateCopyWith<$Res> {
       String email,
       @JsonKey(toJson: fieldValueToJson) FieldValue createdAt,
       String? avatar,
-      String? name});
+      String name});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$UserCreateCopyWithImpl<$Res, $Val extends UserCreate>
     Object? email = null,
     Object? createdAt = null,
     Object? avatar = freezed,
-    Object? name = freezed,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -79,10 +79,10 @@ class _$UserCreateCopyWithImpl<$Res, $Val extends UserCreate>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -100,7 +100,7 @@ abstract class _$$_UserCreateCopyWith<$Res>
       String email,
       @JsonKey(toJson: fieldValueToJson) FieldValue createdAt,
       String? avatar,
-      String? name});
+      String name});
 }
 
 /// @nodoc
@@ -118,7 +118,7 @@ class __$$_UserCreateCopyWithImpl<$Res>
     Object? email = null,
     Object? createdAt = null,
     Object? avatar = freezed,
-    Object? name = freezed,
+    Object? name = null,
   }) {
     return _then(_$_UserCreate(
       uid: null == uid
@@ -137,10 +137,10 @@ class __$$_UserCreateCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -165,7 +165,7 @@ class _$_UserCreate implements _UserCreate {
   @override
   final String? avatar;
   @override
-  final String? name;
+  final String name;
 
   @override
   String toString() {
@@ -210,7 +210,7 @@ abstract class _UserCreate implements UserCreate {
       required final String email,
       @JsonKey(toJson: fieldValueToJson) required final FieldValue createdAt,
       required final String? avatar,
-      required final String? name}) = _$_UserCreate;
+      required final String name}) = _$_UserCreate;
 
   @override
   String get uid;
@@ -222,7 +222,7 @@ abstract class _UserCreate implements UserCreate {
   @override
   String? get avatar;
   @override
-  String? get name;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$_UserCreateCopyWith<_$_UserCreate> get copyWith =>
@@ -240,7 +240,7 @@ mixin _$UserData {
   @TimeStampJsonConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -258,7 +258,7 @@ abstract class $UserDataCopyWith<$Res> {
       String email,
       @TimeStampJsonConverter() DateTime createdAt,
       String? avatar,
-      String? name});
+      String name});
 }
 
 /// @nodoc
@@ -278,7 +278,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? email = null,
     Object? createdAt = null,
     Object? avatar = freezed,
-    Object? name = freezed,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -297,10 +297,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -317,7 +317,7 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
       String email,
       @TimeStampJsonConverter() DateTime createdAt,
       String? avatar,
-      String? name});
+      String name});
 }
 
 /// @nodoc
@@ -335,7 +335,7 @@ class __$$_UserDataCopyWithImpl<$Res>
     Object? email = null,
     Object? createdAt = null,
     Object? avatar = freezed,
-    Object? name = freezed,
+    Object? name = null,
   }) {
     return _then(_$_UserData(
       uid: null == uid
@@ -354,10 +354,10 @@ class __$$_UserDataCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -385,7 +385,7 @@ class _$_UserData implements _UserData {
   @override
   final String? avatar;
   @override
-  final String? name;
+  final String name;
 
   @override
   String toString() {
@@ -430,7 +430,7 @@ abstract class _UserData implements UserData {
       required final String email,
       @TimeStampJsonConverter() required final DateTime createdAt,
       required final String? avatar,
-      required final String? name}) = _$_UserData;
+      required final String name}) = _$_UserData;
 
   factory _UserData.fromJson(Map<String, dynamic> json) = _$_UserData.fromJson;
 
@@ -444,7 +444,7 @@ abstract class _UserData implements UserData {
   @override
   String? get avatar;
   @override
-  String? get name;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$_UserDataCopyWith<_$_UserData> get copyWith =>
