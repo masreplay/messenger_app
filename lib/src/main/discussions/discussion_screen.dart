@@ -270,7 +270,6 @@ class _StickersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      padding: const EdgeInsets.all(8.0),
       color: Theme.of(context).colorScheme.tertiaryContainer,
       child: FutureBuilder(
         future: _getStickers(),
