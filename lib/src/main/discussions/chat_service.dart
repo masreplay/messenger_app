@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
@@ -21,7 +22,7 @@ class DiscussionGroup with _$DiscussionGroup {
     required String peerId,
   }) = _DiscussionGroup;
 
-  factory DiscussionGroup.fromFirebase(String peerId) => DiscussionGroup(
+  factory DiscussionGroup.fromPeerId(String peerId) => DiscussionGroup(
       userId: FirebaseAuth.instance.currentUser!.uid, peerId: peerId);
 
   String get id {
@@ -36,6 +37,7 @@ class DiscussionGroup with _$DiscussionGroup {
       _$DiscussionGroupFromJson(json);
 }
 
+@injectable
 class DiscussionService {
   final DiscussionGroup _group;
 

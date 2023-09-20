@@ -15,7 +15,16 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Message _$MessageFromJson(Map<String, dynamic> json) {
-  return _MessageText.fromJson(json);
+  switch (json['type']) {
+    case 'text':
+      return MessageText.fromJson(json);
+    case 'image':
+      return MessageImage.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(
+          json, 'type', 'Message', 'Invalid union type "${json['type']}"!');
+  }
 }
 
 /// @nodoc
@@ -24,12 +33,18 @@ mixin _$Message {
   String get idTo => throw _privateConstructorUsedError;
   @TimeStampJsonConverter()
   DateTime get timestamp => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)
         text,
+    required TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)
+        image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,6 +52,13 @@ mixin _$Message {
     TResult? Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)?
         text,
+    TResult? Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,22 +66,32 @@ mixin _$Message {
     TResult Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)?
         text,
+    TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_MessageText value) text,
+    required TResult Function(MessageText value) text,
+    required TResult Function(MessageImage value) image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_MessageText value)? text,
+    TResult? Function(MessageText value)? text,
+    TResult? Function(MessageImage value)? image,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_MessageText value)? text,
+    TResult Function(MessageText value)? text,
+    TResult Function(MessageImage value)? image,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -76,8 +108,7 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {String idFrom,
       String idTo,
-      @TimeStampJsonConverter() DateTime timestamp,
-      String content});
+      @TimeStampJsonConverter() DateTime timestamp});
 }
 
 /// @nodoc
@@ -96,7 +127,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? idFrom = null,
     Object? idTo = null,
     Object? timestamp = null,
-    Object? content = null,
   }) {
     return _then(_value.copyWith(
       idFrom: null == idFrom
@@ -111,19 +141,15 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      content: null == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_MessageTextCopyWith<$Res> implements $MessageCopyWith<$Res> {
-  factory _$$_MessageTextCopyWith(
-          _$_MessageText value, $Res Function(_$_MessageText) then) =
-      __$$_MessageTextCopyWithImpl<$Res>;
+abstract class _$$MessageTextCopyWith<$Res> implements $MessageCopyWith<$Res> {
+  factory _$$MessageTextCopyWith(
+          _$MessageText value, $Res Function(_$MessageText) then) =
+      __$$MessageTextCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -134,11 +160,11 @@ abstract class _$$_MessageTextCopyWith<$Res> implements $MessageCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MessageTextCopyWithImpl<$Res>
-    extends _$MessageCopyWithImpl<$Res, _$_MessageText>
-    implements _$$_MessageTextCopyWith<$Res> {
-  __$$_MessageTextCopyWithImpl(
-      _$_MessageText _value, $Res Function(_$_MessageText) _then)
+class __$$MessageTextCopyWithImpl<$Res>
+    extends _$MessageCopyWithImpl<$Res, _$MessageText>
+    implements _$$MessageTextCopyWith<$Res> {
+  __$$MessageTextCopyWithImpl(
+      _$MessageText _value, $Res Function(_$MessageText) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +175,7 @@ class __$$_MessageTextCopyWithImpl<$Res>
     Object? timestamp = null,
     Object? content = null,
   }) {
-    return _then(_$_MessageText(
+    return _then(_$MessageText(
       idFrom: null == idFrom
           ? _value.idFrom
           : idFrom // ignore: cast_nullable_to_non_nullable
@@ -172,16 +198,18 @@ class __$$_MessageTextCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MessageText extends _MessageText {
-  const _$_MessageText(
+class _$MessageText extends MessageText {
+  const _$MessageText(
       {required this.idFrom,
       required this.idTo,
       @TimeStampJsonConverter() required this.timestamp,
-      required this.content})
-      : super._();
+      required this.content,
+      final String? $type})
+      : $type = $type ?? 'text',
+        super._();
 
-  factory _$_MessageText.fromJson(Map<String, dynamic> json) =>
-      _$$_MessageTextFromJson(json);
+  factory _$MessageText.fromJson(Map<String, dynamic> json) =>
+      _$$MessageTextFromJson(json);
 
   @override
   final String idFrom;
@@ -193,6 +221,9 @@ class _$_MessageText extends _MessageText {
   @override
   final String content;
 
+  @JsonKey(name: 'type')
+  final String $type;
+
   @override
   String toString() {
     return 'Message.text(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp, content: $content)';
@@ -202,7 +233,7 @@ class _$_MessageText extends _MessageText {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MessageText &&
+            other is _$MessageText &&
             (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
             (identical(other.idTo, idTo) || other.idTo == idTo) &&
             (identical(other.timestamp, timestamp) ||
@@ -218,8 +249,8 @@ class _$_MessageText extends _MessageText {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessageTextCopyWith<_$_MessageText> get copyWith =>
-      __$$_MessageTextCopyWithImpl<_$_MessageText>(this, _$identity);
+  _$$MessageTextCopyWith<_$MessageText> get copyWith =>
+      __$$MessageTextCopyWithImpl<_$MessageText>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -227,6 +258,13 @@ class _$_MessageText extends _MessageText {
     required TResult Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)
         text,
+    required TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)
+        image,
   }) {
     return text(idFrom, idTo, timestamp, content);
   }
@@ -237,6 +275,13 @@ class _$_MessageText extends _MessageText {
     TResult? Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)?
         text,
+    TResult? Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
   }) {
     return text?.call(idFrom, idTo, timestamp, content);
   }
@@ -247,6 +292,13 @@ class _$_MessageText extends _MessageText {
     TResult Function(String idFrom, String idTo,
             @TimeStampJsonConverter() DateTime timestamp, String content)?
         text,
+    TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -258,7 +310,8 @@ class _$_MessageText extends _MessageText {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_MessageText value) text,
+    required TResult Function(MessageText value) text,
+    required TResult Function(MessageImage value) image,
   }) {
     return text(this);
   }
@@ -266,7 +319,8 @@ class _$_MessageText extends _MessageText {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_MessageText value)? text,
+    TResult? Function(MessageText value)? text,
+    TResult? Function(MessageImage value)? image,
   }) {
     return text?.call(this);
   }
@@ -274,7 +328,8 @@ class _$_MessageText extends _MessageText {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_MessageText value)? text,
+    TResult Function(MessageText value)? text,
+    TResult Function(MessageImage value)? image,
     required TResult orElse(),
   }) {
     if (text != null) {
@@ -285,22 +340,22 @@ class _$_MessageText extends _MessageText {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MessageTextToJson(
+    return _$$MessageTextToJson(
       this,
     );
   }
 }
 
-abstract class _MessageText extends Message {
-  const factory _MessageText(
+abstract class MessageText extends Message {
+  const factory MessageText(
       {required final String idFrom,
       required final String idTo,
       @TimeStampJsonConverter() required final DateTime timestamp,
-      required final String content}) = _$_MessageText;
-  const _MessageText._() : super._();
+      required final String content}) = _$MessageText;
+  const MessageText._() : super._();
 
-  factory _MessageText.fromJson(Map<String, dynamic> json) =
-      _$_MessageText.fromJson;
+  factory MessageText.fromJson(Map<String, dynamic> json) =
+      _$MessageText.fromJson;
 
   @override
   String get idFrom;
@@ -309,10 +364,248 @@ abstract class _MessageText extends Message {
   @override
   @TimeStampJsonConverter()
   DateTime get timestamp;
-  @override
   String get content;
   @override
   @JsonKey(ignore: true)
-  _$$_MessageTextCopyWith<_$_MessageText> get copyWith =>
+  _$$MessageTextCopyWith<_$MessageText> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$MessageImageCopyWith<$Res> implements $MessageCopyWith<$Res> {
+  factory _$$MessageImageCopyWith(
+          _$MessageImage value, $Res Function(_$MessageImage) then) =
+      __$$MessageImageCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String idFrom,
+      String idTo,
+      @TimeStampJsonConverter() DateTime timestamp,
+      String? imageUrl,
+      String? caption});
+}
+
+/// @nodoc
+class __$$MessageImageCopyWithImpl<$Res>
+    extends _$MessageCopyWithImpl<$Res, _$MessageImage>
+    implements _$$MessageImageCopyWith<$Res> {
+  __$$MessageImageCopyWithImpl(
+      _$MessageImage _value, $Res Function(_$MessageImage) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idFrom = null,
+    Object? idTo = null,
+    Object? timestamp = null,
+    Object? imageUrl = freezed,
+    Object? caption = freezed,
+  }) {
+    return _then(_$MessageImage(
+      idFrom: null == idFrom
+          ? _value.idFrom
+          : idFrom // ignore: cast_nullable_to_non_nullable
+              as String,
+      idTo: null == idTo
+          ? _value.idTo
+          : idTo // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      caption: freezed == caption
+          ? _value.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageImage extends MessageImage {
+  const _$MessageImage(
+      {required this.idFrom,
+      required this.idTo,
+      @TimeStampJsonConverter() required this.timestamp,
+      required this.imageUrl,
+      required this.caption,
+      final String? $type})
+      : $type = $type ?? 'image',
+        super._();
+
+  factory _$MessageImage.fromJson(Map<String, dynamic> json) =>
+      _$$MessageImageFromJson(json);
+
+  @override
+  final String idFrom;
+  @override
+  final String idTo;
+  @override
+  @TimeStampJsonConverter()
+  final DateTime timestamp;
+  @override
+  final String? imageUrl;
+  @override
+  final String? caption;
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Message.image(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp, imageUrl: $imageUrl, caption: $caption)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageImage &&
+            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
+            (identical(other.idTo, idTo) || other.idTo == idTo) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.caption, caption) || other.caption == caption));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, idFrom, idTo, timestamp, imageUrl, caption);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageImageCopyWith<_$MessageImage> get copyWith =>
+      __$$MessageImageCopyWithImpl<_$MessageImage>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String idFrom, String idTo,
+            @TimeStampJsonConverter() DateTime timestamp, String content)
+        text,
+    required TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)
+        image,
+  }) {
+    return image(idFrom, idTo, timestamp, imageUrl, caption);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String idFrom, String idTo,
+            @TimeStampJsonConverter() DateTime timestamp, String content)?
+        text,
+    TResult? Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
+  }) {
+    return image?.call(idFrom, idTo, timestamp, imageUrl, caption);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String idFrom, String idTo,
+            @TimeStampJsonConverter() DateTime timestamp, String content)?
+        text,
+    TResult Function(
+            String idFrom,
+            String idTo,
+            @TimeStampJsonConverter() DateTime timestamp,
+            String? imageUrl,
+            String? caption)?
+        image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(idFrom, idTo, timestamp, imageUrl, caption);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(MessageText value) text,
+    required TResult Function(MessageImage value) image,
+  }) {
+    return image(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(MessageText value)? text,
+    TResult? Function(MessageImage value)? image,
+  }) {
+    return image?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(MessageText value)? text,
+    TResult Function(MessageImage value)? image,
+    required TResult orElse(),
+  }) {
+    if (image != null) {
+      return image(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageImageToJson(
+      this,
+    );
+  }
+}
+
+abstract class MessageImage extends Message {
+  const factory MessageImage(
+      {required final String idFrom,
+      required final String idTo,
+      @TimeStampJsonConverter() required final DateTime timestamp,
+      required final String? imageUrl,
+      required final String? caption}) = _$MessageImage;
+  const MessageImage._() : super._();
+
+  factory MessageImage.fromJson(Map<String, dynamic> json) =
+      _$MessageImage.fromJson;
+
+  @override
+  String get idFrom;
+  @override
+  String get idTo;
+  @override
+  @TimeStampJsonConverter()
+  DateTime get timestamp;
+  String? get imageUrl;
+  String? get caption;
+  @override
+  @JsonKey(ignore: true)
+  _$$MessageImageCopyWith<_$MessageImage> get copyWith =>
       throw _privateConstructorUsedError;
 }

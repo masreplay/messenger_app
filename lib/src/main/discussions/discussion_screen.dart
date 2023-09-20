@@ -1,18 +1,79 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/date_time.dart';
 import 'package:messenger_app/gap.dart';
+import 'package:messenger_app/models/user.dart';
+import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
 import 'chat_service.dart';
+
+part 'discussion_screen.freezed.dart';
+
+enum MessageDirection {
+  start,
+  end;
+
+  Alignment get alignment => switch (this) {
+        MessageDirection.start => Alignment.centerLeft,
+        MessageDirection.end => Alignment.centerRight
+      };
+}
+
+@freezed
+class MessageThemeData with _$MessageThemeData {
+  const factory MessageThemeData({
+    required MessageDirection direction,
+    required BorderRadius borderRadius,
+    required TextStyle textStyle,
+    required Color cardColor,
+    required TextStyle imageDateTextStyle,
+    required TextStyle textDateTextStyle,
+  }) = _MessageThemeData;
+}
+
+class MessageTheme extends InheritedWidget {
+  const MessageTheme({
+    super.key,
+    required this.data,
+    required super.child,
+  });
+
+  final MessageThemeData data;
+
+  @override
+  bool updateShouldNotify(MessageTheme oldWidget) => oldWidget.data != data;
+
+  static MessageTheme of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<MessageTheme>()!;
+  }
+}
+
+class MessageState {
+  const MessageState({
+    required this.group,
+    required this.pervious,
+    required this.current,
+    required this.next,
+  });
+
+  final DiscussionGroup group;
+  final Message? pervious;
+  final Message current;
+  final Message? next;
+
+  bool get isMine => current.idFrom == group.userId;
+}
 
 @RoutePage()
 class DiscussionScreen extends HookWidget {
@@ -26,10 +87,36 @@ class DiscussionScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final service = DiscussionService(DiscussionGroup.fromPeerId(peerId));
+
+    return Scaffold(
+      body: FutureBuilder(
+        future: service.getPeerById(peerId),
+        builder: (context, snapshot) => snapshot.when(
+          data: (data) => _DiscussionView(data!),
+          error: DefaultErrorWidget.call(context.router.pop),
+          loading: DefaultLoadingWidget.new,
+        ),
+      ),
+    );
+  }
+}
+
+class _DiscussionView extends StatefulHookWidget {
+  const _DiscussionView(this.peer);
+
+  final UserData peer;
+
+  @override
+  State<_DiscussionView> createState() => _DiscussionViewState();
+}
+
+class _DiscussionViewState extends State<_DiscussionView> {
+  @override
+  Widget build(BuildContext context) {
     final limit = useState(20);
 
-    // Group
-    final group = DiscussionGroup.fromFirebase(peerId);
+    final group = DiscussionGroup.fromPeerId(widget.peer.uid);
     final service = DiscussionService(group);
 
     // Message
@@ -37,84 +124,70 @@ class DiscussionScreen extends HookWidget {
     final focusNode = useFocusNode();
     final image = useState<File?>(null);
 
-    final scroll = useScrollController();
-    scroll.addListener(() {
-      if (!scroll.hasClients) return;
-      if (scroll.offset >= scroll.position.maxScrollExtent &&
-          !scroll.position.outOfRange) {
+    final scrollController = useScrollController();
+    scrollController.addListener(() {
+      if (!scrollController.hasClients) return;
+      if (scrollController.offset >=
+              scrollController.position.maxScrollExtent &&
+          !scrollController.position.outOfRange) {
         limit.value += 20;
       }
     });
 
     return Scaffold(
-      body: FutureBuilder(
-        future: service.getPeerById(peerId),
-        builder: (context, snapshot) => snapshot.when(
-          data: (data) {
-            final user = snapshot.data!;
-            return Scaffold(
-              appBar: AppBar(title: Text(user.name)),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: service.getMessages(limit: limit.value),
-                      builder: (context, snapshot) => snapshot.when(
-                        data: (data) {
-                          final messages = snapshot.data ?? [];
-                          return _MessagesListView(
-                            messages: messages,
-                            group: group,
-                          );
-                        },
-                        error: DefaultErrorWidget.call(() {
-                          context.router.pop();
-                        }),
-                        loading: DefaultLoadingWidget.new,
-                      ),
-                    ),
-                  ),
-                  _DiscussionInputSection(
-                    image: image,
-                    controller: controller,
-                    focusNode: focusNode,
-                    actions: [
-                      if (kDebugMode)
-                        IconButton(
-                          icon: const Icon(Icons.bug_report_outlined),
-                          onPressed: () {
-                            controller.text = faker.person.name();
-                          },
-                        ),
-                      IconButton(
-                        icon: const Icon(Icons.photo_outlined),
-                        onPressed: () {
-                          _imagePickerBottomSheet(
-                            context: context,
-                            image: image,
-                          );
-                        },
-                      ),
-                    ],
-                    onTextSend: () {
-                      service.sendTextMessage(controller.text);
-                      controller.clear();
-                      focusNode.requestFocus();
-                    },
-                    onImageSend: () {
-                      service.sendImageMessage(image.value!);
-                      image.value = null;
-                    },
-                  ),
-                ],
+      appBar: AppBar(title: Text(widget.peer.name)),
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder(
+              stream: service.getMessages(limit: limit.value),
+              builder: (context, snapshot) => snapshot.when(
+                data: (data) {
+                  final messages = snapshot.data ?? [];
+                  return _MessagesListView(
+                    messages: messages,
+                    controller: scrollController,
+                    group: group,
+                  );
+                },
+                error: DefaultErrorWidget.call(context.router.pop),
+                loading: DefaultLoadingWidget.new,
               ),
-            );
-          },
-          error: DefaultErrorWidget.call(() {
-            context.router.pop();
-          }),
-          loading: DefaultLoadingWidget.new,
-        ),
+            ),
+          ),
+          _DiscussionInputSection(
+            image: image,
+            controller: controller,
+            focusNode: focusNode,
+            actions: [
+              if (kDebugMode)
+                IconButton(
+                  icon: const Icon(Icons.bug_report_outlined),
+                  onPressed: () {
+                    controller.text = faker.person.name();
+                  },
+                ),
+              IconButton(
+                icon: const Icon(Icons.photo_outlined),
+                onPressed: () {
+                  _imagePickerBottomSheet(
+                    context: context,
+                    image: image,
+                  );
+                },
+              ),
+            ],
+            onTextSend: () {
+              service.sendTextMessage(controller.text);
+              controller.clear();
+              focusNode.requestFocus();
+            },
+            onImageSend: () {
+              service.sendImageMessage(image.value!);
+              image.value = null;
+            },
+          ),
+        ],
       ),
     );
   }
@@ -164,62 +237,50 @@ class DiscussionScreen extends HookWidget {
 class _MessagesListView extends StatelessWidget {
   const _MessagesListView({
     required this.messages,
+    required this.controller,
     required this.group,
   });
 
   final List<Message> messages;
-
+  final ScrollController controller;
   final DiscussionGroup group;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: messages.length,
       reverse: true,
+      itemCount: messages.length,
+      controller: controller,
+      padding: const EdgeInsets.all(16.0),
       separatorBuilder: (_, __) => const Gap(size: 8),
       itemBuilder: (context, index) {
-        final message = messages[index];
-        final pervious = index > 0 ? messages[index - 1] : null;
-        final next = index < messages.length - 1 ? messages[index + 1] : null;
-
-        return _MessageListTile(
-          pervious: pervious,
-          current: message,
-          next: next,
+        final data = MessageState(
           group: group,
-          onTap: () {
-            final colorScheme = Theme.of(context).colorScheme;
-            if (message.idFrom != group.userId) return;
-            showModalBottomSheet(
-              context: context,
-              showDragHandle: true,
-              builder: (context) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListTile(
-                      leading: Icon(
-                        Icons.copy_outlined,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                      title: Text(
-                        AppLocalizations.of(context)!.copyMessage,
-                      ),
-                      onTap: () {
-                        Clipboard.setData(
-                          ClipboardData(
-                            text: message.content,
-                          ),
-                        );
-                        context.router.pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          },
+          pervious: index > 0 ? messages[index - 1] : null,
+          current: messages[index],
+          next: index < messages.length - 1 ? messages[index + 1] : null,
+        );
+
+        return MessageThemeWrapper(
+          data: data,
+          child: _MessageListTile(
+            data: data,
+            onTap: () {
+              if (data.current.idFrom != group.userId) return;
+              showModalBottomSheet(
+                context: context,
+                showDragHandle: true,
+                builder: (context) {
+                  return const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );
@@ -228,29 +289,57 @@ class _MessagesListView extends StatelessWidget {
 
 class _MessageListTile extends StatelessWidget {
   const _MessageListTile({
-    super.key,
-    required this.pervious,
-    required this.current,
-    required this.next,
-    required this.group,
+    required this.data,
     required this.onTap,
   });
 
-  final Message? pervious;
-  final Message current;
-  final Message? next;
-  final DiscussionGroup group;
-
+  final MessageState data;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    var borderRadius = BorderRadius.circular(25.0);
-    const sharpRadius = Radius.circular(8.0);
+    final theme = MessageTheme.of(context).data;
 
-    final isMine = current.idFrom == group.userId;
-    final isNextMine = current.idFrom == next?.idFrom;
-    final isPreviousMine = current.idFrom == pervious?.idFrom;
+    return Align(
+      alignment: data.isMine ? Alignment.centerRight : Alignment.centerLeft,
+      child: InkWell(
+        borderRadius: theme.borderRadius,
+        onTap: onTap,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: theme.borderRadius,
+          ),
+          child: data.current.map(
+            text: _TextMessageListTile.new,
+            image: _ImageMessageListTile.new,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MessageThemeWrapper extends StatelessWidget {
+  const MessageThemeWrapper({
+    super.key,
+    required this.data,
+    required this.child,
+  });
+
+  final MessageState data;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    const sharpRadius = Radius.circular(4.0);
+    var borderRadius = BorderRadius.circular(25.0);
+
+    final isNextMine = data.current.idFrom == data.next?.idFrom;
+    final isPreviousMine = data.current.idFrom == data.pervious?.idFrom;
 
     if (!isPreviousMine && isNextMine) {
       borderRadius = borderRadius.copyWith(topRight: sharpRadius);
@@ -263,30 +352,93 @@ class _MessageListTile extends StatelessWidget {
       );
     }
 
-    final colorScheme = Theme.of(context).colorScheme;
-    final backgroundColor =
-        isMine ? colorScheme.primaryContainer : colorScheme.secondaryContainer;
-    final foregroundColor = isMine
-        ? colorScheme.onPrimaryContainer
-        : colorScheme.onSecondaryContainer;
+    final textStyle = textTheme.titleLarge!;
 
-    // on tap show menu (copy, delete, forward)
-    return Align(
-      alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: onTap,
-        child: Ink(
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: borderRadius,
+    final themeData = MessageThemeData(
+      direction: data.isMine ? MessageDirection.end : MessageDirection.start,
+      borderRadius: borderRadius,
+      textStyle: textStyle.copyWith(color: colorScheme.onPrimaryContainer),
+      cardColor: colorScheme.primaryContainer,
+      imageDateTextStyle: textTheme.labelSmall!.copyWith(
+        color: Colors.white,
+      ),
+      textDateTextStyle: textTheme.labelSmall!.copyWith(
+        color: colorScheme.onPrimaryContainer,
+      ),
+    );
+
+    return MessageTheme(
+      data: themeData,
+      child: child,
+    );
+  }
+}
+
+class _ImageMessageListTile extends StatelessWidget {
+  const _ImageMessageListTile(this.value);
+
+  final MessageImage value;
+
+  @override
+  Widget build(BuildContext context) {
+    final messageTheme = MessageTheme.of(context).data;
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Stack(
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: ClipRRect(
+              borderRadius: messageTheme.borderRadius,
+              child: CachedNetworkImage(
+                imageUrl: value.imageUrl!,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          child: Text(
-            current.content,
-            style: TextStyle(color: foregroundColor),
+          Positioned(
+            bottom: 8,
+            right: 8,
+            child: Container(
+              padding: const EdgeInsets.all(6.0),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+              child: Text(
+                value.timestamp.format(),
+                style: messageTheme.imageDateTextStyle,
+              ),
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TextMessageListTile extends StatelessWidget {
+  const _TextMessageListTile(this.message);
+
+  final MessageText message;
+
+  @override
+  Widget build(BuildContext context) {
+    final messageTheme = MessageTheme.of(context).data;
+
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message.content),
+          Text(
+            message.timestamp.format(),
+            style: messageTheme.textDateTextStyle,
+          ),
+        ],
       ),
     );
   }
@@ -410,21 +562,5 @@ class _DiscussionInputSection extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-extension<T> on AsyncSnapshot<T> {
-  R when<R>({
-    required R Function(T? data) data,
-    required R Function(Object? error, StackTrace stackTrace) error,
-    required R Function() loading,
-  }) {
-    if (hasError) {
-      return error(this.error, stackTrace!);
-    } else if (hasData) {
-      return data(this.data);
-    } else {
-      return loading();
-    }
   }
 }
