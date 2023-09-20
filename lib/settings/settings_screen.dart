@@ -15,6 +15,13 @@ class SettingsScreen extends HookWidget {
     final settings = BlocProvider.of<SettingsCubit>(context);
 
     final l10n = AppLocalizations.of(context)!;
+    final List<Color> colors = [
+      defaultSeedColor,
+      const Color(0xffFEF5C3),
+      const Color(0xffF3E8E7),
+      const Color(0xffA7595D),
+      ...Colors.primaries,
+    ];
 
     return BlocBuilder<SettingsCubit, SettingsState>(
       bloc: settings,
@@ -96,7 +103,7 @@ class SettingsScreen extends HookWidget {
                 },
               ),
               Wrap(
-                children: [defaultSeedColor, ...Colors.primaries].map((e) {
+                children: colors.map((e) {
                   final borderRadius = BorderRadius.circular(16);
                   final selected = state.seedColor == e;
                   final foregroundColor = estimateForegroundColor(e);

@@ -99,7 +99,10 @@ class SignUpScreen extends HookWidget {
                           );
                         },
                   child: state.maybeWhen(
-                    loading: () => const CircularProgressIndicator(),
+                    loading: () => const SizedBox.square(
+                      dimension: 24,
+                      child: CircularProgressIndicator(),
+                    ),
                     orElse: () => Text(l10n.signUp),
                   ),
                 ),

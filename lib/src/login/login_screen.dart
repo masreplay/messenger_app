@@ -44,7 +44,6 @@ class LoginScreen extends HookWidget {
           const Slogan(),
           const Spacer(),
           EmailFormField(controller: email),
-          const Gap(),
           PasswordFormField(
             controller: password,
             obscure: obscure.value,

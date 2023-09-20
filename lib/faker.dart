@@ -11,6 +11,6 @@ class Faker {
   static const String _moEmail = "mohammedatheer@gmail.com";
   static const String _moPassword = "12345678";
 
-  static const String email = _moEmail, password = _moPassword, name = _moName;
-  // static const String email = _ryEmail, password = _ryPassword, name = _ryName;
+  // static const String email = _moEmail, password = _moPassword, name = _moName;
+  static const String email = _ryEmail, password = _ryPassword, name = _ryName;
 }
