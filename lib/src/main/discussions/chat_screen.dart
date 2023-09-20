@@ -1,6 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -96,7 +97,7 @@ class ChatScreen extends HookWidget {
                         .collection(FirebaseCollections.discussions)
                         .doc(group.id)
                         .collection(group.id)
-                        .orderBy('timestamp', descending: true)
+                        .orderBy('timestamp', descending: false)
                         .limit(limit.value)
                         .snapshots()
                         .map((event) => event.docs
@@ -116,11 +117,11 @@ class ChatScreen extends HookWidget {
                           horizontal: 16.0,
                         ),
                         itemCount: messages.length,
-                        reverse: true,
+                        reverse: false,
                         itemBuilder: (context, index) {
                           final message = messages[index];
 
-                          MessageListTile(
+                          return MessageListTile(
                             pervious: null,
                             current: message,
                             next: null,
@@ -212,13 +213,18 @@ class MessageListTile extends StatelessWidget {
 
     final isMine = currentId == group.userId;
 
-    int messagesLength = 10;
-    if (messagesLength == 1) {
-      borderRadius = borderRadius;
-    } else if (currentId != previousId && currentId == nextId) {
+    debugPrint(
+      "message: ${current.content},\n"
+      "previousId: $previousId,\n"
+      "currentId: $currentId,\n"
+      "nextId: $nextId,\n"
+      "isMine: $isMine\n",
+    );
+
+    if (currentId != previousId && currentId == nextId) {
       borderRadius = borderRadius.copyWith(topLeft: Radius.zero);
-    } else {
-      borderRadius = borderRadius;
+    } else if (currentId == previousId && currentId != nextId) {
+      borderRadius = borderRadius.copyWith(bottomLeft: Radius.zero);
     }
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -277,12 +283,28 @@ class _ChatInputSection extends StatelessWidget {
               suffixIcon: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: text.isEmpty
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.photo_outlined,
-                          color: foregroundColor,
-                        ),
-                        onPressed: () {},
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (kDebugMode)
+                            IconButton(
+                              icon: Icon(
+                                Icons.bug_report_outlined,
+                                color: foregroundColor,
+                              ),
+                              onPressed: () {
+                                controller.text = faker.person.name();
+                              },
+                            ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.photo_outlined,
+                              color: foregroundColor,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
                       )
                     : IconButton(
                         icon: Icon(
