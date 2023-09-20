@@ -1,9 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/firebase.dart';
@@ -22,6 +24,8 @@ class _FirebaseFolders {
 typedef _ImageFile = ({String path, String name});
 
 /// This is the screen that shows the stickers settings only in [kDebugMode].
+///
+/// This code has not been tested or maintained.
 @RoutePage()
 class StickersScreen extends StatefulWidget {
   const StickersScreen({super.key});
@@ -36,6 +40,39 @@ class _StickersScreenState extends State<StickersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Stickers'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final value = await ImagePicker().pickImage(
+            source: ImageSource.gallery,
+          );
+
+          if (value == null) return;
+
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child(_FirebaseFolders.emojis)
+              .child("${value.name}${DateTime.now().millisecondsSinceEpoch}");
+
+          final uploadTask = await ref.putFile(
+            File(value.path),
+            SettableMetadata(
+              contentType: 'image/png',
+            ),
+          );
+
+          final url = await uploadTask.ref.getDownloadURL();
+          final name = uploadTask.metadata?.name ?? "";
+
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (context) => _StickerCreateDialog(
+              (path: url, name: name),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
       body: FutureBuilder(
         future: _getStickers(),
@@ -52,7 +89,7 @@ class _StickersScreenState extends State<StickersScreen> {
                   return ListTile(
                     leading: SizedBox.square(
                       dimension: 56,
-                      child: CachedNetworkImage(imageUrl: item.path),
+                      child: Image.network(item.path),
                     ),
                     title: sticker == null ? null : Text(sticker.nickname),
                     subtitle: Text(

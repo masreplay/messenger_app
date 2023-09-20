@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,9 @@ import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
+import 'package:messenger_app/src/main/discussions/image_screen.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
+import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
@@ -80,7 +83,7 @@ class MessageState {
 }
 
 /// This is the screen that shows the discussion between two users.
-/// 
+///
 /// This screen is not used in the app, but it's used in the deep link.
 /// /discussion/{peerId}
 @RoutePage()
@@ -89,8 +92,6 @@ class DiscussionScreen extends HookWidget {
     super.key,
     @pathParam required this.peerId,
   });
-
-    
 
   /// Not passing the user object because of deep link
   final String peerId;
@@ -326,42 +327,68 @@ class _MessagesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      reverse: true,
-      itemCount: messages.length,
-      controller: controller,
-      padding: const EdgeInsets.all(16.0),
-      separatorBuilder: (_, __) => const Gap(size: 8),
-      itemBuilder: (context, index) {
-        final data = MessageState(
-          group: group,
-          pervious: index > 0 ? messages[index - 1] : null,
-          current: messages[index],
-          next: index < messages.length - 1 ? messages[index + 1] : null,
-        );
+    return ScrollToBottom(
+      scrollController: controller,
+      child: ListView.separated(
+        reverse: true,
+        itemCount: messages.length,
+        controller: controller,
+        padding: const EdgeInsets.all(16.0),
+        separatorBuilder: (_, __) => const Gap(size: 8),
+        itemBuilder: (context, index) {
+          final data = MessageState(
+            group: group,
+            pervious: index > 0 ? messages[index - 1] : null,
+            current: messages[index],
+            next: index < messages.length - 1 ? messages[index + 1] : null,
+          );
 
-        return MessageThemeWrapper(
-          data: data,
-          child: _MessageListTile(
+          return MessageThemeWrapper(
             data: data,
-            onTap: () {
-              if (data.current.idFrom != group.userId) return;
-              showModalBottomSheet(
-                context: context,
-                showDragHandle: true,
-                builder: (context) {
-                  return const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        );
-      },
+            child: _MessageListTile(
+              data: data,
+              onTap: () {
+                data.current.maybeMap(
+                  text: (value) {
+                    showModalBottomSheet(
+                      context: context,
+                      showDragHandle: true,
+                      builder: (context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // copy
+                            ListTile(
+                              leading: const Icon(Icons.copy_outlined),
+                              title: const Text("Copy"),
+                              onTap: () {
+                                Clipboard.setData(
+                                  ClipboardData(text: value.content),
+                                );
+                                context.router.pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  image: (value) {
+                    context.router.pushNativeRoute(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ImageScreen(imageUrl: value.imageUrl!);
+                        },
+                      ),
+                    );
+                  },
+                  orElse: () {},
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -552,9 +579,12 @@ class _ImageMessageListTile extends StatelessWidget {
             aspectRatio: 1,
             child: ClipRRect(
               borderRadius: messageTheme.borderRadius,
-              child: CachedNetworkImage(
-                imageUrl: value.imageUrl!,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: value.imageUrl!,
+                child: CachedNetworkImage(
+                  imageUrl: value.imageUrl!,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
