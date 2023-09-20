@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:messenger_app/router/auth_guard.dart';
 import 'package:messenger_app/settings/settings_screen.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
