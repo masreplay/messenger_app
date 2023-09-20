@@ -34,10 +34,11 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
       final uid = credential.user!.uid;
 
       if (credential.additionalUserInfo?.isNewUser == true) {
-        final result = await FirebaseFirestore.instance
+        final docRef = FirebaseFirestore.instance
             .collection(FirebaseCollections.users)
-            .doc(uid)
-            .get();
+            .doc(uid);
+
+        final result = await docRef.get();
 
         if (!result.exists) {
           final user = UserCreate(
@@ -47,10 +48,7 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
             createdAt: FieldValue.serverTimestamp(),
             avatar: null,
           );
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(uid)
-              .set(user.toJson());
+          await docRef.set(user.toJson());
         }
       }
 

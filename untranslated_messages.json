@@ -1,6 +1,8 @@
 {
   "ar": [
-    "messageHintText",
-    "refresh"
+    "camera",
+    "photo",
+    "removeImage",
+    "send"
   ]
 }

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
@@ -32,7 +35,7 @@ class DiscussionScreen extends HookWidget {
     // Message
     final controller = useTextEditingController();
     final focusNode = useFocusNode();
-    // final image = useState<File?>(null);
+    final image = useState<File?>(null);
 
     final scroll = useScrollController();
     scroll.addListener(() {
@@ -43,82 +46,117 @@ class DiscussionScreen extends HookWidget {
       }
     });
 
-    return FutureBuilder(
-      future: service.getPeerById(peerId),
-      builder: (context, snapshot) => snapshot.when(
-        data: (data) {
-          final user = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(title: Text(user.name)),
-            body: Column(
-              children: [
-                Expanded(
-                  child: StreamBuilder(
-                    stream: service.getMessages(limit: limit.value),
-                    builder: (context, snapshot) => snapshot.when(
-                      data: (data) {
-                        final messages = snapshot.data ?? [];
-                        return _MessagesListView(
-                          messages: messages,
-                          group: group,
-                        );
-                      },
-                      error: DefaultErrorWidget.call(() {
-                        context.router.pop();
-                      }),
-                      loading: DefaultLoadingWidget.new,
+    return Scaffold(
+      body: FutureBuilder(
+        future: service.getPeerById(peerId),
+        builder: (context, snapshot) => snapshot.when(
+          data: (data) {
+            final user = snapshot.data!;
+            return Scaffold(
+              appBar: AppBar(title: Text(user.name)),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: service.getMessages(limit: limit.value),
+                      builder: (context, snapshot) => snapshot.when(
+                        data: (data) {
+                          final messages = snapshot.data ?? [];
+                          return _MessagesListView(
+                            messages: messages,
+                            group: group,
+                          );
+                        },
+                        error: DefaultErrorWidget.call(() {
+                          context.router.pop();
+                        }),
+                        loading: DefaultLoadingWidget.new,
+                      ),
                     ),
                   ),
-                ),
-                _DiscussionInputSection(
-                  controller: controller,
-                  focusNode: focusNode,
-                  actions: [
-                    if (kDebugMode)
+                  _DiscussionInputSection(
+                    image: image,
+                    controller: controller,
+                    focusNode: focusNode,
+                    actions: [
+                      if (kDebugMode)
+                        IconButton(
+                          icon: const Icon(Icons.bug_report_outlined),
+                          onPressed: () {
+                            controller.text = faker.person.name();
+                          },
+                        ),
                       IconButton(
-                        icon: const Icon(Icons.bug_report_outlined),
+                        icon: const Icon(Icons.photo_outlined),
                         onPressed: () {
-                          controller.text = faker.person.name();
+                          _imagePickerBottomSheet(
+                            context: context,
+                            image: image,
+                          );
                         },
                       ),
-                    IconButton(
-                      icon: const Icon(Icons.photo_outlined),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  leading:
-                                      const Icon(Icons.camera_alt_outlined),
-                                  title: Text(""),
-                                  onTap: () {
-                                    // ImagePicker
-                                  },
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                  onSend: () {
-                    service.sendTextMessage(controller.text);
-                    controller.clear();
-                    focusNode.requestFocus();
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-        error: DefaultErrorWidget.call(() {
-          context.router.pop();
-        }),
-        loading: DefaultLoadingWidget.new,
+                    ],
+                    onTextSend: () {
+                      service.sendTextMessage(controller.text);
+                      controller.clear();
+                      focusNode.requestFocus();
+                    },
+                    onImageSend: () {
+                      service.sendImageMessage(image.value!);
+                      image.value = null;
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+          error: DefaultErrorWidget.call(() {
+            context.router.pop();
+          }),
+          loading: DefaultLoadingWidget.new,
+        ),
       ),
+    );
+  }
+
+  _imagePickerBottomSheet({
+    required BuildContext context,
+    required ValueNotifier<File?> image,
+  }) {
+    final l10n = AppLocalizations.of(context)!;
+
+    Future<void> getImage(ImageSource source) async {
+      final value = await ImagePicker().pickImage(source: source);
+      image.value = value == null ? null : File(value.path);
+      if (context.mounted) {
+        context.router.pop();
+      }
+    }
+
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: Text(l10n.camera),
+              onTap: () {
+                getImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_outlined),
+              title: Text(l10n.photo),
+              onTap: () {
+                getImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -256,16 +294,21 @@ class _MessageListTile extends StatelessWidget {
 
 class _DiscussionInputSection extends StatelessWidget {
   const _DiscussionInputSection({
+    required this.image,
     required this.controller,
     required this.focusNode,
     required this.actions,
-    required this.onSend,
+    required this.onTextSend,
+    required this.onImageSend,
   });
 
+  final ValueNotifier<File?> image;
   final TextEditingController controller;
   final FocusNode focusNode;
   final List<IconButton> actions;
-  final VoidCallback onSend;
+  final VoidCallback onTextSend;
+  final VoidCallback onImageSend;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -277,39 +320,94 @@ class _DiscussionInputSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(color: backgroundColor),
-      child: ValueListenableBuilder(
-        valueListenable: controller,
-        builder: (context, value, child) {
-          final text = value.text;
-          return TextFormField(
-            controller: controller,
-            focusNode: focusNode,
-            maxLength: 1000,
-            maxLines: 4,
-            minLines: 1,
-            style: TextStyle(color: foregroundColor),
-            decoration: InputDecoration(
-              hintText: l10n.messageHintText,
-              border: InputBorder.none,
-              suffixIcon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: text.isEmpty
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: actions,
-                      )
-                    : IconButton(
-                        icon: Icon(
-                          Icons.send_outlined,
-                          color: foregroundColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ValueListenableBuilder(
+            valueListenable: image,
+            builder: (context, value, child) {
+              final borderRadius = BorderRadius.circular(8.0);
+              if (value == null) return const SizedBox.shrink();
+              return Row(
+                children: [
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadius,
+                      border: Border.all(color: colorScheme.outline),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: borderRadius,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.file(
+                          value,
+                          fit: BoxFit.cover,
                         ),
-                        onPressed: onSend,
                       ),
-              ),
-            ),
-          );
-        },
+                    ),
+                  ),
+                  const Gap(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FilledButton.icon(
+                        onPressed: onImageSend,
+                        icon: const Icon(Icons.send_outlined),
+                        label: Text(l10n.send),
+                      ),
+                      FilledButton.icon(
+                        onPressed: () {
+                          image.value = null;
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: colorScheme.error,
+                          foregroundColor: colorScheme.onError,
+                        ),
+                        icon: const Icon(Icons.remove_outlined),
+                        label: Text(l10n.removeImage),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+          ValueListenableBuilder(
+            valueListenable: controller,
+            builder: (context, value, child) {
+              final text = value.text;
+              return TextFormField(
+                controller: controller,
+                focusNode: focusNode,
+                maxLength: 1000,
+                maxLines: 4,
+                minLines: 1,
+                style: TextStyle(color: foregroundColor),
+                decoration: InputDecoration(
+                  hintText: l10n.messageHintText,
+                  border: InputBorder.none,
+                  suffixIcon: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: text.isEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: actions,
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Icons.send_outlined,
+                              color: foregroundColor,
+                            ),
+                            onPressed: onTextSend,
+                          ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

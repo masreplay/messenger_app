@@ -18,7 +18,7 @@ LoginCubitException _$LoginCubitExceptionFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'weak-password':
       return LoginCubitExceptionWeakPassword.fromJson(json);
-    case 'invalid-login-credentials':
+    case 'INVALID_LOGIN_CREDENTIALS':
       return LoginCubitExceptionEmailAlreadyInUse.fromJson(json);
 
     default:
@@ -260,7 +260,7 @@ class __$$LoginCubitExceptionEmailAlreadyInUseCopyWithImpl<$Res>
 class _$LoginCubitExceptionEmailAlreadyInUse
     extends LoginCubitExceptionEmailAlreadyInUse {
   const _$LoginCubitExceptionEmailAlreadyInUse({final String? $type})
-      : $type = $type ?? 'invalid-login-credentials',
+      : $type = $type ?? 'INVALID_LOGIN_CREDENTIALS',
         super._();
 
   factory _$LoginCubitExceptionEmailAlreadyInUse.fromJson(

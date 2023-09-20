@@ -22,6 +22,12 @@
     "messageHintText": "Message",
     "copyMessage": "Copy Message",
     "refresh": "Refresh",
+    "invalidLoginCredentials": "Invalid login credentials",
+    "emailAlreadyInUse": "Email already in use",
+    "camera": "Camera",
+    "photo": "Photo",
+    "removeImage": "Remove",
+    "send": "Send",
     "@validationMinLength": {
         "placeholders": {
             "n": {

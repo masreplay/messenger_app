@@ -80,6 +80,11 @@ class LoginScreen extends HookWidget {
                             },
                             error: (error, stackTrace) {
                               error.maybeWhen(
+                                invalidLoginCredentials: () {
+                                  context.showErrorSnackBar(
+                                    l10n.invalidLoginCredentials,
+                                  );
+                                },
                                 orElse: context.showDefaultErrorSnackBar,
                               );
                             },

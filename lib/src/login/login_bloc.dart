@@ -53,6 +53,7 @@ class LoginCubitException with _$LoginCubitException {
   const factory LoginCubitException.weakPassword() =
       LoginCubitExceptionWeakPassword;
 
+  @FreezedUnionValue("INVALID_LOGIN_CREDENTIALS")
   const factory LoginCubitException.invalidLoginCredentials() =
       LoginCubitExceptionEmailAlreadyInUse;
 

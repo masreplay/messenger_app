@@ -89,7 +89,10 @@ class SignUpScreen extends HookWidget {
                             },
                             error: (error, stackTrace) {
                               error.maybeWhen(
-                                emailAlreadyInUse: () {},
+                                emailAlreadyInUse: () {
+                                  context.showErrorSnackBar(
+                                      l10n.emailAlreadyInUse);
+                                },
                                 orElse: context.showDefaultErrorSnackBar,
                               );
                             },
