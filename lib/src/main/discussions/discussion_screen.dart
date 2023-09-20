@@ -1,18 +1,22 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/date_time.dart';
+import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
+import 'package:messenger_app/src/main/discussions/sticker.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
@@ -135,7 +139,17 @@ class _DiscussionViewState extends State<_DiscussionView> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.peer.name)),
+      appBar: AppBar(
+        title: Text(widget.peer.name),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.call),
+            onPressed: () {
+              context.showUnimplementedSnackBar();
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -154,6 +168,11 @@ class _DiscussionViewState extends State<_DiscussionView> {
                 loading: DefaultLoadingWidget.new,
               ),
             ),
+          ),
+          _StickersSection(
+            onChanged: (value) {
+              service.sendStickerMessage(value);
+            },
           ),
           _DiscussionInputSection(
             image: image,
@@ -174,6 +193,12 @@ class _DiscussionViewState extends State<_DiscussionView> {
                     context: context,
                     image: image,
                   );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.mic_outlined),
+                onPressed: () {
+                  context.showUnimplementedSnackBar();
                 },
               ),
             ],
@@ -232,6 +257,55 @@ class _DiscussionViewState extends State<_DiscussionView> {
       },
     );
   }
+}
+
+class _StickersSection extends StatelessWidget {
+  const _StickersSection({
+    required this.onChanged,
+  });
+
+  final ValueChanged<Sticker> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      padding: const EdgeInsets.all(8.0),
+      color: Theme.of(context).colorScheme.tertiaryContainer,
+      child: FutureBuilder(
+        future: _getStickers(),
+        builder: (context, snapshot) => snapshot.when(
+          data: (data) => ListView.builder(
+            itemCount: data!.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final sticker = data[index];
+              return Tooltip(
+                message: "${sticker.nickname} ${sticker.emoji}",
+                child: InkWell(
+                  onTap: () {
+                    onChanged(sticker);
+                  },
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: CachedNetworkImage(imageUrl: sticker.path),
+                  ),
+                ),
+              );
+            },
+          ),
+          error: DefaultErrorWidget.call(context.router.pop),
+          loading: DefaultLoadingWidget.new,
+        ),
+      ),
+    );
+  }
+
+  Future<List<Sticker>> _getStickers() => FirebaseFirestore.instance
+      .collection(FirebaseCollections.stickers)
+      .get()
+      .then(
+          (value) => value.docs.map((e) => Sticker.fromJson(e.map())).toList());
 }
 
 class _MessagesListView extends StatelessWidget {
@@ -310,9 +384,64 @@ class _MessageListTile extends StatelessWidget {
             color: theme.cardColor,
             borderRadius: theme.borderRadius,
           ),
+          // it's better to use switch case here
           child: data.current.map(
             text: _TextMessageListTile.new,
             image: _ImageMessageListTile.new,
+            sticker: _StickerMessageListTile.new,
+            fallback: _FallbackMessageListTile.new,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FallbackMessageListTile extends StatelessWidget {
+  const _FallbackMessageListTile(this.value);
+
+  final MessageFallback value;
+
+  @override
+  Widget build(BuildContext context) {
+    final messageTheme = MessageTheme.of(context).data;
+
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value.runtimeType.toString(),
+            style: messageTheme.textStyle,
+          ),
+          Text(
+            value.timestamp.format(),
+            style: messageTheme.dateTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StickerMessageListTile extends StatelessWidget {
+  const _StickerMessageListTile(this.value);
+
+  final MessageSticker value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: SizedBox.square(
+        dimension: 100,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: CachedNetworkImage(
+            imageUrl: value.sticker.path,
+            fit: BoxFit.cover,
           ),
         ),
       ),
@@ -562,7 +691,8 @@ class _DiscussionInputSection extends StatelessWidget {
               return TextFormField(
                 controller: controller,
                 focusNode: focusNode,
-                maxLength: 1000,
+                // uncomment to set max length
+                // maxLength: 1000,
                 maxLines: 4,
                 minLines: 1,
                 style: TextStyle(color: foregroundColor),

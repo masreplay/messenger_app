@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
+import 'package:messenger_app/src/main/discussions/sticker.dart';
 
 part 'chat_service.freezed.dart';
 part 'chat_service.g.dart';
@@ -64,6 +65,16 @@ class DiscussionService {
   Future<Transaction> _runTxn(Message chat) =>
       FirebaseFirestore.instance.runTransaction(
           (transaction) async => transaction.set(_chat(), chat.toJson()));
+
+  Future<Transaction> sendStickerMessage(Sticker sticker) {
+    final chat = Message.sticker(
+      idFrom: _group.userId,
+      idTo: _group.peerId,
+      timestamp: DateTime.now(),
+      sticker: sticker,
+    );
+    return _runTxn(chat);
+  }
 
   Future<Transaction> sendTextMessage(String text) {
     final chat = Message.text(

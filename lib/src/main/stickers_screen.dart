@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/form_body.dart';
 import 'package:messenger_app/hook/form_key.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
@@ -50,7 +52,7 @@ class _StickersScreenState extends State<StickersScreen> {
                   return ListTile(
                     leading: SizedBox.square(
                       dimension: 56,
-                      child: Image.network(item.path),
+                      child: CachedNetworkImage(imageUrl: item.path),
                     ),
                     title: sticker == null ? null : Text(sticker.nickname),
                     subtitle: Text(
@@ -87,6 +89,15 @@ class _StickersScreenState extends State<StickersScreen> {
                               child: Text(sticker.emoji),
                             ),
                           ),
+                          IconButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection(FirebaseCollections.stickers)
+                                  .doc(sticker.id)
+                                  .delete();
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
                         ]
                       ],
                     ),
@@ -118,8 +129,8 @@ class _StickersScreenState extends State<StickersScreen> {
   Future<List<Sticker>> _getStickers() => FirebaseFirestore.instance
       .collection(FirebaseCollections.stickers)
       .get()
-      .then((value) =>
-          value.docs.map((e) => Sticker.fromJson(e.data())).toList());
+      .then(
+          (value) => value.docs.map((e) => Sticker.fromJson(e.map())).toList());
 }
 
 class _StickerCreateDialog extends HookWidget {
@@ -154,7 +165,7 @@ class _StickerCreateDialog extends HookWidget {
                 return;
               }
 
-              final sticker = Sticker(
+              final sticker = StickerCreate(
                 nickname: nickname.text,
                 emoji: emoji.text,
                 path: file.path,

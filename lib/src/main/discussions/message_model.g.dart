@@ -45,3 +45,39 @@ Map<String, dynamic> _$$MessageImageToJson(_$MessageImage instance) =>
       'caption': instance.caption,
       'type': instance.$type,
     };
+
+_$MessageSticker _$$MessageStickerFromJson(Map<String, dynamic> json) =>
+    _$MessageSticker(
+      idFrom: json['idFrom'] as String,
+      idTo: json['idTo'] as String,
+      timestamp:
+          const TimeStampJsonConverter().fromJson(json['timestamp'] as String),
+      sticker: Sticker.fromJson(json['sticker'] as Map<String, dynamic>),
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$$MessageStickerToJson(_$MessageSticker instance) =>
+    <String, dynamic>{
+      'idFrom': instance.idFrom,
+      'idTo': instance.idTo,
+      'timestamp': const TimeStampJsonConverter().toJson(instance.timestamp),
+      'sticker': instance.sticker.toJson(),
+      'type': instance.$type,
+    };
+
+_$MessageFallback _$$MessageFallbackFromJson(Map<String, dynamic> json) =>
+    _$MessageFallback(
+      idFrom: json['idFrom'] as String,
+      idTo: json['idTo'] as String,
+      timestamp:
+          const TimeStampJsonConverter().fromJson(json['timestamp'] as String),
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$$MessageFallbackToJson(_$MessageFallback instance) =>
+    <String, dynamic>{
+      'idFrom': instance.idFrom,
+      'idTo': instance.idTo,
+      'timestamp': const TimeStampJsonConverter().toJson(instance.timestamp),
+      'type': instance.$type,
+    };
