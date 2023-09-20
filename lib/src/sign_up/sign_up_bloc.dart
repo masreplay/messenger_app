@@ -33,7 +33,7 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
 
       final uid = credential.user!.uid;
 
-      if (credential.additionalUserInfo?.isNewUser == true) {
+      if (credential.additionalUserInfo!.isNewUser) {
         final docRef = FirebaseFirestore.instance
             .collection(FirebaseCollections.users)
             .doc(uid);
@@ -55,16 +55,20 @@ class SignUpCubit extends Cubit<SignUpCubitState> {
       emit(SignUpCubitState.data(credential));
     } on FirebaseAuthException catch (e, stackTrace) {
       log(toString(), error: e, stackTrace: stackTrace);
-      emit(SignUpCubitState.error(
-        SignUpCubitException.fromType(e.code),
-        stackTrace,
-      ));
+      emit(
+        SignUpCubitState.error(
+          SignUpCubitException.fromType(e.code),
+          stackTrace,
+        ),
+      );
     } catch (e, stackTrace) {
       log(toString(), error: e, stackTrace: stackTrace);
-      emit(SignUpCubitState.error(
-        SignUpCubitException.other(e),
-        stackTrace,
-      ));
+      emit(
+        SignUpCubitState.error(
+          SignUpCubitException.other(e),
+          stackTrace,
+        ),
+      );
     }
   }
 }

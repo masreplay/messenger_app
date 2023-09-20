@@ -23,13 +23,13 @@ class SignUpScreen extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
 
     final email = useTextEditingController(
-      text: kDebugMode ? "mohammedatheer@thekeysoftware.com" : null,
+      text: kDebugMode ? Faker.email : null,
     );
     final password = useTextEditingController(
-      text: kDebugMode ? "12345678" : null,
+      text: kDebugMode ? Faker.password : null,
     );
     final name = useTextEditingController(
-      text: kDebugMode ? "محمد اثير ساطع" : null,
+      text: kDebugMode ? Faker.name : null,
     );
 
     final obscure = useState(true);
@@ -83,7 +83,7 @@ class SignUpScreen extends HookWidget {
                           );
 
                           await cubit.signUp(body);
-                          state.whenOrNull(
+                          cubit.state.whenOrNull(
                             data: (data) {
                               context.router.replaceInitialRoute();
                             },
