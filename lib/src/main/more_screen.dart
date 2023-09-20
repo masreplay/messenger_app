@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
@@ -42,6 +43,14 @@ class _MoreScreenState extends State<MoreScreen> {
               context.router.push(const SettingsRoute());
             },
           ),
+          if (kDebugMode)
+            ListTile(
+              leading: const Icon(Icons.sticky_note_2),
+              title: const Text("Stickers"),
+              onTap: () {
+                context.router.push(const StickersRoute());
+              },
+            ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: Text(l10n.logout),

@@ -64,6 +64,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SignUpScreen(),
       );
     },
+    StickersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StickersScreen(),
+      );
+    },
   };
 }
 
@@ -186,6 +192,20 @@ class SignUpRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SignUpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [StickersScreen]
+class StickersRoute extends PageRouteInfo<void> {
+  const StickersRoute({List<PageRouteInfo>? children})
+      : super(
+          StickersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StickersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

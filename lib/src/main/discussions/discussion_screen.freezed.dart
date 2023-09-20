@@ -21,7 +21,7 @@ mixin _$MessageThemeData {
   TextStyle get textStyle => throw _privateConstructorUsedError;
   Color get cardColor => throw _privateConstructorUsedError;
   TextStyle get imageDateTextStyle => throw _privateConstructorUsedError;
-  TextStyle get textDateTextStyle => throw _privateConstructorUsedError;
+  TextStyle get dateTextStyle => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MessageThemeDataCopyWith<MessageThemeData> get copyWith =>
@@ -40,7 +40,7 @@ abstract class $MessageThemeDataCopyWith<$Res> {
       TextStyle textStyle,
       Color cardColor,
       TextStyle imageDateTextStyle,
-      TextStyle textDateTextStyle});
+      TextStyle dateTextStyle});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$MessageThemeDataCopyWithImpl<$Res, $Val extends MessageThemeData>
     Object? textStyle = null,
     Object? cardColor = null,
     Object? imageDateTextStyle = null,
-    Object? textDateTextStyle = null,
+    Object? dateTextStyle = null,
   }) {
     return _then(_value.copyWith(
       direction: null == direction
@@ -84,9 +84,9 @@ class _$MessageThemeDataCopyWithImpl<$Res, $Val extends MessageThemeData>
           ? _value.imageDateTextStyle
           : imageDateTextStyle // ignore: cast_nullable_to_non_nullable
               as TextStyle,
-      textDateTextStyle: null == textDateTextStyle
-          ? _value.textDateTextStyle
-          : textDateTextStyle // ignore: cast_nullable_to_non_nullable
+      dateTextStyle: null == dateTextStyle
+          ? _value.dateTextStyle
+          : dateTextStyle // ignore: cast_nullable_to_non_nullable
               as TextStyle,
     ) as $Val);
   }
@@ -106,7 +106,7 @@ abstract class _$$_MessageThemeDataCopyWith<$Res>
       TextStyle textStyle,
       Color cardColor,
       TextStyle imageDateTextStyle,
-      TextStyle textDateTextStyle});
+      TextStyle dateTextStyle});
 }
 
 /// @nodoc
@@ -125,7 +125,7 @@ class __$$_MessageThemeDataCopyWithImpl<$Res>
     Object? textStyle = null,
     Object? cardColor = null,
     Object? imageDateTextStyle = null,
-    Object? textDateTextStyle = null,
+    Object? dateTextStyle = null,
   }) {
     return _then(_$_MessageThemeData(
       direction: null == direction
@@ -148,9 +148,9 @@ class __$$_MessageThemeDataCopyWithImpl<$Res>
           ? _value.imageDateTextStyle
           : imageDateTextStyle // ignore: cast_nullable_to_non_nullable
               as TextStyle,
-      textDateTextStyle: null == textDateTextStyle
-          ? _value.textDateTextStyle
-          : textDateTextStyle // ignore: cast_nullable_to_non_nullable
+      dateTextStyle: null == dateTextStyle
+          ? _value.dateTextStyle
+          : dateTextStyle // ignore: cast_nullable_to_non_nullable
               as TextStyle,
     ));
   }
@@ -167,7 +167,7 @@ class _$_MessageThemeData
       required this.textStyle,
       required this.cardColor,
       required this.imageDateTextStyle,
-      required this.textDateTextStyle});
+      required this.dateTextStyle});
 
   @override
   final MessageDirection direction;
@@ -180,11 +180,11 @@ class _$_MessageThemeData
   @override
   final TextStyle imageDateTextStyle;
   @override
-  final TextStyle textDateTextStyle;
+  final TextStyle dateTextStyle;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MessageThemeData(direction: $direction, borderRadius: $borderRadius, textStyle: $textStyle, cardColor: $cardColor, imageDateTextStyle: $imageDateTextStyle, textDateTextStyle: $textDateTextStyle)';
+    return 'MessageThemeData(direction: $direction, borderRadius: $borderRadius, textStyle: $textStyle, cardColor: $cardColor, imageDateTextStyle: $imageDateTextStyle, dateTextStyle: $dateTextStyle)';
   }
 
   @override
@@ -197,7 +197,7 @@ class _$_MessageThemeData
       ..add(DiagnosticsProperty('textStyle', textStyle))
       ..add(DiagnosticsProperty('cardColor', cardColor))
       ..add(DiagnosticsProperty('imageDateTextStyle', imageDateTextStyle))
-      ..add(DiagnosticsProperty('textDateTextStyle', textDateTextStyle));
+      ..add(DiagnosticsProperty('dateTextStyle', dateTextStyle));
   }
 
   @override
@@ -215,13 +215,13 @@ class _$_MessageThemeData
                 other.cardColor == cardColor) &&
             (identical(other.imageDateTextStyle, imageDateTextStyle) ||
                 other.imageDateTextStyle == imageDateTextStyle) &&
-            (identical(other.textDateTextStyle, textDateTextStyle) ||
-                other.textDateTextStyle == textDateTextStyle));
+            (identical(other.dateTextStyle, dateTextStyle) ||
+                other.dateTextStyle == dateTextStyle));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, direction, borderRadius,
-      textStyle, cardColor, imageDateTextStyle, textDateTextStyle);
+      textStyle, cardColor, imageDateTextStyle, dateTextStyle);
 
   @JsonKey(ignore: true)
   @override
@@ -237,7 +237,7 @@ abstract class _MessageThemeData implements MessageThemeData {
       required final TextStyle textStyle,
       required final Color cardColor,
       required final TextStyle imageDateTextStyle,
-      required final TextStyle textDateTextStyle}) = _$_MessageThemeData;
+      required final TextStyle dateTextStyle}) = _$_MessageThemeData;
 
   @override
   MessageDirection get direction;
@@ -250,7 +250,7 @@ abstract class _MessageThemeData implements MessageThemeData {
   @override
   TextStyle get imageDateTextStyle;
   @override
-  TextStyle get textDateTextStyle;
+  TextStyle get dateTextStyle;
   @override
   @JsonKey(ignore: true)
   _$$_MessageThemeDataCopyWith<_$_MessageThemeData> get copyWith =>

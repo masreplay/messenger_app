@@ -21,12 +21,12 @@ import 'chat_service.dart';
 part 'discussion_screen.freezed.dart';
 
 enum MessageDirection {
-  start,
-  end;
+  right,
+  left;
 
   Alignment get alignment => switch (this) {
-        MessageDirection.start => Alignment.centerLeft,
-        MessageDirection.end => Alignment.centerRight
+        MessageDirection.right => Alignment.centerRight,
+        MessageDirection.left => Alignment.centerLeft,
       };
 }
 
@@ -38,7 +38,7 @@ class MessageThemeData with _$MessageThemeData {
     required TextStyle textStyle,
     required Color cardColor,
     required TextStyle imageDateTextStyle,
-    required TextStyle textDateTextStyle,
+    required TextStyle dateTextStyle,
   }) = _MessageThemeData;
 }
 
@@ -301,7 +301,7 @@ class _MessageListTile extends StatelessWidget {
     final theme = MessageTheme.of(context).data;
 
     return Align(
-      alignment: data.isMine ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: theme.direction.alignment,
       child: InkWell(
         borderRadius: theme.borderRadius,
         onTap: onTap,
@@ -335,35 +335,62 @@ class MessageThemeWrapper extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
-    const sharpRadius = Radius.circular(4.0);
+    final direction =
+        data.isMine ? MessageDirection.right : MessageDirection.left;
+
+    const sharpRadius = Radius.circular(0.0);
     var borderRadius = BorderRadius.circular(25.0);
 
     final isNextMine = data.current.idFrom == data.next?.idFrom;
     final isPreviousMine = data.current.idFrom == data.pervious?.idFrom;
 
     if (!isPreviousMine && isNextMine) {
-      borderRadius = borderRadius.copyWith(topRight: sharpRadius);
+      borderRadius = switch (direction) {
+        MessageDirection.right => borderRadius.copyWith(topRight: sharpRadius),
+        MessageDirection.left => borderRadius.copyWith(topLeft: sharpRadius),
+      };
     } else if (isPreviousMine && !isNextMine) {
-      borderRadius = borderRadius.copyWith(bottomRight: sharpRadius);
+      borderRadius = switch (direction) {
+        MessageDirection.right =>
+          borderRadius.copyWith(bottomRight: sharpRadius),
+        MessageDirection.left => borderRadius.copyWith(bottomLeft: sharpRadius),
+      };
     } else if (isPreviousMine && isNextMine) {
-      borderRadius = borderRadius.copyWith(
-        topRight: sharpRadius,
-        bottomRight: sharpRadius,
-      );
+      borderRadius = switch (direction) {
+        MessageDirection.right => borderRadius.copyWith(
+            topRight: sharpRadius,
+            bottomRight: sharpRadius,
+          ),
+        MessageDirection.left => borderRadius.copyWith(
+            topLeft: sharpRadius,
+            bottomLeft: sharpRadius,
+          ),
+      };
     }
 
-    final textStyle = textTheme.titleLarge!;
+    final textStyle = textTheme.titleMedium!;
+
+    final backgroundColor = switch (direction) {
+      MessageDirection.right => colorScheme.primaryContainer,
+      MessageDirection.left => colorScheme.secondaryContainer,
+    };
+    final foregroundColor = switch (direction) {
+      MessageDirection.right => colorScheme.onPrimaryContainer,
+      MessageDirection.left => colorScheme.onSecondaryContainer,
+    };
+
+    final dateTextStyle = textTheme.labelSmall!;
 
     final themeData = MessageThemeData(
-      direction: data.isMine ? MessageDirection.end : MessageDirection.start,
+      direction: direction,
       borderRadius: borderRadius,
-      textStyle: textStyle.copyWith(color: colorScheme.onPrimaryContainer),
-      cardColor: colorScheme.primaryContainer,
-      imageDateTextStyle: textTheme.labelSmall!.copyWith(
+      textStyle: textStyle.copyWith(color: foregroundColor),
+      cardColor: backgroundColor,
+      imageDateTextStyle: dateTextStyle.copyWith(
         color: Colors.white,
       ),
-      textDateTextStyle: textTheme.labelSmall!.copyWith(
-        color: colorScheme.onPrimaryContainer,
+      dateTextStyle: dateTextStyle.copyWith(
+        color: foregroundColor,
       ),
     );
 
@@ -433,10 +460,13 @@ class _TextMessageListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(message.content),
+          Text(
+            message.content,
+            style: messageTheme.textStyle,
+          ),
           Text(
             message.timestamp.format(),
-            style: messageTheme.textDateTextStyle,
+            style: messageTheme.dateTextStyle,
           ),
         ],
       ),

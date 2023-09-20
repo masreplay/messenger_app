@@ -11,7 +11,7 @@ class DefaultErrorWidget extends StatelessWidget {
 
   final Object? error;
   final StackTrace stackTrace;
-  final VoidCallback onRetry;
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,7 @@ class DefaultErrorWidget extends StatelessWidget {
   }
 
   static Widget Function(Object? error, StackTrace stackTrace) call(
-    VoidCallback onRetry,
-  ) =>
+          [VoidCallback? onRetry]) =>
       (error, stackTrace) => DefaultErrorWidget._(
             error: error,
             stackTrace: stackTrace,

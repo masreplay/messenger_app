@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger_app/router/auth_guard.dart';
 import 'package:messenger_app/settings/settings_screen.dart';
@@ -7,6 +8,7 @@ import 'package:messenger_app/src/main/discussions/discussion_screen.dart';
 import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
 import 'package:messenger_app/src/main/more_screen.dart';
+import 'package:messenger_app/src/main/stickers_screen.dart';
 import 'package:messenger_app/src/sign_up/sign_up_screen.dart';
 
 part 'app_router.gr.dart';
@@ -51,6 +53,12 @@ class AppRouter extends _$AppRouter {
         page: SettingsRoute.page,
         guards: const [AuthenticatedGuard()],
       ),
+      if (kDebugMode)
+        AutoRoute(
+          path: null,
+          page: StickersRoute.page,
+          guards: const [AuthenticatedGuard()],
+        ),
     ];
   }
 }
