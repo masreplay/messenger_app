@@ -79,12 +79,18 @@ class MessageState {
   bool get isMine => current.idFrom == group.userId;
 }
 
+/// This is the screen that shows the discussion between two users.
+/// 
+/// This screen is not used in the app, but it's used in the deep link.
+/// /discussion/{peerId}
 @RoutePage()
 class DiscussionScreen extends HookWidget {
   const DiscussionScreen({
     super.key,
     @pathParam required this.peerId,
   });
+
+    
 
   /// Not passing the user object because of deep link
   final String peerId;

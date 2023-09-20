@@ -4,6 +4,9 @@ import 'package:messenger_app/src/main/discussions/sticker.dart';
 part 'message_model.freezed.dart';
 part 'message_model.g.dart';
 
+// TODO: implement MessageMetaData
+class MessageMetaData {}
+
 mixin _MessageMixin {
   String get idFrom;
   String get idTo;
