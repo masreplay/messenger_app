@@ -19,8 +19,9 @@ Future<void> main() async {
 
   final storageDirectory = await getApplicationDocumentsDirectory();
 
-  HydratedBloc.storage =
-      await HydratedStorage.build(storageDirectory: storageDirectory);
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: storageDirectory,
+  );
 
   configureDependencies();
 

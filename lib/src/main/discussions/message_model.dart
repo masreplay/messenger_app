@@ -20,6 +20,14 @@ class Message with _$Message, _MessageMixin {
     required String content,
   }) = _MessageText;
 
+  const factory Message.image({
+    required String idFrom,
+    required String idTo,
+    @TimeStampJsonConverter() required DateTime timestamp,
+    required String? imageUrl,
+    required String? caption,
+  }) = _MessageText;
+
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 }

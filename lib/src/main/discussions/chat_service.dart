@@ -2,14 +2,15 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 
-part 'discussion_service.freezed.dart';
-part 'discussion_service.g.dart';
+part 'chat_service.freezed.dart';
+part 'chat_service.g.dart';
 
 @freezed
 class DiscussionGroup with _$DiscussionGroup {
@@ -82,8 +83,26 @@ class DiscussionService {
       .map((event) =>
           event.docs.map((e) => Message.fromJson(e.data())).toList());
 
-  void sendImageMessage(File file) {
-    // upload to storage
-    
+  Future<void> sendImageMessage(File file) async {
+    final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    final reference = FirebaseStorage.instance.ref().child(fileName);
+    final uploadTask = reference.putFile(file);
+
+    try {
+      TaskSnapshot snapshot = await uploadTask;
+      final imageUrl = await snapshot.ref.getDownloadURL();
+      final chat = Message.image(
+        idFrom: _group.userId,
+        idTo: _group.peerId,
+        timestamp: DateTime.now(),
+        imageUrl: imageUrl,
+        caption: null,
+      );
+      await _runTxn(chat);
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 }

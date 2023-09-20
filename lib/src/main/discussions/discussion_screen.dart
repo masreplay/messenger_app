@@ -12,7 +12,7 @@ import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
-import 'discussion_service.dart';
+import 'chat_service.dart';
 
 @RoutePage()
 class DiscussionScreen extends HookWidget {
