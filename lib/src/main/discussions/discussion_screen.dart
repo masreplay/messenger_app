@@ -376,6 +376,7 @@ class _MessagesListView extends StatelessWidget {
                   image: (value) {
                     context.router.pushNativeRoute(
                       MaterialPageRoute(
+                        fullscreenDialog: true,
                         builder: (context) {
                           return ImageScreen(imageUrl: value.imageUrl!);
                         },
