@@ -27,6 +27,7 @@
     "camera": "Camera",
     "photo": "Photo",
     "removeImage": "Remove",
+    "image": "Image",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

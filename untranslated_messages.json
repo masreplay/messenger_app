@@ -3,6 +3,7 @@
     "camera",
     "photo",
     "removeImage",
+    "image",
     "send"
   ]
 }

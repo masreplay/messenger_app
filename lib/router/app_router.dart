@@ -5,6 +5,7 @@ import 'package:messenger_app/settings/settings_screen.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
 import 'package:messenger_app/src/main/discussions/discussion_screen.dart';
 import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
+import 'package:messenger_app/src/main/discussions/image_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
 import 'package:messenger_app/src/main/more_screen.dart';
 import 'package:messenger_app/src/main/stickers_screen.dart';
@@ -50,6 +51,12 @@ class AppRouter extends _$AppRouter {
       AutoRoute(
         path: "/settings",
         page: SettingsRoute.page,
+        guards: const [AuthenticatedGuard()],
+      ),
+      AutoRoute(
+        path: null,
+        page: ImageRoute.page,
+        fullscreenDialog: true,
         guards: const [AuthenticatedGuard()],
       ),
       if (kDebugMode)

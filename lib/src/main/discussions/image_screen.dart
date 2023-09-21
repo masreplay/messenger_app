@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger_app/common_lib.dart';
 
+@RoutePage()
 class ImageScreen extends StatelessWidget {
   const ImageScreen({
     super.key,
@@ -11,9 +13,11 @@ class ImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image'),
+        title: Text(l10n.image),
       ),
       body: InteractiveViewer(
         child: Center(

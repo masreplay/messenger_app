@@ -34,6 +34,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DiscussionsScreen(),
       );
     },
+    ImageRoute.name: (routeData) {
+      final args = routeData.argsAs<ImageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ImageScreen(
+          key: args.key,
+          imageUrl: args.imageUrl,
+        ),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -124,6 +134,43 @@ class DiscussionsRoute extends PageRouteInfo<void> {
   static const String name = 'DiscussionsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ImageScreen]
+class ImageRoute extends PageRouteInfo<ImageRouteArgs> {
+  ImageRoute({
+    Key? key,
+    required String imageUrl,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ImageRoute.name,
+          args: ImageRouteArgs(
+            key: key,
+            imageUrl: imageUrl,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ImageRoute';
+
+  static const PageInfo<ImageRouteArgs> page = PageInfo<ImageRouteArgs>(name);
+}
+
+class ImageRouteArgs {
+  const ImageRouteArgs({
+    this.key,
+    required this.imageUrl,
+  });
+
+  final Key? key;
+
+  final String imageUrl;
+
+  @override
+  String toString() {
+    return 'ImageRouteArgs{key: $key, imageUrl: $imageUrl}';
+  }
 }
 
 /// generated route for

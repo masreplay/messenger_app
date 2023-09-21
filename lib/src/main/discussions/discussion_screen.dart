@@ -16,7 +16,6 @@ import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
-import 'package:messenger_app/src/main/discussions/image_screen.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
@@ -374,13 +373,8 @@ class _MessagesListView extends StatelessWidget {
                     );
                   },
                   image: (value) {
-                    context.router.pushNativeRoute(
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) {
-                          return ImageScreen(imageUrl: value.imageUrl!);
-                        },
-                      ),
+                    context.router.push(
+                      ImageRoute(imageUrl: value.imageUrl!),
                     );
                   },
                   orElse: () {},
