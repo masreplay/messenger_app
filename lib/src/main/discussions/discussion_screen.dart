@@ -4,6 +4,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -326,32 +327,41 @@ class _StickersSection extends HookWidget {
 
     if (!show) return const SizedBox.shrink();
 
-    return bloc.state.maybeWhen(
-      data: (data) => Ink(
-        height: 100,
-        color: colorScheme.tertiaryContainer,
-        child: data.isEmpty
-            ? _buildStickersEmptyWidget(context)
-            : ListView.builder(
-                itemCount: data.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final sticker = data[index];
-                  return Tooltip(
-                    message: "${sticker.nickname} ${sticker.emoji}",
-                    child: InkWell(
-                      onTap: () => onChanged(sticker),
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: AppNetworkImage(sticker.path),
+    return Animate(
+      effects: const [
+        SlideEffect(
+          duration: Duration(milliseconds: 300),
+          begin: Offset(0, 0.5),
+          end: Offset(0, 0),
+        ),
+      ],
+      child: bloc.state.maybeWhen(
+        data: (data) => Ink(
+          height: 100,
+          color: colorScheme.tertiaryContainer,
+          child: data.isEmpty
+              ? _buildStickersEmptyWidget(context)
+              : ListView.builder(
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final sticker = data[index];
+                    return Tooltip(
+                      message: "${sticker.nickname} ${sticker.emoji}",
+                      child: InkWell(
+                        onTap: () => onChanged(sticker),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: AppNetworkImage(sticker.path),
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
+        ),
+        error: DefaultErrorWidget.call(bloc.run),
+        orElse: DefaultLoadingWidget.new,
       ),
-      error: DefaultErrorWidget.call(bloc.run),
-      orElse: DefaultLoadingWidget.new,
     );
   }
 
