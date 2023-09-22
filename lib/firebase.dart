@@ -4,3 +4,10 @@ extension QueryDocumentSnapshotX
     on QueryDocumentSnapshot<Map<String, dynamic>> {
   Map<String, dynamic> map() => {"id": id, ...data()};
 }
+
+
+
+extension DocumentSnapshotX
+    on DocumentSnapshot<Map<String, dynamic>>  {
+  Map<String, dynamic> map() => {"id": id, ...?data()};
+}

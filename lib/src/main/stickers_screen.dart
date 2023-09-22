@@ -1,27 +1,58 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:messenger_app/collections.dart';
+import 'package:injectable/injectable.dart';
+import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/firebase.dart';
-import 'package:messenger_app/form_body.dart';
-import 'package:messenger_app/hook/form_key.dart';
-import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
+import 'package:messenger_app/src/main/add_sticker_dialog.dart';
+import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
+import 'package:messenger_app/src/main/stickers_repo.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
-class _FirebaseFolders {
-  const _FirebaseFolders._();
-  static const String emojis = 'emojis';
+/// Firebase storage folders name
+abstract final class _FirebaseFolders {
+  static const String stickers = 'emojis';
 }
 
-typedef _ImageFile = ({String path, String name});
+/// Image file with path and name using [Record] instead of [Class]
+typedef ImageFile = ({String path, String name});
+
+/// Private state for [StickersFilesCubit]
+typedef _StickersFilesState = AsyncState<List<ImageFile>, Object?>;
+
+/// Cubit that loads the stickers files from Firebase storage.
+@injectable
+class StickersFilesCubit extends Cubit<_StickersFilesState> {
+  StickersFilesCubit() : super(const _StickersFilesState.initial()) {
+    run();
+  }
+
+  Future<void> run() async {
+    emit(const _StickersFilesState.loading());
+    try {
+      final ref =
+          FirebaseStorage.instance.ref().child(_FirebaseFolders.stickers);
+
+      final images = <ImageFile>[];
+      final refList = await ref.listAll();
+
+      for (final item in refList.items) {
+        images.add((path: await item.getDownloadURL(), name: item.name));
+      }
+
+      emit(_StickersFilesState.data(images));
+    } catch (e, stackTrace) {
+      emit(_StickersFilesState.error(e, stackTrace));
+    }
+  }
+}
 
 /// This is the screen that shows the stickers settings only in [kDebugMode].
 ///
@@ -37,6 +68,10 @@ class StickersScreen extends StatefulWidget {
 class _StickersScreenState extends State<StickersScreen> {
   @override
   Widget build(BuildContext context) {
+    final stickersCubit = BlocProvider.of<StickersCubit>(context);
+    final filesCubit = useBloc<StickersFilesCubit>();
+    final state = useBlocBuilder(filesCubit);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Stickers'),
@@ -51,7 +86,7 @@ class _StickersScreenState extends State<StickersScreen> {
 
           final ref = FirebaseStorage.instance
               .ref()
-              .child(_FirebaseFolders.emojis)
+              .child(_FirebaseFolders.stickers)
               .child("${value.name}${DateTime.now().millisecondsSinceEpoch}");
 
           final uploadTask = await ref.putFile(
@@ -67,155 +102,77 @@ class _StickersScreenState extends State<StickersScreen> {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (context) => _StickerCreateDialog(
+            builder: (context) => AddStickerDialog(
               (path: url, name: name),
             ),
           );
         },
         child: const Icon(Icons.add),
       ),
-      body: FutureBuilder(
-        future: _getStickers(),
-        builder: (context, snapshot) => snapshot.when(
-          data: (stickers) => FutureBuilder(
-            future: _getStickersFolder(),
-            builder: (context, snapshot) => snapshot.when(
-              data: (files) => ListView.builder(
-                itemCount: files!.length,
-                itemBuilder: (context, index) {
-                  final item = files[index];
-                  final sticker = stickers!
-                      .firstWhereOrNull((element) => element.path == item.path);
-                  return ListTile(
-                    leading: SizedBox.square(
-                      dimension: 56,
-                      child: Image.network(item.path),
+      body: stickersCubit.state.maybeWhen(
+        data: (stickers) => state.maybeWhen(
+          data: (files) => ListView.builder(
+            itemCount: files.length,
+            itemBuilder: (context, index) {
+              final item = files[index];
+              final sticker = stickers
+                  .firstWhereOrNull((element) => element.path == item.path);
+              return ListTile(
+                leading: SizedBox.square(
+                  dimension: 56,
+                  child: Image.network(item.path),
+                ),
+                title: sticker == null ? null : Text(sticker.nickname),
+                subtitle: Text(
+                  item.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: item.path));
+                      },
+                      icon: const Icon(Icons.copy),
                     ),
-                    title: sticker == null ? null : Text(sticker.nickname),
-                    subtitle: Text(
-                      item.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(text: item.path));
-                          },
-                          icon: const Icon(Icons.copy),
+                    if (sticker == null)
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddStickerDialog(item),
+                          );
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                    if (sticker != null) ...[
+                      SizedBox.square(
+                        dimension: 48,
+                        child: FittedBox(
+                          child: Text(sticker.emoji),
                         ),
-                        if (sticker == null)
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    _StickerCreateDialog(item),
-                              );
-                            },
-                            icon: const Icon(Icons.add),
-                          ),
-                        if (sticker != null) ...[
-                          SizedBox.square(
-                            dimension: 48,
-                            child: FittedBox(
-                              child: Text(sticker.emoji),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection(FirebaseCollections.stickers)
-                                  .doc(sticker.id)
-                                  .delete();
-                            },
-                            icon: const Icon(Icons.delete),
-                          ),
-                        ]
-                      ],
-                    ),
-                  );
-                },
-              ),
-              error: DefaultErrorWidget.call(),
-              loading: DefaultLoadingWidget.new,
-            ),
-          ),
-          error: DefaultErrorWidget.call(),
-          loading: DefaultLoadingWidget.new,
-        ),
-      ),
-    );
-  }
-
-  Future<List<_ImageFile>> _getStickersFolder() async {
-    final images = <_ImageFile>[];
-    final ref = FirebaseStorage.instance.ref().child(_FirebaseFolders.emojis);
-    final refList = await ref.listAll();
-
-    for (final item in refList.items) {
-      images.add((path: await item.getDownloadURL(), name: item.name));
-    }
-    return images;
-  }
-
-  Future<List<Sticker>> _getStickers() => FirebaseFirestore.instance
-      .collection(FirebaseCollections.stickers)
-      .get()
-      .then(
-          (value) => value.docs.map((e) => Sticker.fromJson(e.map())).toList());
-}
-
-class _StickerCreateDialog extends HookWidget {
-  const _StickerCreateDialog(this.file);
-
-  final _ImageFile file;
-
-  @override
-  Widget build(BuildContext context) {
-    final formKey = useFormKey();
-    final nickname = useTextEditingController();
-    final emoji = useTextEditingController();
-
-    return Dialog(
-      child: FormBody(
-        formKey: formKey,
-        children: [
-          TextFormField(
-            controller: nickname,
-            validator: context.validator.required().build(),
-            decoration: const InputDecoration(labelText: 'Nickname'),
-          ),
-          TextFormField(
-            controller: emoji,
-            validator:
-                context.validator.required().maxLength(2).minLength(1).build(),
-            decoration: const InputDecoration(labelText: 'Emoji'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (formKey.isNotValid()) {
-                return;
-              }
-
-              final sticker = StickerCreate(
-                nickname: nickname.text,
-                emoji: emoji.text,
-                path: file.path,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.read<DeleteStickerCubit>().run(sticker.id);
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ]
+                  ],
+                ),
               );
-
-              FirebaseFirestore.instance
-                  .collection(FirebaseCollections.stickers)
-                  .add(sticker.toJson());
-              context.router.popForced();
             },
-            child: const Text('Add'),
           ),
-        ],
+          error: DefaultErrorWidget.call(filesCubit.run),
+          orElse: DefaultLoadingWidget.new,
+        ),
+        error: DefaultErrorWidget.call(stickersCubit.run),
+        orElse: DefaultLoadingWidget.new,
       ),
     );
   }
@@ -229,4 +186,16 @@ extension<T> on List<T> {
       return null;
     }
   }
+}
+
+@injectable
+class DeleteStickerCubit extends Cubit<AsyncStateDefault>
+    with AsyncStateCubitMixin {
+  @appImpl
+  final StickersRepository _repository;
+
+  DeleteStickerCubit(this._repository)
+      : super(const AsyncStateDefault.initial());
+
+  Future<void> run(Id id) => handle(() => _repository.delete(id));
 }

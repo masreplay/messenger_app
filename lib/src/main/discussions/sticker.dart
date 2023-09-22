@@ -24,11 +24,11 @@ class Sticker with _$Sticker, _StickerMixin {
 }
 
 @Freezed(toJson: true)
-class StickerCreate with _$StickerCreate, _StickerMixin {
-  const StickerCreate._();
-  factory StickerCreate({
+class StickerAdd with _$StickerAdd, _StickerMixin {
+  const StickerAdd._();
+  factory StickerAdd({
     required String nickname,
     required String path,
     required String emoji,
-  }) = _StickerCreate;
+  }) = _StickerAdd;
 }

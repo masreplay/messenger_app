@@ -205,30 +205,30 @@ abstract class _Sticker extends Sticker {
 }
 
 /// @nodoc
-mixin _$StickerCreate {
+mixin _$StickerAdd {
   String get nickname => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
   String get emoji => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $StickerCreateCopyWith<StickerCreate> get copyWith =>
+  $StickerAddCopyWith<StickerAdd> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $StickerCreateCopyWith<$Res> {
-  factory $StickerCreateCopyWith(
-          StickerCreate value, $Res Function(StickerCreate) then) =
-      _$StickerCreateCopyWithImpl<$Res, StickerCreate>;
+abstract class $StickerAddCopyWith<$Res> {
+  factory $StickerAddCopyWith(
+          StickerAdd value, $Res Function(StickerAdd) then) =
+      _$StickerAddCopyWithImpl<$Res, StickerAdd>;
   @useResult
   $Res call({String nickname, String path, String emoji});
 }
 
 /// @nodoc
-class _$StickerCreateCopyWithImpl<$Res, $Val extends StickerCreate>
-    implements $StickerCreateCopyWith<$Res> {
-  _$StickerCreateCopyWithImpl(this._value, this._then);
+class _$StickerAddCopyWithImpl<$Res, $Val extends StickerAdd>
+    implements $StickerAddCopyWith<$Res> {
+  _$StickerAddCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -260,22 +260,22 @@ class _$StickerCreateCopyWithImpl<$Res, $Val extends StickerCreate>
 }
 
 /// @nodoc
-abstract class _$$_StickerCreateCopyWith<$Res>
-    implements $StickerCreateCopyWith<$Res> {
-  factory _$$_StickerCreateCopyWith(
-          _$_StickerCreate value, $Res Function(_$_StickerCreate) then) =
-      __$$_StickerCreateCopyWithImpl<$Res>;
+abstract class _$$_StickerAddCopyWith<$Res>
+    implements $StickerAddCopyWith<$Res> {
+  factory _$$_StickerAddCopyWith(
+          _$_StickerAdd value, $Res Function(_$_StickerAdd) then) =
+      __$$_StickerAddCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String nickname, String path, String emoji});
 }
 
 /// @nodoc
-class __$$_StickerCreateCopyWithImpl<$Res>
-    extends _$StickerCreateCopyWithImpl<$Res, _$_StickerCreate>
-    implements _$$_StickerCreateCopyWith<$Res> {
-  __$$_StickerCreateCopyWithImpl(
-      _$_StickerCreate _value, $Res Function(_$_StickerCreate) _then)
+class __$$_StickerAddCopyWithImpl<$Res>
+    extends _$StickerAddCopyWithImpl<$Res, _$_StickerAdd>
+    implements _$$_StickerAddCopyWith<$Res> {
+  __$$_StickerAddCopyWithImpl(
+      _$_StickerAdd _value, $Res Function(_$_StickerAdd) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -285,7 +285,7 @@ class __$$_StickerCreateCopyWithImpl<$Res>
     Object? path = null,
     Object? emoji = null,
   }) {
-    return _then(_$_StickerCreate(
+    return _then(_$_StickerAdd(
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
@@ -304,8 +304,8 @@ class __$$_StickerCreateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable(createFactory: false)
-class _$_StickerCreate extends _StickerCreate {
-  _$_StickerCreate(
+class _$_StickerAdd extends _StickerAdd {
+  _$_StickerAdd(
       {required this.nickname, required this.path, required this.emoji})
       : super._();
 
@@ -318,14 +318,14 @@ class _$_StickerCreate extends _StickerCreate {
 
   @override
   String toString() {
-    return 'StickerCreate(nickname: $nickname, path: $path, emoji: $emoji)';
+    return 'StickerAdd(nickname: $nickname, path: $path, emoji: $emoji)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StickerCreate &&
+            other is _$_StickerAdd &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.path, path) || other.path == path) &&
@@ -339,23 +339,23 @@ class _$_StickerCreate extends _StickerCreate {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StickerCreateCopyWith<_$_StickerCreate> get copyWith =>
-      __$$_StickerCreateCopyWithImpl<_$_StickerCreate>(this, _$identity);
+  _$$_StickerAddCopyWith<_$_StickerAdd> get copyWith =>
+      __$$_StickerAddCopyWithImpl<_$_StickerAdd>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StickerCreateToJson(
+    return _$$_StickerAddToJson(
       this,
     );
   }
 }
 
-abstract class _StickerCreate extends StickerCreate {
-  factory _StickerCreate(
+abstract class _StickerAdd extends StickerAdd {
+  factory _StickerAdd(
       {required final String nickname,
       required final String path,
-      required final String emoji}) = _$_StickerCreate;
-  _StickerCreate._() : super._();
+      required final String emoji}) = _$_StickerAdd;
+  _StickerAdd._() : super._();
 
   @override
   String get nickname;
@@ -365,6 +365,6 @@ abstract class _StickerCreate extends StickerCreate {
   String get emoji;
   @override
   @JsonKey(ignore: true)
-  _$$_StickerCreateCopyWith<_$_StickerCreate> get copyWith =>
+  _$$_StickerAddCopyWith<_$_StickerAdd> get copyWith =>
       throw _privateConstructorUsedError;
 }

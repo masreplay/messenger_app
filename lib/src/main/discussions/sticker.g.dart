@@ -21,7 +21,7 @@ Map<String, dynamic> _$$_StickerToJson(_$_Sticker instance) =>
       'emoji': instance.emoji,
     };
 
-Map<String, dynamic> _$$_StickerCreateToJson(_$_StickerCreate instance) =>
+Map<String, dynamic> _$$_StickerAddToJson(_$_StickerAdd instance) =>
     <String, dynamic>{
       'nickname': instance.nickname,
       'path': instance.path,

@@ -11,6 +11,8 @@ const _jsonSerializable = JsonSerializable(
   genericArgumentFactories: true,
 );
 
+typedef AsyncStateDefault = AsyncState<dynamic, Object?>;
+
 @Freezed(
   unionKey: 'type',
   unionValueCase: FreezedUnionCase.pascal,
@@ -41,7 +43,6 @@ class AsyncState<Data, Error> with _$AsyncState<Data, Error> {
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
   bool get isData => maybeWhen(data: (_) => true, orElse: () => false);
 }
-
 
 class StackTraceConverter implements JsonConverter<StackTrace, String> {
   const StackTraceConverter();
