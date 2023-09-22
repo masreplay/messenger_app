@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/src/main/discussions/image.dart';
 
 @RoutePage()
 class ImageScreen extends StatelessWidget {
@@ -23,8 +23,8 @@ class ImageScreen extends StatelessWidget {
         child: Center(
           child: Hero(
             tag: imageUrl,
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
+            child: AppNetworkImage(
+              imageUrl,
               fit: BoxFit.cover,
             ),
           ),

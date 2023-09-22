@@ -28,6 +28,7 @@
     "photo": "Photo",
     "removeImage": "Remove",
     "image": "Image",
+    "copy": "Copy",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

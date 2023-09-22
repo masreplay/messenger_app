@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +14,6 @@ import 'package:messenger_app/date_time.dart';
 import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/settings/settings_bloc.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
 import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
@@ -29,6 +26,10 @@ import 'chat_service.dart';
 
 part 'discussion_screen.freezed.dart';
 
+/// one-to-one discussion or group discussion message direction
+///
+/// never use start or end here because it's not RTL friendly
+/// same as Telegram and WhatsApp etc.
 enum MessageDirection {
   right,
   left;
@@ -39,6 +40,7 @@ enum MessageDirection {
       };
 }
 
+/// Message theme data for [MessageTheme]
 @freezed
 class MessageThemeData with _$MessageThemeData {
   const factory MessageThemeData({
@@ -51,6 +53,9 @@ class MessageThemeData with _$MessageThemeData {
   }) = _MessageThemeData;
 }
 
+/// Message theme it should be used with [MessageTheme.of]
+///
+/// and configured depend on the direction of the message
 class MessageTheme extends InheritedWidget {
   const MessageTheme({
     super.key,
@@ -68,19 +73,19 @@ class MessageTheme extends InheritedWidget {
   }
 }
 
-class MessageState {
-  const MessageState({
-    required this.group,
-    required this.pervious,
-    required this.current,
-    required this.next,
-  });
+/// it's better to use this [Class] instead of [Record]
+///
+/// but this is just a show case :)
+typedef MessageState = ({
+  DiscussionGroup group,
+  Message? pervious,
+  Message current,
+  Message? next,
+});
 
-  final DiscussionGroup group;
-  final Message? pervious;
-  final Message current;
-  final Message? next;
-
+/// Same as getter in class here we use extension instead
+extension on MessageState {
+  /// Check if the [current] message is mine
   bool get isMine => current.idFrom == group.userId;
 }
 
@@ -310,7 +315,8 @@ class _StickersSection extends StatelessWidget {
           (value) => value.docs.map((e) => Sticker.fromJson(e.map())).toList());
 }
 
-class _MessagesListView extends StatelessWidget {
+/// A list of messages not depend on the type of the message
+class _MessagesListView extends StatefulWidget {
   const _MessagesListView({
     required this.messages,
     required this.controller,
@@ -322,77 +328,91 @@ class _MessagesListView extends StatelessWidget {
   final DiscussionGroup group;
 
   @override
+  State<_MessagesListView> createState() => _MessagesListViewState();
+}
+
+class _MessagesListViewState extends State<_MessagesListView> {
+  @override
   Widget build(BuildContext context) {
     return ScrollToBottom(
-      scrollController: controller,
+      scrollController: widget.controller,
       child: ListView.separated(
         reverse: true,
-        itemCount: messages.length,
-        controller: controller,
+        itemCount: widget.messages.length,
+        controller: widget.controller,
         padding: const EdgeInsets.all(16.0),
         separatorBuilder: (_, __) => const Gap(size: 8),
         itemBuilder: (context, index) {
-          final data = MessageState(
-            group: group,
-            pervious: index > 0 ? messages[index - 1] : null,
-            current: messages[index],
-            next: index < messages.length - 1 ? messages[index + 1] : null,
+          // Collecting the [MessageState] here
+          final state = (
+            group: widget.group,
+            pervious: index > 0 ? widget.messages[index - 1] : null,
+            current: widget.messages[index],
+            next: index < widget.messages.length - 1
+                ? widget.messages[index + 1]
+                : null,
           );
 
           return MessageThemeWrapper(
-            data: data,
+            data: state,
             child: _MessageListTile(
-              data: data,
-              onTap: () {
-                data.current.maybeMap(
-                  text: (value) {
-                    showModalBottomSheet(
-                      context: context,
-                      showDragHandle: true,
-                      builder: (context) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // copy
-                            ListTile(
-                              leading: const Icon(Icons.copy_outlined),
-                              title: const Text("Copy"),
-                              onTap: () {
-                                Clipboard.setData(
-                                  ClipboardData(text: value.content),
-                                );
-                                context.router.pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  image: (value) {
-                    context.router.push(
-                      ImageRoute(imageUrl: value.imageUrl!),
-                    );
-                  },
-                  orElse: () {},
-                );
-              },
+              value: state,
+              onLongPressed: _onLongPressed,
             ),
           );
         },
       ),
     );
   }
+
+  void _onLongPressed(MessageState value) {
+    final l10n = AppLocalizations.of(context)!;
+    value.current.maybeMap(
+      text: (value) {
+        showModalBottomSheet(
+          context: context,
+          showDragHandle: true,
+          builder: (context) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.copy_outlined),
+                  title: Text(l10n.copy),
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(text: value.content),
+                    );
+                    context.router.pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      image: (value) {
+        context.router.push(
+          ImageRoute(imageUrl: value.imageUrl),
+        );
+      },
+      orElse: () {
+        throw UnimplementedError();
+      },
+    );
+  }
 }
 
+/// A [Message] can be one of these types [MessageText], [MessageImage], etc.
+/// This is a [Freezed] union class.
 class _MessageListTile extends StatelessWidget {
   const _MessageListTile({
-    required this.data,
-    required this.onTap,
+    required this.value,
+    required this.onLongPressed,
   });
 
-  final MessageState data;
-  final VoidCallback onTap;
+  final MessageState value;
+  final ValueChanged<MessageState> onLongPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -402,14 +422,14 @@ class _MessageListTile extends StatelessWidget {
       alignment: theme.direction.alignment,
       child: InkWell(
         borderRadius: theme.borderRadius,
-        onTap: onTap,
+        onLongPress: () => onLongPressed(value),
         child: Ink(
           decoration: BoxDecoration(
             color: theme.cardColor,
             borderRadius: theme.borderRadius,
           ),
           // it's better to use switch case here
-          child: data.current.map(
+          child: value.current.map(
             text: _TextMessageListTile.new,
             image: _ImageMessageListTile.new,
             sticker: _StickerMessageListTile.new,
@@ -572,9 +592,9 @@ class _ImageMessageListTile extends StatelessWidget {
             child: ClipRRect(
               borderRadius: messageTheme.borderRadius,
               child: Hero(
-                tag: value.imageUrl!,
+                tag: value.imageUrl,
                 child: AppNetworkImage(
-                  value.imageUrl!,
+                  value.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
