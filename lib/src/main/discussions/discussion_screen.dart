@@ -19,6 +19,7 @@ import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
+import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
@@ -179,7 +180,16 @@ class _DiscussionViewState extends State<_DiscussionView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.peer.name),
+        title: Row(
+          children: [
+            UserAvatar(
+              alt: widget.peer.email,
+              photoURL: widget.peer.avatar,
+            ),
+            const Gap(),
+            Text(widget.peer.name),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.call),

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
+import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 
 @RoutePage()
 class MoreScreen extends StatefulWidget {

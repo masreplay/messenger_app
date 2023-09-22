@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/models/user.dart';
+import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 
 @RoutePage()
 class DiscussionsScreen extends StatefulWidget {
@@ -80,56 +80,3 @@ class DiscussionListTile extends StatelessWidget {
     );
   }
 }
-
-class UserAvatar extends StatelessWidget {
-  const UserAvatar({
-    super.key,
-    required this.alt,
-    required this.photoURL,
-  });
-
-  /// Random text to replace the avatar if the user doesn't have one
-  final String alt;
-  final String? photoURL;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    const colors = Colors.primaries;
-    final backgroundColor = colors.elementAt(alt.hashCode % colors.length);
-    final foregroundColor = estimateForegroundColor(backgroundColor);
-
-    return photoURL == null
-        ? Container(
-            height: 56,
-            width: 56,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: colorScheme.outline,
-                width: 1.0,
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              alt.substring(0, 2).toUpperCase(),
-              style: GoogleFonts.jetBrainsMono(
-                color: foregroundColor,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
-        : CircleAvatar(
-            backgroundImage: NetworkImage(photoURL!),
-          );
-  }
-}
-
-Color estimateForegroundColor(Color backgroundColor) =>
-    switch (ThemeData.estimateBrightnessForColor(backgroundColor)) {
-      Brightness.dark => Colors.white,
-      Brightness.light => Colors.black,
-    };

@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/settings/settings_bloc.dart';
-import 'package:messenger_app/src/main/discussions/discussions_screen.dart';
+import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 
 @RoutePage()
 class SettingsScreen extends HookWidget {
