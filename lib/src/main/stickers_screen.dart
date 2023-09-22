@@ -30,6 +30,9 @@ typedef ImageFile = ({String path, String name});
 /// Private state for [StickersFilesCubit]
 typedef _StickersFilesState = AsyncState<List<ImageFile>, Object?>;
 
+final _stickersFolderRef =
+    FirebaseStorage.instance.ref().child(_FirebaseFolders.stickers);
+
 /// Cubit that loads the stickers files from Firebase storage.
 @injectable
 class StickersFilesCubit extends Cubit<_StickersFilesState> {
@@ -40,11 +43,8 @@ class StickersFilesCubit extends Cubit<_StickersFilesState> {
   Future<void> run() async {
     emit(const _StickersFilesState.loading());
     try {
-      final ref =
-          FirebaseStorage.instance.ref().child(_FirebaseFolders.stickers);
-
       final images = <ImageFile>[];
-      final refList = await ref.listAll();
+      final refList = await _stickersFolderRef.listAll();
 
       for (final item in refList.items) {
         images.add((path: await item.getDownloadURL(), name: item.name));
@@ -65,9 +65,7 @@ class UploadStickerFileCubit extends Cubit<UploadStickerFileState>
   UploadStickerFileCubit() : super(const UploadStickerFileState.initial());
 
   Future<void> run(XFile value) => handle(() async {
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child(_FirebaseFolders.stickers)
+        final ref = _stickersFolderRef
             .child("${value.name}${DateTime.now().millisecondsSinceEpoch}");
 
         final uploadTask = await ref.putFile(
@@ -103,7 +101,7 @@ class StickersScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stickersCubit = useBloc<StickersCubit>();
+    final stickersCubit = useBloc<StickersCubit>(closeOnDispose: false);
     final stickers = useBlocBuilder(stickersCubit);
 
     final filesCubit = useBloc<StickersFilesCubit>();
