@@ -11,7 +11,7 @@ const _jsonSerializable = JsonSerializable(
   genericArgumentFactories: true,
 );
 
-typedef AsyncStateDefault = AsyncState<dynamic, Object?>;
+typedef AsyncStateDefault<T extends Object?> = AsyncState<T, Object?>;
 
 @Freezed(
   unionKey: 'type',
