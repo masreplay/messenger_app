@@ -1,17 +1,15 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/date_time.dart';
-import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
@@ -19,6 +17,7 @@ import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
+import 'package:messenger_app/src/main/discussions/sticker_bloc.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
@@ -167,6 +166,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
     final controller = useTextEditingController();
     final focusNode = useFocusNode();
     final image = useState<File?>(null);
+    final showStickers = useState(false);
 
     final scrollController = useScrollController();
     scrollController.addListener(() {
@@ -193,9 +193,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
         actions: [
           IconButton(
             icon: const Icon(Icons.call),
-            onPressed: () {
-              context.showUnimplementedSnackBar();
-            },
+            onPressed: context.showUnimplementedSnackBar,
           ),
         ],
       ),
@@ -218,7 +216,10 @@ class _DiscussionViewState extends State<_DiscussionView> {
               ),
             ),
           ),
-          _StickersSection(onChanged: service.sendStickerMessage),
+          _StickersSection(
+            show: showStickers.value,
+            onChanged: service.sendStickerMessage,
+          ),
           _DiscussionInputSection(
             imageController: image,
             textController: controller,
@@ -239,6 +240,10 @@ class _DiscussionViewState extends State<_DiscussionView> {
                     image: image,
                   );
                 },
+              ),
+              IconButton(
+                icon: const Icon(Icons.mood),
+                onPressed: () => showStickers.value = !showStickers.value,
               ),
               IconButton(
                 icon: const Icon(Icons.mic_outlined),
@@ -304,50 +309,51 @@ class _DiscussionViewState extends State<_DiscussionView> {
   }
 }
 
-class _StickersSection extends StatelessWidget {
+class _StickersSection extends HookWidget {
   const _StickersSection({
     required this.onChanged,
+    required this.show,
   });
 
   final ValueChanged<Sticker> onChanged;
+  final bool show;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final bloc = useBloc<StickersCubit>();
+    final state = useBlocBuilder(bloc);
+
     return Ink(
       height: 100,
-      color: Theme.of(context).colorScheme.tertiaryContainer,
-      child: FutureBuilder(
-        future: _getStickers(),
-        builder: (context, snapshot) => snapshot.when(
-          data: (data) => ListView.builder(
-            itemCount: data!.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final sticker = data[index];
-              return Tooltip(
-                message: "${sticker.nickname} ${sticker.emoji}",
-                child: InkWell(
-                  onTap: () => onChanged(sticker),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: AppNetworkImage(sticker.path),
-                  ),
+      color: colorScheme.tertiaryContainer,
+      child: state.maybeWhen(
+        data: (data) => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: data.isEmpty || !show
+              ? null
+              : ListView.builder(
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final sticker = data[index];
+                    return Tooltip(
+                      message: "${sticker.nickname} ${sticker.emoji}",
+                      child: InkWell(
+                        onTap: () => onChanged(sticker),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: AppNetworkImage(sticker.path),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          error: DefaultErrorWidget.call(context.router.pop),
-          loading: DefaultLoadingWidget.new,
         ),
+        orElse: DefaultLoadingWidget.new,
       ),
     );
   }
-
-  Future<List<Sticker>> _getStickers() => FirebaseFirestore.instance
-      .collection(FirebaseCollections.stickers)
-      .get()
-      .then(
-          (value) => value.docs.map((e) => Sticker.fromJson(e.map())).toList());
 }
 
 /// A list of messages not depend on the type of the message

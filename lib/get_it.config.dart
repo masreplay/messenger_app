@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:messenger_app/settings/settings_bloc.dart' as _i5;
 import 'package:messenger_app/src/login/login_bloc.dart' as _i4;
 import 'package:messenger_app/src/main/discussions/chat_service.dart' as _i3;
+import 'package:messenger_app/src/main/discussions/sticker_bloc.dart' as _i7;
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart' as _i6;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -32,6 +33,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i4.LoginCubit>(() => _i4.LoginCubit());
     gh.factory<_i5.SettingsCubit>(() => _i5.SettingsCubit());
     gh.factory<_i6.SignUpCubit>(() => _i6.SignUpCubit());
+    gh.factory<_i7.StickersCubit>(() => _i7.StickersCubit());
     return this;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:messenger_app/bloc/serialization.dart';
 
 part 'async_state.freezed.dart';
 part 'async_state.g.dart';
@@ -40,7 +41,6 @@ class AsyncState<Data, Error> with _$AsyncState<Data, Error> {
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
 }
 
-typedef FromJsonGeneric<R> = R Function(Object?);
 
 class StackTraceConverter implements JsonConverter<StackTrace, String> {
   const StackTraceConverter();
