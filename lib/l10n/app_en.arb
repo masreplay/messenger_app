@@ -29,6 +29,7 @@
     "removeImage": "Remove",
     "image": "Image",
     "copy": "Copy",
+    "unsupportedMessage": "Unsupported message",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

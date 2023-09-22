@@ -14,6 +14,193 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+MessageMetaData _$MessageMetaDataFromJson(Map<String, dynamic> json) {
+  return _MessageMetaData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageMetaData {
+  String get idFrom => throw _privateConstructorUsedError;
+  String get idTo => throw _privateConstructorUsedError;
+  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  DateTime get timestamp => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MessageMetaDataCopyWith<MessageMetaData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageMetaDataCopyWith<$Res> {
+  factory $MessageMetaDataCopyWith(
+          MessageMetaData value, $Res Function(MessageMetaData) then) =
+      _$MessageMetaDataCopyWithImpl<$Res, MessageMetaData>;
+  @useResult
+  $Res call(
+      {String idFrom,
+      String idTo,
+      @JsonKey(toJson: MessageMetaData._toJsonTimestamp) DateTime timestamp});
+}
+
+/// @nodoc
+class _$MessageMetaDataCopyWithImpl<$Res, $Val extends MessageMetaData>
+    implements $MessageMetaDataCopyWith<$Res> {
+  _$MessageMetaDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idFrom = null,
+    Object? idTo = null,
+    Object? timestamp = null,
+  }) {
+    return _then(_value.copyWith(
+      idFrom: null == idFrom
+          ? _value.idFrom
+          : idFrom // ignore: cast_nullable_to_non_nullable
+              as String,
+      idTo: null == idTo
+          ? _value.idTo
+          : idTo // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_MessageMetaDataCopyWith<$Res>
+    implements $MessageMetaDataCopyWith<$Res> {
+  factory _$$_MessageMetaDataCopyWith(
+          _$_MessageMetaData value, $Res Function(_$_MessageMetaData) then) =
+      __$$_MessageMetaDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String idFrom,
+      String idTo,
+      @JsonKey(toJson: MessageMetaData._toJsonTimestamp) DateTime timestamp});
+}
+
+/// @nodoc
+class __$$_MessageMetaDataCopyWithImpl<$Res>
+    extends _$MessageMetaDataCopyWithImpl<$Res, _$_MessageMetaData>
+    implements _$$_MessageMetaDataCopyWith<$Res> {
+  __$$_MessageMetaDataCopyWithImpl(
+      _$_MessageMetaData _value, $Res Function(_$_MessageMetaData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idFrom = null,
+    Object? idTo = null,
+    Object? timestamp = null,
+  }) {
+    return _then(_$_MessageMetaData(
+      idFrom: null == idFrom
+          ? _value.idFrom
+          : idFrom // ignore: cast_nullable_to_non_nullable
+              as String,
+      idTo: null == idTo
+          ? _value.idTo
+          : idTo // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+
+@_jsonSerializable
+class _$_MessageMetaData implements _MessageMetaData {
+  const _$_MessageMetaData(
+      {required this.idFrom,
+      required this.idTo,
+      @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+      required this.timestamp});
+
+  factory _$_MessageMetaData.fromJson(Map<String, dynamic> json) =>
+      _$$_MessageMetaDataFromJson(json);
+
+  @override
+  final String idFrom;
+  @override
+  final String idTo;
+  @override
+  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  final DateTime timestamp;
+
+  @override
+  String toString() {
+    return 'MessageMetaData(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_MessageMetaData &&
+            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
+            (identical(other.idTo, idTo) || other.idTo == idTo) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, idFrom, idTo, timestamp);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_MessageMetaDataCopyWith<_$_MessageMetaData> get copyWith =>
+      __$$_MessageMetaDataCopyWithImpl<_$_MessageMetaData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MessageMetaDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageMetaData implements MessageMetaData {
+  const factory _MessageMetaData(
+      {required final String idFrom,
+      required final String idTo,
+      @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+      required final DateTime timestamp}) = _$_MessageMetaData;
+
+  factory _MessageMetaData.fromJson(Map<String, dynamic> json) =
+      _$_MessageMetaData.fromJson;
+
+  @override
+  String get idFrom;
+  @override
+  String get idTo;
+  @override
+  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  DateTime get timestamp;
+  @override
+  @JsonKey(ignore: true)
+  _$$_MessageMetaDataCopyWith<_$_MessageMetaData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Message _$MessageFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'text':
@@ -30,50 +217,36 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
-  String get idFrom => throw _privateConstructorUsedError;
-  String get idTo => throw _privateConstructorUsedError;
-  DateTime get timestamp => throw _privateConstructorUsedError;
+  MessageMetaData get metadata => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(MessageMetaData metadata, String content) text,
     required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)
-        text,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)
+            MessageMetaData metadata, String imageUrl, String? caption)
         image,
-    required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)
+    required TResult Function(MessageMetaData metadata, Sticker sticker)
         sticker,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp)
-        fallback,
+    required TResult Function(MessageMetaData metadata) fallback,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(MessageMetaData metadata, String content)? text,
     TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult? Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult? Function(MessageMetaData metadata)? fallback,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MessageMetaData metadata, String content)? text,
     TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult Function(MessageMetaData metadata)? fallback,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -112,7 +285,9 @@ abstract class $MessageCopyWith<$Res> {
   factory $MessageCopyWith(Message value, $Res Function(Message) then) =
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
-  $Res call({String idFrom, String idTo, DateTime timestamp});
+  $Res call({MessageMetaData metadata});
+
+  $MessageMetaDataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -128,24 +303,22 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idFrom = null,
-    Object? idTo = null,
-    Object? timestamp = null,
+    Object? metadata = null,
   }) {
     return _then(_value.copyWith(
-      idFrom: null == idFrom
-          ? _value.idFrom
-          : idFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      idTo: null == idTo
-          ? _value.idTo
-          : idTo // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as MessageMetaData,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageMetaDataCopyWith<$Res> get metadata {
+    return $MessageMetaDataCopyWith<$Res>(_value.metadata, (value) {
+      return _then(_value.copyWith(metadata: value) as $Val);
+    });
   }
 }
 
@@ -156,7 +329,10 @@ abstract class _$$MessageTextCopyWith<$Res> implements $MessageCopyWith<$Res> {
       __$$MessageTextCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String idFrom, String idTo, DateTime timestamp, String content});
+  $Res call({MessageMetaData metadata, String content});
+
+  @override
+  $MessageMetaDataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -170,24 +346,14 @@ class __$$MessageTextCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idFrom = null,
-    Object? idTo = null,
-    Object? timestamp = null,
+    Object? metadata = null,
     Object? content = null,
   }) {
     return _then(_$MessageText(
-      idFrom: null == idFrom
-          ? _value.idFrom
-          : idFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      idTo: null == idTo
-          ? _value.idTo
-          : idTo // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as MessageMetaData,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -201,11 +367,7 @@ class __$$MessageTextCopyWithImpl<$Res>
 @_jsonSerializable
 class _$MessageText extends MessageText {
   const _$MessageText(
-      {required this.idFrom,
-      required this.idTo,
-      required this.timestamp,
-      required this.content,
-      final String? $type})
+      {required this.metadata, required this.content, final String? $type})
       : $type = $type ?? 'text',
         super._();
 
@@ -213,11 +375,7 @@ class _$MessageText extends MessageText {
       _$$MessageTextFromJson(json);
 
   @override
-  final String idFrom;
-  @override
-  final String idTo;
-  @override
-  final DateTime timestamp;
+  final MessageMetaData metadata;
   @override
   final String content;
 
@@ -226,7 +384,7 @@ class _$MessageText extends MessageText {
 
   @override
   String toString() {
-    return 'Message.text(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp, content: $content)';
+    return 'Message.text(metadata: $metadata, content: $content)';
   }
 
   @override
@@ -234,17 +392,14 @@ class _$MessageText extends MessageText {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageText &&
-            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
-            (identical(other.idTo, idTo) || other.idTo == idTo) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
             (identical(other.content, content) || other.content == content));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, idFrom, idTo, timestamp, content);
+  int get hashCode => Object.hash(runtimeType, metadata, content);
 
   @JsonKey(ignore: true)
   @override
@@ -255,55 +410,43 @@ class _$MessageText extends MessageText {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(MessageMetaData metadata, String content) text,
     required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)
-        text,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)
+            MessageMetaData metadata, String imageUrl, String? caption)
         image,
-    required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)
+    required TResult Function(MessageMetaData metadata, Sticker sticker)
         sticker,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp)
-        fallback,
+    required TResult Function(MessageMetaData metadata) fallback,
   }) {
-    return text(idFrom, idTo, timestamp, content);
+    return text(metadata, content);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(MessageMetaData metadata, String content)? text,
     TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult? Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult? Function(MessageMetaData metadata)? fallback,
   }) {
-    return text?.call(idFrom, idTo, timestamp, content);
+    return text?.call(metadata, content);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MessageMetaData metadata, String content)? text,
     TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult Function(MessageMetaData metadata)? fallback,
     required TResult orElse(),
   }) {
     if (text != null) {
-      return text(idFrom, idTo, timestamp, content);
+      return text(metadata, content);
     }
     return orElse();
   }
@@ -355,9 +498,7 @@ class _$MessageText extends MessageText {
 
 abstract class MessageText extends Message {
   const factory MessageText(
-      {required final String idFrom,
-      required final String idTo,
-      required final DateTime timestamp,
+      {required final MessageMetaData metadata,
       required final String content}) = _$MessageText;
   const MessageText._() : super._();
 
@@ -365,11 +506,7 @@ abstract class MessageText extends Message {
       _$MessageText.fromJson;
 
   @override
-  String get idFrom;
-  @override
-  String get idTo;
-  @override
-  DateTime get timestamp;
+  MessageMetaData get metadata;
   String get content;
   @override
   @JsonKey(ignore: true)
@@ -384,12 +521,10 @@ abstract class _$$MessageImageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       __$$MessageImageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String idFrom,
-      String idTo,
-      DateTime timestamp,
-      String imageUrl,
-      String? caption});
+  $Res call({MessageMetaData metadata, String imageUrl, String? caption});
+
+  @override
+  $MessageMetaDataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -403,25 +538,15 @@ class __$$MessageImageCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idFrom = null,
-    Object? idTo = null,
-    Object? timestamp = null,
+    Object? metadata = null,
     Object? imageUrl = null,
     Object? caption = freezed,
   }) {
     return _then(_$MessageImage(
-      idFrom: null == idFrom
-          ? _value.idFrom
-          : idFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      idTo: null == idTo
-          ? _value.idTo
-          : idTo // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as MessageMetaData,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -439,9 +564,7 @@ class __$$MessageImageCopyWithImpl<$Res>
 @_jsonSerializable
 class _$MessageImage extends MessageImage {
   const _$MessageImage(
-      {required this.idFrom,
-      required this.idTo,
-      required this.timestamp,
+      {required this.metadata,
       required this.imageUrl,
       required this.caption,
       final String? $type})
@@ -452,11 +575,7 @@ class _$MessageImage extends MessageImage {
       _$$MessageImageFromJson(json);
 
   @override
-  final String idFrom;
-  @override
-  final String idTo;
-  @override
-  final DateTime timestamp;
+  final MessageMetaData metadata;
   @override
   final String imageUrl;
   @override
@@ -467,7 +586,7 @@ class _$MessageImage extends MessageImage {
 
   @override
   String toString() {
-    return 'Message.image(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp, imageUrl: $imageUrl, caption: $caption)';
+    return 'Message.image(metadata: $metadata, imageUrl: $imageUrl, caption: $caption)';
   }
 
   @override
@@ -475,10 +594,8 @@ class _$MessageImage extends MessageImage {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImage &&
-            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
-            (identical(other.idTo, idTo) || other.idTo == idTo) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.caption, caption) || other.caption == caption));
@@ -486,8 +603,7 @@ class _$MessageImage extends MessageImage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, idFrom, idTo, timestamp, imageUrl, caption);
+  int get hashCode => Object.hash(runtimeType, metadata, imageUrl, caption);
 
   @JsonKey(ignore: true)
   @override
@@ -498,55 +614,43 @@ class _$MessageImage extends MessageImage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(MessageMetaData metadata, String content) text,
     required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)
-        text,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)
+            MessageMetaData metadata, String imageUrl, String? caption)
         image,
-    required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)
+    required TResult Function(MessageMetaData metadata, Sticker sticker)
         sticker,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp)
-        fallback,
+    required TResult Function(MessageMetaData metadata) fallback,
   }) {
-    return image(idFrom, idTo, timestamp, imageUrl, caption);
+    return image(metadata, imageUrl, caption);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(MessageMetaData metadata, String content)? text,
     TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult? Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult? Function(MessageMetaData metadata)? fallback,
   }) {
-    return image?.call(idFrom, idTo, timestamp, imageUrl, caption);
+    return image?.call(metadata, imageUrl, caption);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MessageMetaData metadata, String content)? text,
     TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult Function(MessageMetaData metadata)? fallback,
     required TResult orElse(),
   }) {
     if (image != null) {
-      return image(idFrom, idTo, timestamp, imageUrl, caption);
+      return image(metadata, imageUrl, caption);
     }
     return orElse();
   }
@@ -598,9 +702,7 @@ class _$MessageImage extends MessageImage {
 
 abstract class MessageImage extends Message {
   const factory MessageImage(
-      {required final String idFrom,
-      required final String idTo,
-      required final DateTime timestamp,
+      {required final MessageMetaData metadata,
       required final String imageUrl,
       required final String? caption}) = _$MessageImage;
   const MessageImage._() : super._();
@@ -609,11 +711,7 @@ abstract class MessageImage extends Message {
       _$MessageImage.fromJson;
 
   @override
-  String get idFrom;
-  @override
-  String get idTo;
-  @override
-  DateTime get timestamp;
+  MessageMetaData get metadata;
   String get imageUrl;
   String? get caption;
   @override
@@ -630,8 +728,10 @@ abstract class _$$MessageStickerCopyWith<$Res>
       __$$MessageStickerCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String idFrom, String idTo, DateTime timestamp, Sticker sticker});
+  $Res call({MessageMetaData metadata, Sticker sticker});
 
+  @override
+  $MessageMetaDataCopyWith<$Res> get metadata;
   $StickerCopyWith<$Res> get sticker;
 }
 
@@ -646,24 +746,14 @@ class __$$MessageStickerCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idFrom = null,
-    Object? idTo = null,
-    Object? timestamp = null,
+    Object? metadata = null,
     Object? sticker = null,
   }) {
     return _then(_$MessageSticker(
-      idFrom: null == idFrom
-          ? _value.idFrom
-          : idFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      idTo: null == idTo
-          ? _value.idTo
-          : idTo // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as MessageMetaData,
       sticker: null == sticker
           ? _value.sticker
           : sticker // ignore: cast_nullable_to_non_nullable
@@ -685,11 +775,7 @@ class __$$MessageStickerCopyWithImpl<$Res>
 @_jsonSerializable
 class _$MessageSticker extends MessageSticker {
   const _$MessageSticker(
-      {required this.idFrom,
-      required this.idTo,
-      required this.timestamp,
-      required this.sticker,
-      final String? $type})
+      {required this.metadata, required this.sticker, final String? $type})
       : $type = $type ?? 'sticker',
         super._();
 
@@ -697,11 +783,7 @@ class _$MessageSticker extends MessageSticker {
       _$$MessageStickerFromJson(json);
 
   @override
-  final String idFrom;
-  @override
-  final String idTo;
-  @override
-  final DateTime timestamp;
+  final MessageMetaData metadata;
   @override
   final Sticker sticker;
 
@@ -710,7 +792,7 @@ class _$MessageSticker extends MessageSticker {
 
   @override
   String toString() {
-    return 'Message.sticker(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp, sticker: $sticker)';
+    return 'Message.sticker(metadata: $metadata, sticker: $sticker)';
   }
 
   @override
@@ -718,17 +800,14 @@ class _$MessageSticker extends MessageSticker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageSticker &&
-            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
-            (identical(other.idTo, idTo) || other.idTo == idTo) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata) &&
             (identical(other.sticker, sticker) || other.sticker == sticker));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, idFrom, idTo, timestamp, sticker);
+  int get hashCode => Object.hash(runtimeType, metadata, sticker);
 
   @JsonKey(ignore: true)
   @override
@@ -739,55 +818,43 @@ class _$MessageSticker extends MessageSticker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(MessageMetaData metadata, String content) text,
     required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)
-        text,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)
+            MessageMetaData metadata, String imageUrl, String? caption)
         image,
-    required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)
+    required TResult Function(MessageMetaData metadata, Sticker sticker)
         sticker,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp)
-        fallback,
+    required TResult Function(MessageMetaData metadata) fallback,
   }) {
-    return sticker(idFrom, idTo, timestamp, this.sticker);
+    return sticker(metadata, this.sticker);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(MessageMetaData metadata, String content)? text,
     TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult? Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult? Function(MessageMetaData metadata)? fallback,
   }) {
-    return sticker?.call(idFrom, idTo, timestamp, this.sticker);
+    return sticker?.call(metadata, this.sticker);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MessageMetaData metadata, String content)? text,
     TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult Function(MessageMetaData metadata)? fallback,
     required TResult orElse(),
   }) {
     if (sticker != null) {
-      return sticker(idFrom, idTo, timestamp, this.sticker);
+      return sticker(metadata, this.sticker);
     }
     return orElse();
   }
@@ -839,9 +906,7 @@ class _$MessageSticker extends MessageSticker {
 
 abstract class MessageSticker extends Message {
   const factory MessageSticker(
-      {required final String idFrom,
-      required final String idTo,
-      required final DateTime timestamp,
+      {required final MessageMetaData metadata,
       required final Sticker sticker}) = _$MessageSticker;
   const MessageSticker._() : super._();
 
@@ -849,11 +914,7 @@ abstract class MessageSticker extends Message {
       _$MessageSticker.fromJson;
 
   @override
-  String get idFrom;
-  @override
-  String get idTo;
-  @override
-  DateTime get timestamp;
+  MessageMetaData get metadata;
   Sticker get sticker;
   @override
   @JsonKey(ignore: true)
@@ -869,7 +930,10 @@ abstract class _$$MessageFallbackCopyWith<$Res>
       __$$MessageFallbackCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String idFrom, String idTo, DateTime timestamp});
+  $Res call({MessageMetaData metadata});
+
+  @override
+  $MessageMetaDataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -883,23 +947,13 @@ class __$$MessageFallbackCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idFrom = null,
-    Object? idTo = null,
-    Object? timestamp = null,
+    Object? metadata = null,
   }) {
     return _then(_$MessageFallback(
-      idFrom: null == idFrom
-          ? _value.idFrom
-          : idFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      idTo: null == idTo
-          ? _value.idTo
-          : idTo // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      metadata: null == metadata
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as MessageMetaData,
     ));
   }
 }
@@ -908,11 +962,7 @@ class __$$MessageFallbackCopyWithImpl<$Res>
 
 @_jsonSerializable
 class _$MessageFallback extends MessageFallback {
-  const _$MessageFallback(
-      {required this.idFrom,
-      required this.idTo,
-      required this.timestamp,
-      final String? $type})
+  const _$MessageFallback({required this.metadata, final String? $type})
       : $type = $type ?? 'fallback',
         super._();
 
@@ -920,18 +970,14 @@ class _$MessageFallback extends MessageFallback {
       _$$MessageFallbackFromJson(json);
 
   @override
-  final String idFrom;
-  @override
-  final String idTo;
-  @override
-  final DateTime timestamp;
+  final MessageMetaData metadata;
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'Message.fallback(idFrom: $idFrom, idTo: $idTo, timestamp: $timestamp)';
+    return 'Message.fallback(metadata: $metadata)';
   }
 
   @override
@@ -939,15 +985,13 @@ class _$MessageFallback extends MessageFallback {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageFallback &&
-            (identical(other.idFrom, idFrom) || other.idFrom == idFrom) &&
-            (identical(other.idTo, idTo) || other.idTo == idTo) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+            (identical(other.metadata, metadata) ||
+                other.metadata == metadata));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, idFrom, idTo, timestamp);
+  int get hashCode => Object.hash(runtimeType, metadata);
 
   @JsonKey(ignore: true)
   @override
@@ -958,55 +1002,43 @@ class _$MessageFallback extends MessageFallback {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(MessageMetaData metadata, String content) text,
     required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)
-        text,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)
+            MessageMetaData metadata, String imageUrl, String? caption)
         image,
-    required TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)
+    required TResult Function(MessageMetaData metadata, Sticker sticker)
         sticker,
-    required TResult Function(String idFrom, String idTo, DateTime timestamp)
-        fallback,
+    required TResult Function(MessageMetaData metadata) fallback,
   }) {
-    return fallback(idFrom, idTo, timestamp);
+    return fallback(metadata);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(MessageMetaData metadata, String content)? text,
     TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult? Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult? Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult? Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult? Function(MessageMetaData metadata)? fallback,
   }) {
-    return fallback?.call(idFrom, idTo, timestamp);
+    return fallback?.call(metadata);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MessageMetaData metadata, String content)? text,
     TResult Function(
-            String idFrom, String idTo, DateTime timestamp, String content)?
-        text,
-    TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String imageUrl, String? caption)?
+            MessageMetaData metadata, String imageUrl, String? caption)?
         image,
-    TResult Function(
-            String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
-        sticker,
-    TResult Function(String idFrom, String idTo, DateTime timestamp)? fallback,
+    TResult Function(MessageMetaData metadata, Sticker sticker)? sticker,
+    TResult Function(MessageMetaData metadata)? fallback,
     required TResult orElse(),
   }) {
     if (fallback != null) {
-      return fallback(idFrom, idTo, timestamp);
+      return fallback(metadata);
     }
     return orElse();
   }
@@ -1057,21 +1089,15 @@ class _$MessageFallback extends MessageFallback {
 }
 
 abstract class MessageFallback extends Message {
-  const factory MessageFallback(
-      {required final String idFrom,
-      required final String idTo,
-      required final DateTime timestamp}) = _$MessageFallback;
+  const factory MessageFallback({required final MessageMetaData metadata}) =
+      _$MessageFallback;
   const MessageFallback._() : super._();
 
   factory MessageFallback.fromJson(Map<String, dynamic> json) =
       _$MessageFallback.fromJson;
 
   @override
-  String get idFrom;
-  @override
-  String get idTo;
-  @override
-  DateTime get timestamp;
+  MessageMetaData get metadata;
   @override
   @JsonKey(ignore: true)
   _$$MessageFallbackCopyWith<_$MessageFallback> get copyWith =>

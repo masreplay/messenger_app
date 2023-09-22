@@ -8,6 +8,7 @@
     "emailAlreadyInUse": "البريد الإلكتروني مستخدم بالفعل", 
     "messageHintText": "اكتب رسالة",
     "refresh": "تحديث",
+    "unsupportedMessage": "هذه الرسالة غير مدعومة",
     "invalidLoginCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
     "defaultErrorMessage": "حدث خطأ ما ، يرجى المحاولة مرة أخرى",
     "validationRequired": "هذا الحقل مطلوب",

@@ -16,7 +16,7 @@ class SettingsScreen extends HookWidget {
 
     final l10n = AppLocalizations.of(context)!;
     final List<Color> colors = [
-      AppSettings.defaultSeedColor,
+      defaultSeedColor,
       ...Colors.primaries,
     ];
 

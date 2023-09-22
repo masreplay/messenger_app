@@ -66,11 +66,14 @@ class DiscussionService {
       FirebaseFirestore.instance.runTransaction(
           (transaction) async => transaction.set(_chat(), chat.toJson()));
 
+  _getMessageMetaData() => MessageMetaData(
+        idFrom: _group.userId,
+        idTo: _group.peerId,
+        timestamp: DateTime.now(),
+      );
   Future<Transaction> sendStickerMessage(Sticker sticker) {
     final chat = Message.sticker(
-      idFrom: _group.userId,
-      idTo: _group.peerId,
-      timestamp: DateTime.now(),
+      metadata: _getMessageMetaData(),
       sticker: sticker,
     );
     return _runTxn(chat);
@@ -78,9 +81,7 @@ class DiscussionService {
 
   Future<Transaction> sendTextMessage(String text) {
     final chat = Message.text(
-      idFrom: _group.userId,
-      idTo: _group.peerId,
-      timestamp: DateTime.now(),
+      metadata: _getMessageMetaData(),
       content: text,
     );
     return _runTxn(chat);
@@ -90,24 +91,20 @@ class DiscussionService {
       _discussion.doc(messageId).delete();
 
   Stream<List<Message>> getMessages({int limit = 20}) => _discussion
-      .orderBy('timestamp', descending: true)
-      .limit(limit)
-      .snapshots()
-      .map((event) =>
-          event.docs.map((e) => Message.fromJson(e.data())).toList());
+          .orderBy('timestamp', descending: true)
+          .limit(limit)
+          .snapshots()
+          .map((event) => event.docs.map((e) => Message.fromJson(e.data())).toList());
 
   Future<void> sendImageMessage(File file) async {
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
     final reference = FirebaseStorage.instance.ref().child(fileName);
-    final uploadTask = reference.putFile(file);
+    final uploadTask = await reference.putFile(file);
 
     try {
-      TaskSnapshot snapshot = await uploadTask;
-      final imageUrl = await snapshot.ref.getDownloadURL();
+      final imageUrl = await uploadTask.ref.getDownloadURL();
       final chat = Message.image(
-        idFrom: _group.userId,
-        idTo: _group.peerId,
-        timestamp: DateTime.now(),
+        metadata: _getMessageMetaData(),
         imageUrl: imageUrl,
         caption: null,
       );

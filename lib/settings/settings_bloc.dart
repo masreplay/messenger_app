@@ -40,6 +40,8 @@ class ColorStringJsonConverter extends JsonConverter<Color, String> {
   String toJson(Color object) => object.value.toString();
 }
 
+const Color defaultSeedColor = Color(0xff7543F5);
+
 @freezed
 class AppSettings with _$AppSettings {
   const AppSettings._();
@@ -52,8 +54,6 @@ class AppSettings with _$AppSettings {
     @Default(ImageCacheState.enabled) ImageCacheState imageCacheStatus,
     @Default(defaultSeedColor) @ColorStringJsonConverter() Color seedColor,
   }) = _AppSettings;
-
-  static const Color defaultSeedColor = Color(0xff7543F5);
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>
       _$AppSettingsFromJson(json);

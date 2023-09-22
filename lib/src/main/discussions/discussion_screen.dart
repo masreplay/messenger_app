@@ -73,20 +73,45 @@ class MessageTheme extends InheritedWidget {
   }
 }
 
-/// it's better to use this [Class] instead of [Record]
+/// It's better to use this [Record] instead of [Class]
 ///
 /// but this is just a show case :)
-typedef MessageState = ({
-  DiscussionGroup group,
-  Message? pervious,
-  Message current,
-  Message? next,
-});
+///
+/// example:
+/// typedef MessageState = ({
+///   DiscussionGroup group,
+///   Message? pervious,
+///   Message current,
+///   Message? next,
+/// });
+///
+/// Same as getter in class here we use extension instead in [Record]
+class MessageState {
+  const MessageState({
+    required this.group,
+    required this.pervious,
+    required this.current,
+    required this.next,
+  });
 
-/// Same as getter in class here we use extension instead
-extension on MessageState {
+  final DiscussionGroup group;
+  final Message? pervious;
+  final Message current;
+  final Message? next;
+
   /// Check if the [current] message is mine
-  bool get isMine => current.idFrom == group.userId;
+  bool get isMine => current.metadata.idFrom == group.userId;
+
+  /// Check if the [next] message is same as current user
+  bool get isNextMine => current.metadata.idFrom == next?.metadata.idFrom;
+
+  /// Check if the [pervious] message is same as current user
+  bool get isPerviousMine =>
+      current.metadata.idFrom == pervious?.metadata.idFrom;
+
+  /// Get the direction of message
+  MessageDirection get direction =>
+      isMine ? MessageDirection.right : MessageDirection.left;
 }
 
 /// This is the screen that shows the discussion between two users.
@@ -185,8 +210,8 @@ class _DiscussionViewState extends State<_DiscussionView> {
           ),
           _StickersSection(onChanged: service.sendStickerMessage),
           _DiscussionInputSection(
-            image: image,
-            controller: controller,
+            imageController: image,
+            textController: controller,
             focusNode: focusNode,
             actions: [
               if (kDebugMode)
@@ -344,7 +369,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
         separatorBuilder: (_, __) => const Gap(size: 8),
         itemBuilder: (context, index) {
           // Collecting the [MessageState] here
-          final state = (
+          final state = MessageState(
             group: widget.group,
             pervious: index > 0 ? widget.messages[index - 1] : null,
             current: widget.messages[index],
@@ -354,7 +379,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
           );
 
           return MessageThemeWrapper(
-            data: state,
+            state: state,
             child: _MessageListTile(
               value: state,
               onLongPressed: _onLongPressed,
@@ -450,6 +475,7 @@ class _FallbackMessageListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final messageTheme = MessageTheme.of(context).data;
 
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -457,12 +483,8 @@ class _FallbackMessageListTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            value.runtimeType.toString(),
+            l10n.unsupportedMessage,
             style: messageTheme.textStyle,
-          ),
-          Text(
-            value.timestamp.format(),
-            style: messageTheme.dateTextStyle,
           ),
         ],
       ),
@@ -493,14 +515,15 @@ class _StickerMessageListTile extends StatelessWidget {
   }
 }
 
+/// Building the theme of the [Message] for the [MessageTheme]
 class MessageThemeWrapper extends StatelessWidget {
   const MessageThemeWrapper({
     super.key,
-    required this.data,
+    required this.state,
     required this.child,
   });
 
-  final MessageState data;
+  final MessageState state;
   final Widget child;
 
   @override
@@ -509,37 +532,9 @@ class MessageThemeWrapper extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final direction =
-        data.isMine ? MessageDirection.right : MessageDirection.left;
+        state.isMine ? MessageDirection.right : MessageDirection.left;
 
-    const sharpRadius = Radius.circular(0.0);
-    var borderRadius = BorderRadius.circular(25.0);
-
-    final isNextMine = data.current.idFrom == data.next?.idFrom;
-    final isPreviousMine = data.current.idFrom == data.pervious?.idFrom;
-
-    if (!isPreviousMine && isNextMine) {
-      borderRadius = switch (direction) {
-        MessageDirection.right => borderRadius.copyWith(topRight: sharpRadius),
-        MessageDirection.left => borderRadius.copyWith(topLeft: sharpRadius),
-      };
-    } else if (isPreviousMine && !isNextMine) {
-      borderRadius = switch (direction) {
-        MessageDirection.right =>
-          borderRadius.copyWith(bottomRight: sharpRadius),
-        MessageDirection.left => borderRadius.copyWith(bottomLeft: sharpRadius),
-      };
-    } else if (isPreviousMine && isNextMine) {
-      borderRadius = switch (direction) {
-        MessageDirection.right => borderRadius.copyWith(
-            topRight: sharpRadius,
-            bottomRight: sharpRadius,
-          ),
-        MessageDirection.left => borderRadius.copyWith(
-            topLeft: sharpRadius,
-            bottomLeft: sharpRadius,
-          ),
-      };
-    }
+    final borderRadius = _buildBorderRadius();
 
     final textStyle = textTheme.titleMedium!;
 
@@ -572,8 +567,47 @@ class MessageThemeWrapper extends StatelessWidget {
       child: child,
     );
   }
+
+  _buildBorderRadius() {
+    const sharpRadius = Radius.circular(0.0);
+    final borderRadius = BorderRadius.circular(24.0);
+
+    if (!state.isPerviousMine && state.isNextMine) {
+      return switch (state.direction) {
+        MessageDirection.right => borderRadius.copyWith(
+            topRight: sharpRadius,
+          ),
+        MessageDirection.left => borderRadius.copyWith(
+            topLeft: sharpRadius,
+          ),
+      };
+    } else if (state.isPerviousMine && !state.isNextMine) {
+      return switch (state.direction) {
+        MessageDirection.right => borderRadius.copyWith(
+            bottomRight: sharpRadius,
+          ),
+        MessageDirection.left => borderRadius.copyWith(
+            bottomLeft: sharpRadius,
+          ),
+      };
+    } else if (state.isPerviousMine && state.isNextMine) {
+      return switch (state.direction) {
+        MessageDirection.right => borderRadius.copyWith(
+            topRight: sharpRadius,
+            bottomRight: sharpRadius,
+          ),
+        MessageDirection.left => borderRadius.copyWith(
+            topLeft: sharpRadius,
+            bottomLeft: sharpRadius,
+          ),
+      };
+    }
+  }
 }
 
+/// Image message list tile for [MessageImage]
+///
+/// show the image and the date of the image cached or not
 class _ImageMessageListTile extends StatelessWidget {
   const _ImageMessageListTile(this.value);
 
@@ -610,7 +644,7 @@ class _ImageMessageListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0),
               ),
               child: Text(
-                value.timestamp.format(),
+                value.metadata.timestamp.format(),
                 style: messageTheme.imageDateTextStyle,
               ),
             ),
@@ -621,6 +655,9 @@ class _ImageMessageListTile extends StatelessWidget {
   }
 }
 
+/// Text message list tile for [MessageText]
+///
+/// detect color hex code and url and phone number
 class _TextMessageListTile extends StatelessWidget {
   const _TextMessageListTile(this.message);
 
@@ -641,7 +678,7 @@ class _TextMessageListTile extends StatelessWidget {
             style: messageTheme.textStyle,
           ),
           Text(
-            message.timestamp.format(),
+            message.metadata.timestamp.format(),
             style: messageTheme.dateTextStyle,
           ),
         ],
@@ -650,22 +687,36 @@ class _TextMessageListTile extends StatelessWidget {
   }
 }
 
+/// The Input section of the discussion screen.
+///
+/// handle the text input and the image input
 class _DiscussionInputSection extends StatelessWidget {
   const _DiscussionInputSection({
-    required this.image,
-    required this.controller,
+    required this.imageController,
     required this.focusNode,
+    required this.textController,
     required this.actions,
     required this.onTextSend,
     required this.onImageSend,
   });
 
-  final ValueNotifier<File?> image;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final List<IconButton> actions;
-  final VoidCallback onTextSend;
+  /// The image controller to show the image preview
+  final ValueNotifier<File?> imageController;
+
+  /// On image send callback pressed
   final VoidCallback onImageSend;
+
+  /// The focus node of the text field
+  final FocusNode focusNode;
+
+  /// The text controller of the text field :)
+  final TextEditingController textController;
+
+  /// On text send callback pressed
+  final VoidCallback onTextSend;
+
+  /// The actions of the input section
+  final List<IconButton> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -682,7 +733,7 @@ class _DiscussionInputSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ValueListenableBuilder(
-            valueListenable: image,
+            valueListenable: imageController,
             builder: (context, value, child) {
               final borderRadius = BorderRadius.circular(8.0);
               if (value == null) return const SizedBox.shrink();
@@ -716,7 +767,7 @@ class _DiscussionInputSection extends StatelessWidget {
                       ),
                       FilledButton.icon(
                         onPressed: () {
-                          image.value = null;
+                          imageController.value = null;
                         },
                         style: FilledButton.styleFrom(
                           backgroundColor: colorScheme.error,
@@ -732,11 +783,11 @@ class _DiscussionInputSection extends StatelessWidget {
             },
           ),
           ValueListenableBuilder(
-            valueListenable: controller,
+            valueListenable: textController,
             builder: (context, value, child) {
               final text = value.text;
               return TextFormField(
-                controller: controller,
+                controller: textController,
                 focusNode: focusNode,
                 // uncomment to set max length
                 // maxLength: 1000,
