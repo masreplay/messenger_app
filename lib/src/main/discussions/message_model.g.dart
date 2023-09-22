@@ -31,7 +31,7 @@ _$MessageImage _$$MessageImageFromJson(Map<String, dynamic> json) =>
       idTo: json['idTo'] as String,
       timestamp:
           const TimeStampJsonConverter().fromJson(json['timestamp'] as String),
-      imageUrl: json['imageUrl'] as String?,
+      imageUrl: json['imageUrl'] as String,
       caption: json['caption'] as String?,
       $type: json['type'] as String?,
     );

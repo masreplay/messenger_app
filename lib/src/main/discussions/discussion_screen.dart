@@ -6,6 +6,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,9 @@ import 'package:messenger_app/date_time.dart';
 import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
+import 'package:messenger_app/settings/settings_bloc.dart';
 import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
+import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
@@ -175,11 +178,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
               ),
             ),
           ),
-          _StickersSection(
-            onChanged: (value) {
-              service.sendStickerMessage(value);
-            },
-          ),
+          _StickersSection(onChanged: service.sendStickerMessage),
           _DiscussionInputSection(
             image: image,
             controller: controller,
@@ -274,7 +273,7 @@ class _StickersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink(
       height: 100,
       color: Theme.of(context).colorScheme.tertiaryContainer,
       child: FutureBuilder(
@@ -288,12 +287,10 @@ class _StickersSection extends StatelessWidget {
               return Tooltip(
                 message: "${sticker.nickname} ${sticker.emoji}",
                 child: InkWell(
-                  onTap: () {
-                    onChanged(sticker);
-                  },
+                  onTap: () => onChanged(sticker),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: CachedNetworkImage(imageUrl: sticker.path),
+                    child: AppNetworkImage(sticker.path),
                   ),
                 ),
               );
@@ -466,8 +463,8 @@ class _StickerMessageListTile extends StatelessWidget {
         dimension: 100,
         child: AspectRatio(
           aspectRatio: 1,
-          child: CachedNetworkImage(
-            imageUrl: value.sticker.path,
+          child: AppNetworkImage(
+            value.sticker.path,
             fit: BoxFit.cover,
           ),
         ),
@@ -576,8 +573,8 @@ class _ImageMessageListTile extends StatelessWidget {
               borderRadius: messageTheme.borderRadius,
               child: Hero(
                 tag: value.imageUrl!,
-                child: CachedNetworkImage(
-                  imageUrl: value.imageUrl!,
+                child: AppNetworkImage(
+                  value.imageUrl!,
                   fit: BoxFit.cover,
                 ),
               ),

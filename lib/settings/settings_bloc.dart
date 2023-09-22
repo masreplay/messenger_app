@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../src/main/discussions/image.dart';
+
 part 'settings_bloc.freezed.dart';
 part 'settings_bloc.g.dart';
 
@@ -40,21 +42,22 @@ class ColorStringJsonConverter extends JsonConverter<Color, String> {
 
 @freezed
 class AppSettings with _$AppSettings {
+  const AppSettings._();
   @JsonSerializable(explicitToJson: true)
   factory AppSettings({
     @LocalStringJsonConverter() Locale? locale,
     @Default(ThemeMode.system)
     @ThemeModeStringJsonConverter()
     ThemeMode themeMode,
+    @Default(ImageCacheState.enabled) ImageCacheState imageCacheStatus,
     @Default(defaultSeedColor) @ColorStringJsonConverter() Color seedColor,
   }) = _AppSettings;
+
+  static const Color defaultSeedColor = Color(0xff7543F5);
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>
       _$AppSettingsFromJson(json);
 }
-
-const Color defaultSeedColor = Color(0xff7543F5);
-
 
 typedef SettingsState = AppSettings;
 
@@ -71,7 +74,8 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
       emit(state.copyWith(seedColor: seedColor));
 
   @override
-  SettingsState fromJson(Map<String, dynamic> json) => SettingsState.fromJson(json);
+  SettingsState fromJson(Map<String, dynamic> json) =>
+      SettingsState.fromJson(json);
 
   @override
   Map<String, dynamic> toJson(SettingsState state) => state.toJson();

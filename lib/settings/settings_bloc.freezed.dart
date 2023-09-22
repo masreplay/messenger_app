@@ -24,6 +24,7 @@ mixin _$AppSettings {
   Locale? get locale => throw _privateConstructorUsedError;
   @ThemeModeStringJsonConverter()
   ThemeMode get themeMode => throw _privateConstructorUsedError;
+  ImageCacheState get imageCacheStatus => throw _privateConstructorUsedError;
   @ColorStringJsonConverter()
   Color get seedColor => throw _privateConstructorUsedError;
 
@@ -42,6 +43,7 @@ abstract class $AppSettingsCopyWith<$Res> {
   $Res call(
       {@LocalStringJsonConverter() Locale? locale,
       @ThemeModeStringJsonConverter() ThemeMode themeMode,
+      ImageCacheState imageCacheStatus,
       @ColorStringJsonConverter() Color seedColor});
 }
 
@@ -60,6 +62,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
   $Res call({
     Object? locale = freezed,
     Object? themeMode = null,
+    Object? imageCacheStatus = null,
     Object? seedColor = null,
   }) {
     return _then(_value.copyWith(
@@ -71,6 +74,10 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as ThemeMode,
+      imageCacheStatus: null == imageCacheStatus
+          ? _value.imageCacheStatus
+          : imageCacheStatus // ignore: cast_nullable_to_non_nullable
+              as ImageCacheState,
       seedColor: null == seedColor
           ? _value.seedColor
           : seedColor // ignore: cast_nullable_to_non_nullable
@@ -90,6 +97,7 @@ abstract class _$$_AppSettingsCopyWith<$Res>
   $Res call(
       {@LocalStringJsonConverter() Locale? locale,
       @ThemeModeStringJsonConverter() ThemeMode themeMode,
+      ImageCacheState imageCacheStatus,
       @ColorStringJsonConverter() Color seedColor});
 }
 
@@ -106,6 +114,7 @@ class __$$_AppSettingsCopyWithImpl<$Res>
   $Res call({
     Object? locale = freezed,
     Object? themeMode = null,
+    Object? imageCacheStatus = null,
     Object? seedColor = null,
   }) {
     return _then(_$_AppSettings(
@@ -117,6 +126,10 @@ class __$$_AppSettingsCopyWithImpl<$Res>
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as ThemeMode,
+      imageCacheStatus: null == imageCacheStatus
+          ? _value.imageCacheStatus
+          : imageCacheStatus // ignore: cast_nullable_to_non_nullable
+              as ImageCacheState,
       seedColor: null == seedColor
           ? _value.seedColor
           : seedColor // ignore: cast_nullable_to_non_nullable
@@ -128,11 +141,13 @@ class __$$_AppSettingsCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_AppSettings implements _AppSettings {
+class _$_AppSettings extends _AppSettings {
   _$_AppSettings(
       {@LocalStringJsonConverter() this.locale,
       @ThemeModeStringJsonConverter() this.themeMode = ThemeMode.system,
-      @ColorStringJsonConverter() this.seedColor = defaultSeedColor});
+      this.imageCacheStatus = ImageCacheState.enabled,
+      @ColorStringJsonConverter() this.seedColor = defaultSeedColor})
+      : super._();
 
   factory _$_AppSettings.fromJson(Map<String, dynamic> json) =>
       _$$_AppSettingsFromJson(json);
@@ -146,12 +161,15 @@ class _$_AppSettings implements _AppSettings {
   final ThemeMode themeMode;
   @override
   @JsonKey()
+  final ImageCacheState imageCacheStatus;
+  @override
+  @JsonKey()
   @ColorStringJsonConverter()
   final Color seedColor;
 
   @override
   String toString() {
-    return 'AppSettings(locale: $locale, themeMode: $themeMode, seedColor: $seedColor)';
+    return 'AppSettings(locale: $locale, themeMode: $themeMode, imageCacheStatus: $imageCacheStatus, seedColor: $seedColor)';
   }
 
   @override
@@ -162,13 +180,16 @@ class _$_AppSettings implements _AppSettings {
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.themeMode, themeMode) ||
                 other.themeMode == themeMode) &&
+            (identical(other.imageCacheStatus, imageCacheStatus) ||
+                other.imageCacheStatus == imageCacheStatus) &&
             (identical(other.seedColor, seedColor) ||
                 other.seedColor == seedColor));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, locale, themeMode, seedColor);
+  int get hashCode =>
+      Object.hash(runtimeType, locale, themeMode, imageCacheStatus, seedColor);
 
   @JsonKey(ignore: true)
   @override
@@ -184,11 +205,13 @@ class _$_AppSettings implements _AppSettings {
   }
 }
 
-abstract class _AppSettings implements AppSettings {
+abstract class _AppSettings extends AppSettings {
   factory _AppSettings(
       {@LocalStringJsonConverter() final Locale? locale,
       @ThemeModeStringJsonConverter() final ThemeMode themeMode,
+      final ImageCacheState imageCacheStatus,
       @ColorStringJsonConverter() final Color seedColor}) = _$_AppSettings;
+  _AppSettings._() : super._();
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
       _$_AppSettings.fromJson;
@@ -199,6 +222,8 @@ abstract class _AppSettings implements AppSettings {
   @override
   @ThemeModeStringJsonConverter()
   ThemeMode get themeMode;
+  @override
+  ImageCacheState get imageCacheStatus;
   @override
   @ColorStringJsonConverter()
   Color get seedColor;

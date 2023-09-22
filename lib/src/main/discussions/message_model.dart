@@ -42,7 +42,7 @@ class Message with _$Message, _MessageMixin {
     required String idFrom,
     required String idTo,
     required DateTime timestamp,
-    required String? imageUrl,
+    required String imageUrl,
     required String? caption,
   }) = MessageImage;
 

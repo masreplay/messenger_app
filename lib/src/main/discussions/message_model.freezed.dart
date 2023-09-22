@@ -39,7 +39,7 @@ mixin _$Message {
             String idFrom, String idTo, DateTime timestamp, String content)
         text,
     required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)
+            String imageUrl, String? caption)
         image,
     required TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)
@@ -54,7 +54,7 @@ mixin _$Message {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult? Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -68,7 +68,7 @@ mixin _$Message {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -259,7 +259,7 @@ class _$MessageText extends MessageText {
             String idFrom, String idTo, DateTime timestamp, String content)
         text,
     required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)
+            String imageUrl, String? caption)
         image,
     required TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)
@@ -277,7 +277,7 @@ class _$MessageText extends MessageText {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult? Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -294,7 +294,7 @@ class _$MessageText extends MessageText {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -388,7 +388,7 @@ abstract class _$$MessageImageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       {String idFrom,
       String idTo,
       DateTime timestamp,
-      String? imageUrl,
+      String imageUrl,
       String? caption});
 }
 
@@ -406,7 +406,7 @@ class __$$MessageImageCopyWithImpl<$Res>
     Object? idFrom = null,
     Object? idTo = null,
     Object? timestamp = null,
-    Object? imageUrl = freezed,
+    Object? imageUrl = null,
     Object? caption = freezed,
   }) {
     return _then(_$MessageImage(
@@ -422,10 +422,10 @@ class __$$MessageImageCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imageUrl: freezed == imageUrl
+      imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       caption: freezed == caption
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -458,7 +458,7 @@ class _$MessageImage extends MessageImage {
   @override
   final DateTime timestamp;
   @override
-  final String? imageUrl;
+  final String imageUrl;
   @override
   final String? caption;
 
@@ -502,7 +502,7 @@ class _$MessageImage extends MessageImage {
             String idFrom, String idTo, DateTime timestamp, String content)
         text,
     required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)
+            String imageUrl, String? caption)
         image,
     required TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)
@@ -520,7 +520,7 @@ class _$MessageImage extends MessageImage {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult? Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -537,7 +537,7 @@ class _$MessageImage extends MessageImage {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -601,7 +601,7 @@ abstract class MessageImage extends Message {
       {required final String idFrom,
       required final String idTo,
       required final DateTime timestamp,
-      required final String? imageUrl,
+      required final String imageUrl,
       required final String? caption}) = _$MessageImage;
   const MessageImage._() : super._();
 
@@ -614,7 +614,7 @@ abstract class MessageImage extends Message {
   String get idTo;
   @override
   DateTime get timestamp;
-  String? get imageUrl;
+  String get imageUrl;
   String? get caption;
   @override
   @JsonKey(ignore: true)
@@ -743,7 +743,7 @@ class _$MessageSticker extends MessageSticker {
             String idFrom, String idTo, DateTime timestamp, String content)
         text,
     required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)
+            String imageUrl, String? caption)
         image,
     required TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)
@@ -761,7 +761,7 @@ class _$MessageSticker extends MessageSticker {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult? Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -778,7 +778,7 @@ class _$MessageSticker extends MessageSticker {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -962,7 +962,7 @@ class _$MessageFallback extends MessageFallback {
             String idFrom, String idTo, DateTime timestamp, String content)
         text,
     required TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)
+            String imageUrl, String? caption)
         image,
     required TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)
@@ -980,7 +980,7 @@ class _$MessageFallback extends MessageFallback {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult? Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult? Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
@@ -997,7 +997,7 @@ class _$MessageFallback extends MessageFallback {
             String idFrom, String idTo, DateTime timestamp, String content)?
         text,
     TResult Function(String idFrom, String idTo, DateTime timestamp,
-            String? imageUrl, String? caption)?
+            String imageUrl, String? caption)?
         image,
     TResult Function(
             String idFrom, String idTo, DateTime timestamp, Sticker sticker)?
