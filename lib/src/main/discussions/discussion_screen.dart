@@ -4,9 +4,9 @@ import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/date_time.dart';
@@ -17,7 +17,7 @@ import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/discussions/sticker_bloc.dart';
+import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
@@ -320,44 +320,54 @@ class _StickersSection extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final bloc = useBloc<StickersCubit>();
-    final state = useBlocBuilder(bloc);
+    final bloc = BlocProvider.of<StickersCubit>(context);
 
-    return Ink(
-      height: 100,
-      color: colorScheme.tertiaryContainer,
-      child: state.maybeWhen(
-        data: (data) => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: data.isEmpty || !show
-              ? null
-              : ListView.builder(
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final sticker = data[index];
-                    return Tooltip(
-                      message: "${sticker.nickname} ${sticker.emoji}",
-                      child: InkWell(
-                        onTap: () => onChanged(sticker),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: AppNetworkImage(sticker.path),
-                        ),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (!show) return const SizedBox.shrink();
+
+    return bloc.state.maybeWhen(
+      data: (data) => Ink(
+        height: 100,
+        color: colorScheme.tertiaryContainer,
+        child: data.isEmpty
+            ? _buildStickersEmptyWidget(context)
+            : ListView.builder(
+                itemCount: data.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final sticker = data[index];
+                  return Tooltip(
+                    message: "${sticker.nickname} ${sticker.emoji}",
+                    child: InkWell(
+                      onTap: () => onChanged(sticker),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: AppNetworkImage(sticker.path),
                       ),
-                    );
-                  },
-                ),
-        ),
-        orElse: DefaultLoadingWidget.new,
+                    ),
+                  );
+                },
+              ),
       ),
+      error: DefaultErrorWidget.call(bloc.run),
+      orElse: DefaultLoadingWidget.new,
     );
   }
+
+  Widget _buildStickersEmptyWidget(BuildContext context) => Center(
+        child: Text(
+          AppLocalizations.of(context)!.noStickers,
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onTertiaryContainer,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+      );
 }
 
 /// A list of messages not depend on the type of the message
-class _MessagesListView extends StatefulWidget {
+class _MessagesListView extends StatefulHookWidget {
   const _MessagesListView({
     required this.messages,
     required this.controller,
@@ -395,7 +405,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
           );
 
           return MessageThemeWrapper(
-            state: state,
+            data: state,
             child: _MessageListTile(
               value: state,
               onLongPressed: _onLongPressed,
@@ -524,9 +534,31 @@ class _StickerMessageListTile extends StatelessWidget {
           child: AppNetworkImage(
             value.sticker.path,
             fit: BoxFit.cover,
+            loadingBuilder: _placeholderBuilder,
           ),
         ),
       ),
+    );
+  }
+
+  Widget _placeholderBuilder(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox.square(
+          dimension: 24,
+          child: FittedBox(
+            child: Text(
+              value.sticker.emoji,
+            ),
+          ),
+        ),
+        Text(
+          value.sticker.nickname,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
+      ],
     );
   }
 }
@@ -535,11 +567,11 @@ class _StickerMessageListTile extends StatelessWidget {
 class MessageThemeWrapper extends StatelessWidget {
   const MessageThemeWrapper({
     super.key,
-    required this.state,
+    required this.data,
     required this.child,
   });
 
-  final MessageState state;
+  final MessageState data;
   final Widget child;
 
   @override
@@ -548,7 +580,7 @@ class MessageThemeWrapper extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final direction =
-        state.isMine ? MessageDirection.right : MessageDirection.left;
+        data.isMine ? MessageDirection.right : MessageDirection.left;
 
     final borderRadius = _buildBorderRadius();
 
@@ -588,8 +620,8 @@ class MessageThemeWrapper extends StatelessWidget {
     const sharpRadius = Radius.circular(0.0);
     final borderRadius = BorderRadius.circular(24.0);
 
-    if (!state.isPerviousMine && state.isNextMine) {
-      return switch (state.direction) {
+    if (!data.isPerviousMine && data.isNextMine) {
+      return switch (data.direction) {
         MessageDirection.right => borderRadius.copyWith(
             topRight: sharpRadius,
           ),
@@ -597,8 +629,8 @@ class MessageThemeWrapper extends StatelessWidget {
             topLeft: sharpRadius,
           ),
       };
-    } else if (state.isPerviousMine && !state.isNextMine) {
-      return switch (state.direction) {
+    } else if (data.isPerviousMine && !data.isNextMine) {
+      return switch (data.direction) {
         MessageDirection.right => borderRadius.copyWith(
             bottomRight: sharpRadius,
           ),
@@ -606,8 +638,8 @@ class MessageThemeWrapper extends StatelessWidget {
             bottomLeft: sharpRadius,
           ),
       };
-    } else if (state.isPerviousMine && state.isNextMine) {
-      return switch (state.direction) {
+    } else if (data.isPerviousMine && data.isNextMine) {
+      return switch (data.direction) {
         MessageDirection.right => borderRadius.copyWith(
             topRight: sharpRadius,
             bottomRight: sharpRadius,

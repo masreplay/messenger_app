@@ -12,10 +12,16 @@ class AppNetworkImage extends StatelessWidget {
 
   final BoxFit? fit;
 
+  final WidgetBuilder? errorBuilder;
+
+  final WidgetBuilder? loadingBuilder;
+
   const AppNetworkImage(
     this.imageUrl, {
     super.key,
     this.fit,
+    this.errorBuilder,
+    this.loadingBuilder,
   });
 
   @override
@@ -34,10 +40,23 @@ class AppNetworkImage extends StatelessWidget {
               ? CachedNetworkImage(
                   imageUrl: imageUrl,
                   fit: fit,
+                  placeholder: loadingBuilder == null
+                      ? null
+                      : (context, url) => loadingBuilder!.call(context),
+                  errorWidget: errorBuilder == null
+                      ? null
+                      : (context, url, error) => errorBuilder!.call(context),
                 )
               : Image.network(
                   imageUrl,
                   fit: fit,
+                  loadingBuilder: loadingBuilder == null
+                      ? null
+                      : (context, child, loadingProgress) =>
+                          loadingBuilder!.call(context),
+                  errorBuilder: errorBuilder == null
+                      ? null
+                      : (context, url, error) => errorBuilder!.call(context),
                 ),
         );
       },

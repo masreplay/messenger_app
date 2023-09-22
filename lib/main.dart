@@ -7,6 +7,7 @@ import 'package:messenger_app/app.dart';
 import 'package:messenger_app/firebase_options.dart';
 import 'package:messenger_app/get_it.dart';
 import 'package:messenger_app/settings/settings_bloc.dart';
+import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -30,7 +31,10 @@ Future<void> main() async {
       builderCondition: (state) => state != null,
       listenerCondition: (state) => state != null,
       child: MultiBlocProvider(
-        providers: [BlocProvider(create: (_) => SettingsCubit())],
+        providers: [
+          BlocProvider(create: (_) => getIt.get<SettingsCubit>()),
+          BlocProvider(create: (_) => getIt.get<StickersCubit>()),
+        ],
         child: const MainApp(),
       ),
     ),

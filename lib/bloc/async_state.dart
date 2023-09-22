@@ -39,6 +39,7 @@ class AsyncState<Data, Error> with _$AsyncState<Data, Error> {
       _$AsyncStateFromJson<Data, Error>(json, fromJsonData, fromJsonError);
 
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
+  bool get isData => maybeWhen(data: (_) => true, orElse: () => false);
 }
 
 

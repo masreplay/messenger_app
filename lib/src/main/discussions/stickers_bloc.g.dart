@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sticker_bloc.dart';
+part of 'stickers_bloc.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

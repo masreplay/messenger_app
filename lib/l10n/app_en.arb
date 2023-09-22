@@ -30,6 +30,7 @@
     "image": "Image",
     "copy": "Copy",
     "unsupportedMessage": "Unsupported message",
+    "noStickers": "No stickers",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

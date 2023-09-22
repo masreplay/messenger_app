@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'sticker_bloc.dart';
+part of 'stickers_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -121,7 +121,9 @@ class __$$_StickersExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_StickersException implements _StickersException {
+class _$_StickersException
+    with DiagnosticableTreeMixin
+    implements _StickersException {
   _$_StickersException(this.e);
 
   factory _$_StickersException.fromJson(Map<String, dynamic> json) =>
@@ -131,8 +133,16 @@ class _$_StickersException implements _StickersException {
   final Object? e;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'StickersException.other(e: $e)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StickersException.other'))
+      ..add(DiagnosticsProperty('e', e));
   }
 
   @override
