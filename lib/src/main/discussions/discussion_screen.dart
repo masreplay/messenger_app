@@ -550,8 +550,7 @@ class _StickerMessageListTile extends StatelessWidget {
           child: AppNetworkImage(
             value.sticker.path,
             fit: BoxFit.cover,
-            loadingBuilder: (context) =>
-                StickerPlaceholder(value: value.sticker),
+            loadingBuilder: (context) => StickerPlaceholder(value: value.sticker),
             errorBuilder: (context) => StickerPlaceholder(value: value.sticker),
           ),
         ),
