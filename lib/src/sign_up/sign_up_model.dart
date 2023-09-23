@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'sign_up_model.freezed.dart';
 part 'sign_up_model.g.dart';
 
-@freezed
+@Freezed(toJson: true)
 class SignUpModel with _$SignUpModel {
   @JsonSerializable(explicitToJson: true)
   factory SignUpModel({
@@ -11,7 +11,4 @@ class SignUpModel with _$SignUpModel {
     required String password,
     required String name,
   }) = _SignUpModel;
-
-  factory SignUpModel.fromJson(Map<String, dynamic> json) =>
-      _$SignUpModelFromJson(json);
 }

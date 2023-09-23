@@ -7,6 +7,7 @@ import 'package:messenger_app/form_body.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/hook/hook.dart';
 import 'package:messenger_app/router/extension.dart';
+import 'package:messenger_app/src/bloc_builder.dart';
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
 import 'package:messenger_app/src/widgets/email_form_field.dart';
 import 'package:messenger_app/src/widgets/logo.dart';
@@ -33,84 +34,85 @@ class SignUpScreen extends HookWidget {
     );
 
     final obscure = useState(true);
-    final cubit = BlocProvider.of<SignUpCubit>(context);
-    final state = cubit.state;
     final formKey = useFormKey();
 
-    return Scaffold(
-      body: FormBody(
-        formKey: formKey,
-        children: [
-          const Spacer(),
-          const Slogan(),
-          const Spacer(),
-          TextFormField(
-            controller: name,
-            validator: context.validator.required().build(),
-            decoration: InputDecoration(
-              labelText: l10n.name,
-              suffixIcon: const Icon(Icons.person_outline),
-            ),
-          ),
-          EmailFormField(controller: email),
-          PasswordFormField(
-            controller: password,
-            obscure: obscure.value,
-            onToggle: () => obscure.value = !obscure.value,
-          ),
-          const Gap(),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context.router.push(const LoginRoute());
-                  },
-                  child: Text(l10n.login),
-                ),
-                FilledButton(
-                  onPressed: state.isLoading
-                      ? null
-                      : () async {
-                          if (formKey.isNotValid()) {
-                            return;
-                          }
-                          final body = SignUpModel(
-                            email: email.text,
-                            password: password.text,
-                            name: name.text,
-                          );
+    return BlocProviderAndBuilder<SignUpCubit, SignUpCubitState>(
+      builder: (context, state) {
+        signUp() async {
+          if (formKey.isNotValid()) {
+            return;
+          }
+          final body = SignUpModel(
+            email: email.text,
+            password: password.text,
+            name: name.text,
+          );
 
-                          await cubit.signUp(body);
-                          cubit.state.whenOrNull(
-                            data: (data) {
-                              context.router.replaceInitialRoute();
-                            },
-                            error: (error, stackTrace) {
-                              error.maybeWhen(
-                                emailAlreadyInUse: () {
-                                  context.showErrorSnackBar(
-                                      l10n.emailAlreadyInUse);
-                                },
-                                orElse: context.showDefaultErrorSnackBar,
-                              );
-                            },
-                          );
-                        },
-                  child: state.maybeWhen(
-                    loading: () => const SizedBox.square(
-                      dimension: 24,
-                      child: CircularProgressIndicator(),
-                    ),
-                    orElse: () => Text(l10n.signUp),
-                  ),
+          final cubit = context.read<SignUpCubit>();
+          await cubit.signUp(body);
+          cubit.state.whenOrNull(
+            data: (_) => context.router.replaceInitialRoute(),
+            error: (error, stackTrace) {
+              error.maybeWhen(
+                emailAlreadyInUse: () {
+                  context.showErrorSnackBar(l10n.emailAlreadyInUse);
+                },
+                orElse: context.showDefaultErrorSnackBar,
+              );
+            },
+          );
+        }
+
+        ;
+        return Scaffold(
+          body: FormBody(
+            formKey: formKey,
+            children: [
+              const Spacer(),
+              const Slogan(),
+              const Spacer(),
+              TextFormField(
+                controller: name,
+                validator: context.validator.required().build(),
+                decoration: InputDecoration(
+                  labelText: l10n.name,
+                  suffixIcon: const Icon(Icons.person_outline),
                 ),
-              ],
-            ),
+              ),
+              EmailFormField(controller: email),
+              PasswordFormField(
+                controller: password,
+                obscure: obscure.value,
+                onToggle: () => obscure.value = !obscure.value,
+              ),
+              const Gap(),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context.router.push(const LoginRoute());
+                      },
+                      child: Text(l10n.login),
+                    ),
+                    FilledButton(
+                      onPressed: state.isLoading ? null : signUp,
+                      child: state.maybeWhen(
+                        loading: () => const SizedBox.square(
+                          dimension: 24,
+                          child: CircularProgressIndicator(),
+                        ),
+                        orElse: () => Text(l10n.signUp),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

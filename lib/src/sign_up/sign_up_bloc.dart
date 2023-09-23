@@ -13,8 +13,7 @@ import 'sign_up_model.dart';
 
 part 'sign_up_bloc.freezed.dart';
 part 'sign_up_bloc.g.dart';
-
-typedef SignUpCubitState = AsyncState<UserCredential, SignUpCubitException>;
+part 'sign_up_state.dart';
 
 @injectable
 class SignUpCubit extends Cubit<SignUpCubitState> {

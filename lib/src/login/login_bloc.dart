@@ -9,8 +9,7 @@ import 'package:messenger_app/src/login/login_model.dart';
 
 part 'login_bloc.freezed.dart';
 part 'login_bloc.g.dart';
-
-typedef LoginCubitState = AsyncState<UserCredential, LoginCubitException>;
+part 'login_state.dart';
 
 @injectable
 class LoginCubit extends Cubit<LoginCubitState> {

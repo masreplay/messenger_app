@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-SignUpModel _$SignUpModelFromJson(Map<String, dynamic> json) {
-  return _SignUpModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$SignUpModel {
   String get email => throw _privateConstructorUsedError;
@@ -123,9 +119,6 @@ class _$_SignUpModel implements _SignUpModel {
   _$_SignUpModel(
       {required this.email, required this.password, required this.name});
 
-  factory _$_SignUpModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SignUpModelFromJson(json);
-
   @override
   final String email;
   @override
@@ -172,9 +165,6 @@ abstract class _SignUpModel implements SignUpModel {
       {required final String email,
       required final String password,
       required final String name}) = _$_SignUpModel;
-
-  factory _SignUpModel.fromJson(Map<String, dynamic> json) =
-      _$_SignUpModel.fromJson;
 
   @override
   String get email;
