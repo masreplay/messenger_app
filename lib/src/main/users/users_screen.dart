@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
@@ -14,38 +15,41 @@ class UsersScreen extends HookWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final cubit = BlocProvider.of<UsersCubit>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.discussions),
       ),
-      body: cubit.state.maybeWhen(
-        data: (data) => RefreshIndicator(
-          onRefresh: () async => cubit.run(),
-          child: ListView.builder(
-            padding: const EdgeInsets.all(10.0),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final chat = data[index];
-              return DiscussionListTile(
-                data: chat,
-                onTap: () {
-                  context.router.push(DiscussionRoute(peerId: chat.uid));
+      body: BlocProviderAndBuilder<UsersCubit, UsersCubitState>(
+        factory: (context) => context.read<UsersCubit>().run(),
+        builder: (context, state) {
+          return state.maybeWhen(
+            data: (data) => RefreshIndicator(
+              onRefresh: () async => context.read<UsersCubit>().run(),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(10.0),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final chat = data[index];
+                  return UserListTile(
+                    data: chat,
+                    onTap: () {
+                      context.router.push(DiscussionRoute(peerId: chat.uid));
+                    },
+                  );
                 },
-              );
-            },
-          ),
-        ),
-        error: DefaultErrorWidget.call(cubit.run),
-        orElse: DefaultLoadingWidget.new,
+              ),
+            ),
+            error: DefaultErrorWidget.call(context.read<UsersCubit>().run),
+            orElse: DefaultLoadingWidget.new,
+          );
+        },
       ),
     );
   }
 }
 
-class DiscussionListTile extends StatelessWidget {
-  const DiscussionListTile({
+class UserListTile extends StatelessWidget {
+  const UserListTile({
     super.key,
     required this.data,
     required this.onTap,

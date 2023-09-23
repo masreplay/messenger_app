@@ -23,6 +23,7 @@ import 'package:messenger_app/src/main/discussions/user_bloc.dart' as _i13;
 import 'package:messenger_app/src/main/discussions/users_repo.dart' as _i10;
 import 'package:messenger_app/src/main/stickers_repo.dart' as _i9;
 import 'package:messenger_app/src/main/stickers_screen.dart' as _i8;
+import 'package:messenger_app/src/main/users/users_bloc.dart' as _i14;
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart' as _i7;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -63,6 +64,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i13.UserCubit(gh<_i10.UsersRepository>()));
     gh.factory<_i13.UsersCubit>(
         () => _i13.UsersCubit(gh<_i10.UsersRepository>())..run());
+    gh.factory<_i14.UsersCubit>(
+        () => _i14.UsersCubit(gh<_i10.UsersRepository>())..run());
     return this;
   }
 }

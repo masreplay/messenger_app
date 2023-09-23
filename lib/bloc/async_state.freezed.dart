@@ -139,7 +139,8 @@ class __$$AsyncStateInitialCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$AsyncStateInitial<Data, Error> extends AsyncStateInitial<Data, Error> {
+class _$AsyncStateInitial<Data, Error> extends AsyncStateInitial<Data, Error>
+    with DiagnosticableTreeMixin {
   const _$AsyncStateInitial({final String? $type})
       : $type = $type ?? 'Initial',
         super._();
@@ -154,8 +155,15 @@ class _$AsyncStateInitial<Data, Error> extends AsyncStateInitial<Data, Error> {
   final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AsyncState<$Data, $Error>.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty('type', 'AsyncState<$Data, $Error>.initial'));
   }
 
   @override
@@ -287,7 +295,8 @@ class __$$AsyncStateLoadingCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$AsyncStateLoading<Data, Error> extends AsyncStateLoading<Data, Error> {
+class _$AsyncStateLoading<Data, Error> extends AsyncStateLoading<Data, Error>
+    with DiagnosticableTreeMixin {
   const _$AsyncStateLoading({final String? $type})
       : $type = $type ?? 'Loading',
         super._();
@@ -302,8 +311,15 @@ class _$AsyncStateLoading<Data, Error> extends AsyncStateLoading<Data, Error> {
   final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AsyncState<$Data, $Error>.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty('type', 'AsyncState<$Data, $Error>.loading'));
   }
 
   @override
@@ -450,7 +466,8 @@ class __$$AsyncStateDataCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$AsyncStateData<Data, Error> extends AsyncStateData<Data, Error> {
+class _$AsyncStateData<Data, Error> extends AsyncStateData<Data, Error>
+    with DiagnosticableTreeMixin {
   const _$AsyncStateData(this.data, {final String? $type})
       : $type = $type ?? 'Data',
         super._();
@@ -468,8 +485,16 @@ class _$AsyncStateData<Data, Error> extends AsyncStateData<Data, Error> {
   final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AsyncState<$Data, $Error>.data(data: $data)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AsyncState<$Data, $Error>.data'))
+      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -634,7 +659,8 @@ class __$$AsyncStateErrorCopyWithImpl<Data, Error, $Res>
 /// @nodoc
 
 @_jsonSerializable
-class _$AsyncStateError<Data, Error> extends AsyncStateError<Data, Error> {
+class _$AsyncStateError<Data, Error> extends AsyncStateError<Data, Error>
+    with DiagnosticableTreeMixin {
   const _$AsyncStateError(this.error, @StackTraceConverter() this.stackTrace,
       {final String? $type})
       : $type = $type ?? 'Error',
@@ -656,8 +682,17 @@ class _$AsyncStateError<Data, Error> extends AsyncStateError<Data, Error> {
   final String $type;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AsyncState<$Data, $Error>.error(error: $error, stackTrace: $stackTrace)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AsyncState<$Data, $Error>.error'))
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('stackTrace', stackTrace));
   }
 
   @override

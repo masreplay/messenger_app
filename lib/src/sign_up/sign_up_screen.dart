@@ -84,9 +84,7 @@ class SignUpScreen extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        context.router.push(const LoginRoute());
-                      },
+                      onPressed: () => context.router.push(const LoginRoute()),
                       child: Text(l10n.login),
                     ),
                     FilledButton(
