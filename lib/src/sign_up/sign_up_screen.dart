@@ -2,16 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/form_body.dart';
-import 'package:messenger_app/gap.dart';
-import 'package:messenger_app/hook/hook.dart';
 import 'package:messenger_app/router/extension.dart';
-import 'package:messenger_app/src/bloc_builder.dart';
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
-import 'package:messenger_app/src/widgets/email_form_field.dart';
-import 'package:messenger_app/src/widgets/logo.dart';
-import 'package:messenger_app/src/widgets/password_form_field.dart';
 
 import 'sign_up_model.dart';
 
@@ -63,7 +57,6 @@ class SignUpScreen extends HookWidget {
           );
         }
 
-        ;
         return Scaffold(
           body: FormBody(
             formKey: formKey,

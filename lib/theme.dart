@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AppTheme {
+final class AppTheme {
   const AppTheme({
     required this.locale,
     required this.seedColor,

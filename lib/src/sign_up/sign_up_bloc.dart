@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/async_state.dart';
-import 'package:messenger_app/collections.dart';
+import 'package:messenger_app/firebase/collections.dart';
 import 'package:messenger_app/models/user.dart';
 
 import 'sign_up_model.dart';

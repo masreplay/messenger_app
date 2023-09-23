@@ -3,6 +3,9 @@ import 'package:injectable/injectable.dart';
 
 import 'get_it.config.dart';
 
+const Named firebaseImpl = Named("firebase");
+const Named appImpl = firebaseImpl;
+
 final getIt = GetIt.instance;
 
 @InjectableInit()

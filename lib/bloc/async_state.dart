@@ -1,8 +1,30 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:messenger_app/bloc/serialization.dart';
+import 'package:messenger_app/data/serialization.dart';
 
 part 'async_state.freezed.dart';
 part 'async_state.g.dart';
+
+
+/// Generic async state management using [Freezed] and [Cubit].
+mixin AsyncStateCubitMixin<Data> on Cubit<AsyncStateDefault<Data>> {
+  Future<void> handle(FutureOr<Data> Function() data) async {
+    debugPrint("loading: $Data");
+    emit(AsyncStateDefault<Data>.loading());
+    try {
+      debugPrint("data: $Data");
+      final result = await data();
+      emit(AsyncStateDefault<Data>.data(result));
+    } catch (e, stackTrace) {
+      log(toString(), error: e, stackTrace: stackTrace);
+      emit(AsyncStateDefault<Data>.error(e, stackTrace));
+    }
+  }
+}
 
 const _jsonSerializable = JsonSerializable(
   createFactory: true,

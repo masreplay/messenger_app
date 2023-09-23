@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:messenger_app/get_it.dart';
+import 'package:messenger_app/di/di.dart';
 
 class BlocProviderAndBuilder<B extends Cubit<S>, S> extends StatelessWidget {
   const BlocProviderAndBuilder({

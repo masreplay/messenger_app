@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/bloc/bloc.dart';
-import 'package:messenger_app/implementation.dart';
+import 'package:messenger_app/di/get_it.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/users_repo.dart';
 import 'package:messenger_app/src/main/id.dart';

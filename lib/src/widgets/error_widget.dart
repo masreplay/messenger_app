@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:messenger_app/gap.dart';
+import 'package:messenger_app/src/widgets/gap.dart';
 import 'package:messenger_app/l10n/l10n.dart';
 
 class DefaultErrorWidget extends StatelessWidget {

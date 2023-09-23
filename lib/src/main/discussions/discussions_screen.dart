@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/get_it.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/main/discussions/user_bloc.dart';
-import 'package:messenger_app/src/widgets/error_widget.dart';
-import 'package:messenger_app/src/widgets/loading_widget.dart';
 
 @RoutePage()
 class UsersScreen extends HookWidget {
