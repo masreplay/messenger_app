@@ -9,15 +9,16 @@ class BlocProviderAndBuilder<B extends Cubit<S>, S> extends StatelessWidget {
     required this.builder,
   });
 
-  final void Function(BuildContext context)? factory;
+  final void Function(B bloc)? factory;
   final BlocWidgetBuilder<S> builder;
 
   @override
   Widget build(BuildContext context) {
+    final cubit = getIt.get<B>();
     return BlocProvider<B>(
-      create: (context) => getIt.get<B>(),
+      create: (context) => cubit,
       child: _RunOnce(
-        callback: () => factory?.call(context),
+        callback: () => factory?.call(cubit),
         child: BlocBuilder<B, S>(
           buildWhen: (previous, current) => previous != current,
           builder: builder,

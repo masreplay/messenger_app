@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/models/user.dart';
@@ -8,7 +7,7 @@ import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/main/discussions/user_bloc.dart';
 
 @RoutePage()
-class UsersScreen extends HookWidget {
+class UsersScreen extends StatelessWidget {
   const UsersScreen({super.key});
 
   @override
@@ -16,11 +15,9 @@ class UsersScreen extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.discussions),
-      ),
+      appBar: AppBar(title: Text(l10n.discussions)),
       body: BlocProviderAndBuilder<UsersCubit, UsersCubitState>(
-        factory: (context) => context.read<UsersCubit>().run(),
+        factory: (bloc) => bloc.run(),
         builder: (context, state) {
           return state.maybeWhen(
             data: (data) => RefreshIndicator(

@@ -25,6 +25,7 @@ class UsersCubit extends Cubit<UsersCubitState> with AsyncStateCubitMixin {
 
   @postConstruct
   void run() {
+    print('UsersCubit.run');
     _repository.watchAll().listen((event) {
       emit(UsersCubitState.data(event));
     }).onError((error) {
