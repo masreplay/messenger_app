@@ -8,9 +8,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/date_time.dart';
@@ -33,12 +31,13 @@ part 'discussion_screen.freezed.dart';
 
 typedef MessagesState = AsyncStateDefault<List<Message>>;
 
-@injectable
 class MessagesCubit extends Cubit<MessagesState> with AsyncStateCubitMixin {
   final DiscussionsRepository _repository;
+
   MessagesCubit(this._repository) : super(const MessagesState.loading());
-  @postConstruct
-  void init() {
+
+  void run() {
+    print("MessagesCubit.run");
     _repository.watchAll().listen((event) {
       emit(MessagesState.data(event));
     }).onError((error) {
@@ -140,7 +139,7 @@ class MessageState {
 /// This screen is not used in the app, but it's used in the deep link.
 /// /discussion/{peerId}
 @RoutePage()
-class DiscussionScreen extends HookWidget {
+class DiscussionScreen extends StatefulHookWidget {
   const DiscussionScreen({
     super.key,
     @pathParam required this.peerId,
@@ -150,29 +149,34 @@ class DiscussionScreen extends HookWidget {
   final String peerId;
 
   @override
+  State<DiscussionScreen> createState() => _DiscussionScreenState();
+}
+
+class _DiscussionScreenState extends State<DiscussionScreen> {
+  @override
+  void initState() {
+    context.read<UserCubit>().run(widget.peerId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cubit = useBloc<UserCubit>();
-    final state = useBlocBuilder(cubit);
+    final group = DiscussionGroup.fromPeerId(widget.peerId);
+    final repo = FirebaseDiscussionsRepository(group);
 
-    final l10n = AppLocalizations.of(context)!;
-
-    final group = DiscussionGroup.fromPeerId(peerId);
+    final state = context.watch<UserCubit>().state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.discussion),
-      ),
       body: state.maybeWhen(
-        data: (data) {
-          return BlocBuilder<DiscussionCubit, DiscussionState>(
-            bloc: DiscussionCubit(FirebaseDiscussionsRepository(group)),
-            builder: (context, state) {
-              return _DiscussionView(data, group);
-            },
-          );
-        },
+        data: (data) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => DiscussionCubit(repo)),
+            BlocProvider(create: (_) => MessagesCubit(repo)),
+          ],
+          child: _DiscussionView(data, group),
+        ),
         error: DefaultErrorWidget.call(() {
-          cubit.run(peerId);
+          context.read<UserCubit>().run(widget.peerId);
         }),
         orElse: DefaultLoadingWidget.new,
       ),
@@ -180,7 +184,7 @@ class DiscussionScreen extends HookWidget {
   }
 }
 
-class _DiscussionView extends HookWidget {
+class _DiscussionView extends StatefulHookWidget {
   const _DiscussionView(this.peer, this.group);
 
   final UserData peer;
@@ -188,12 +192,21 @@ class _DiscussionView extends HookWidget {
   final DiscussionGroup group;
 
   @override
+  State<_DiscussionView> createState() => _DiscussionViewState();
+}
+
+class _DiscussionViewState extends State<_DiscussionView> {
+  @override
+  void initState() {
+    context.read<MessagesCubit>().run();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final limit = useState(20);
 
-    final messagesCubit = useBloc<MessagesCubit>();
-    final messages = useBlocBuilder(messagesCubit);
-    final discussion = context.read<DiscussionCubit>();
+    final messages = context.watch<MessagesCubit>().state;
 
     // Message
     final controller = useTextEditingController();
@@ -216,11 +229,11 @@ class _DiscussionView extends HookWidget {
         title: Row(
           children: [
             UserAvatar(
-              alt: peer.email,
-              photoURL: peer.avatar,
+              alt: widget.peer.email,
+              photoURL: widget.peer.avatar,
             ),
             const Gap(),
-            Text(peer.name),
+            Text(widget.peer.name),
           ],
         ),
         actions: [
@@ -238,7 +251,7 @@ class _DiscussionView extends HookWidget {
                 return _MessagesListView(
                   messages: data,
                   controller: scrollController,
-                  group: group,
+                  group: widget.group,
                 );
               },
               error: DefaultErrorWidget.call(context.router.pop),
@@ -247,7 +260,7 @@ class _DiscussionView extends HookWidget {
           ),
           _StickersSection(
             show: showStickers.value,
-            onChanged: discussion.sendStickerMessage,
+            onChanged: context.read<DiscussionCubit>().sendStickerMessage,
           ),
           _DiscussionInputSection(
             imageController: image,
@@ -282,12 +295,12 @@ class _DiscussionView extends HookWidget {
               ),
             ],
             onTextSend: () {
-              discussion.sendTextMessage(controller.text);
+              context.read<DiscussionCubit>().sendTextMessage(controller.text);
               controller.clear();
               focusNode.requestFocus();
             },
             onImageSend: () {
-              discussion.sendImageMessage(image.value!);
+              context.read<DiscussionCubit>().sendImageMessage(image.value!);
               image.value = null;
             },
           ),

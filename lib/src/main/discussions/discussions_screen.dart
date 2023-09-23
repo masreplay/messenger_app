@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/get_it.dart';
 import 'package:messenger_app/models/user.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
 import 'package:messenger_app/src/main/discussions/user_bloc.dart';
@@ -15,14 +16,14 @@ class UsersScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final cubit = useBloc<UsersCubit>();
-    final state = useBlocBuilder(cubit);
+
+    final cubit = BlocProvider.of<UsersCubit>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.discussions),
       ),
-      body: state.maybeWhen(
+      body: cubit.state.maybeWhen(
         data: (data) => RefreshIndicator(
           onRefresh: () async => cubit.run(),
           child: ListView.builder(

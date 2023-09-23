@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:messenger_app/app.dart';
 import 'package:messenger_app/firebase_options.dart';
 import 'package:messenger_app/get_it.dart';
 import 'package:messenger_app/settings/settings_bloc.dart';
 import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
+import 'package:messenger_app/src/main/discussions/user_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -26,17 +26,13 @@ Future<void> main() async {
   configureDependencies();
 
   runApp(
-    HookedBlocConfigProvider(
-      injector: () => getIt.get,
-      builderCondition: (state) => state != null,
-      listenerCondition: (state) => state != null,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => getIt.get<SettingsCubit>()),
-          BlocProvider(create: (_) => getIt.get<StickersCubit>()..run()),
-        ],
-        child: const MainApp(),
-      ),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt.get<SettingsCubit>()),
+        BlocProvider(create: (_) => getIt.get<UserCubit>()),
+        BlocProvider(create: (_) => getIt.get<StickersCubit>()..run()),
+      ],
+      child: const MainApp(),
     ),
   );
 }

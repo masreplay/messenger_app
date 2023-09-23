@@ -597,14 +597,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
-  hooked_bloc:
-    dependency: "direct main"
-    description:
-      name: hooked_bloc
-      sha256: "19e13d576281f40812e4545f01000f482158b7f50b3cf26eb520391f1d6fc759"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
   http:
     dependency: transitive
     description:

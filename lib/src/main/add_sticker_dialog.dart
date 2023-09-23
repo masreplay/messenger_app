@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/common_lib.dart';
@@ -39,11 +38,11 @@ class AddStickerDialog extends HookWidget {
     final emoji = useTextEditingController();
 
     // use AddStickerCubit
-    final cubit = useBloc<AddStickerCubit>();
-    final state = useBlocBuilder(cubit);
+
+    final cubit = context.watch<AddStickerCubit>();
 
     return Dialog(
-      child: state.maybeWhen(
+      child: cubit.state.maybeWhen(
         loading: DefaultLoadingWidget.new,
         orElse: () => FormBody(
           formKey: formKey,
