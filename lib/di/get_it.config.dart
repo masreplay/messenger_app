@@ -16,8 +16,9 @@ import 'package:messenger_app/data/repo/stickers_repo.dart' as _i9;
 import 'package:messenger_app/data/repo/users_repo.dart' as _i10;
 import 'package:messenger_app/settings/settings_bloc.dart' as _i6;
 import 'package:messenger_app/src/login/login_bloc.dart' as _i5;
-import 'package:messenger_app/src/main/stickers/add_sticker_dialog.dart' as _i11;
 import 'package:messenger_app/src/main/discussion/discussion_cubit.dart' as _i3;
+import 'package:messenger_app/src/main/stickers/add_sticker_dialog.dart'
+    as _i11;
 import 'package:messenger_app/src/main/stickers/stickers_bloc.dart' as _i12;
 import 'package:messenger_app/src/main/stickers/stickers_screen.dart' as _i8;
 import 'package:messenger_app/src/main/users/users_bloc.dart' as _i14;

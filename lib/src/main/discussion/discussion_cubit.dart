@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
@@ -63,7 +64,7 @@ class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {
   }
 
   void sendStickerMessage(Sticker value) {
-    print('sendStickerMessage');
+    debugPrint('sendStickerMessage');
     add(DiscussionEvent.sticker(value));
   }
 

@@ -225,7 +225,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
           Expanded(
             child: messages.maybeWhen(
               data: (data) {
-                print(data);
+                debugPrint(data.toString());
                 return _MessagesListView(
                   messages: data,
                   controller: scrollController,

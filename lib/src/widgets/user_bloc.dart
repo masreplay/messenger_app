@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/bloc.dart';
@@ -25,7 +26,7 @@ class UsersCubit extends Cubit<UsersCubitState> with AsyncStateCubitMixin {
 
   @postConstruct
   void run() {
-    print('UsersCubit.run');
+    debugPrint('UsersCubit.run');
     _repository.watchAll().listen((event) {
       emit(UsersCubitState.data(event));
     }).onError((error) {
