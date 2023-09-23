@@ -24,8 +24,8 @@ class AppRouter extends _$AppRouter {
         guards: const [AuthenticatedGuard()],
         children: [
           AutoRoute(
-            path: "discussions",
-            page: DiscussionsRoute.page,
+            path: "users",
+            page: UsersRoute.page,
           ),
           AutoRoute(
             path: "more",

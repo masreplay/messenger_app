@@ -1,21 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/collections.dart';
+import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/implementation.dart';
 import 'package:messenger_app/models/user.dart';
+import 'package:messenger_app/src/main/id.dart';
 
-@singleton
-abstract class DiscussionsRepository {
+@Singleton()
+abstract class UsersRepository {
   Stream<List<UserData>> watchAll();
 
+  Future<UserData> get(Id id);
+
   @factoryMethod
-  static DiscussionsRepository create() => FirebaseDiscussionsRepository();
+  static UsersRepository create() => FirebaseUsersRepository();
 }
 
 @firebaseImpl
-@LazySingleton(as: DiscussionsRepository)
-class FirebaseDiscussionsRepository implements DiscussionsRepository {
-  CollectionReference<Map<String, dynamic>> get _collection =>
+@LazySingleton(as: UsersRepository)
+class FirebaseUsersRepository implements UsersRepository {
+  CollectionReferenceMap get _collection =>
       FirebaseFirestore.instance.collection(FirebaseCollections.users);
 
   @override
@@ -25,5 +29,11 @@ class FirebaseDiscussionsRepository implements DiscussionsRepository {
         return UserData.fromJson(e.data());
       }).toList();
     });
+  }
+
+  @override
+  Future<UserData> get(Id id) async {
+    final snapshot = await _collection.doc(id).get();
+    return UserData.fromJson(snapshot.data()!);
   }
 }

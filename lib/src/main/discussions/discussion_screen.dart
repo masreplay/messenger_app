@@ -8,24 +8,45 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
+import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/date_time.dart';
 import 'package:messenger_app/gap.dart';
 import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/src/main/discussions/async_snapshot.dart';
+import 'package:messenger_app/src/main/discussions/discussion_cubit.dart';
 import 'package:messenger_app/src/main/discussions/image.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
 import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
 import 'package:messenger_app/src/main/discussions/user_avatar.dart';
+import 'package:messenger_app/src/main/discussions/user_bloc.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
 import 'chat_service.dart';
 
 part 'discussion_screen.freezed.dart';
+
+typedef DiscussionsState = AsyncStateDefault<List<Message>>;
+
+@injectable
+class DiscussionsCubit extends Cubit<DiscussionsState>
+    with AsyncStateCubitMixin {
+  final DiscussionsRepository _repository;
+  DiscussionsCubit(this._repository) : super(const DiscussionsState.loading());
+  @postConstruct
+  void init() {
+    _repository.watchAll().listen((event) {
+      emit(DiscussionsState.data(event));
+    }).onError((error) {
+      emit(DiscussionsState.error(error, StackTrace.current));
+    });
+  }
+}
 
 /// one-to-one discussion or group discussion message direction
 ///
@@ -131,16 +152,21 @@ class DiscussionScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final service = DiscussionService(DiscussionGroup.fromPeerId(peerId));
+    final cubit = useBloc<UserCubit>();
+    final state = useBlocBuilder(cubit);
+
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: FutureBuilder(
-        future: service.getPeerById(peerId),
-        builder: (context, snapshot) => snapshot.when(
-          data: (data) => _DiscussionView(data!),
-          error: DefaultErrorWidget.call(context.router.pop),
-          loading: DefaultLoadingWidget.new,
-        ),
+      appBar: AppBar(
+        title: Text(l10n.discussion),
+      ),
+      body: state.maybeWhen(
+        data: _DiscussionView.new,
+        error: DefaultErrorWidget.call(() {
+          cubit.run(peerId);
+        }),
+        orElse: DefaultLoadingWidget.new,
       ),
     );
   }
@@ -161,7 +187,9 @@ class _DiscussionViewState extends State<_DiscussionView> {
     final limit = useState(20);
 
     final group = DiscussionGroup.fromPeerId(widget.peer.uid);
-    final service = DiscussionService(group);
+    final cubit = useBloc<DiscussionCubit>();
+    final discussionsCubit = useBloc<DiscussionsCubit>();
+    final discussions = useBlocBuilder(discussionsCubit);
 
     // Message
     final controller = useTextEditingController();
@@ -201,25 +229,21 @@ class _DiscussionViewState extends State<_DiscussionView> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder(
-              stream: service.getMessages(limit: limit.value),
-              builder: (context, snapshot) => snapshot.when(
-                data: (data) {
-                  final messages = snapshot.data ?? [];
-                  return _MessagesListView(
-                    messages: messages,
-                    controller: scrollController,
-                    group: group,
-                  );
-                },
-                error: DefaultErrorWidget.call(context.router.pop),
-                loading: DefaultLoadingWidget.new,
-              ),
+            child: discussions.maybeWhen(
+              data: (data) {
+                return _MessagesListView(
+                  messages: data,
+                  controller: scrollController,
+                  group: group,
+                );
+              },
+              error: DefaultErrorWidget.call(context.router.pop),
+              orElse: DefaultLoadingWidget.new,
             ),
           ),
           _StickersSection(
             show: showStickers.value,
-            onChanged: service.sendStickerMessage,
+            onChanged: cubit.sendStickerMessage,
           ),
           _DiscussionInputSection(
             imageController: image,
@@ -254,12 +278,12 @@ class _DiscussionViewState extends State<_DiscussionView> {
               ),
             ],
             onTextSend: () {
-              service.sendTextMessage(controller.text);
+              cubit.sendTextMessage(controller.text);
               controller.clear();
               focusNode.requestFocus();
             },
             onImageSend: () {
-              service.sendImageMessage(image.value!);
+              cubit.sendImageMessage(image.value!);
               image.value = null;
             },
           ),
@@ -463,9 +487,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
           ImageRoute(imageUrl: value.imageUrl),
         );
       },
-      orElse: () {
-        throw UnimplementedError();
-      },
+      orElse: context.showUnimplementedSnackBar,
     );
   }
 }
@@ -550,7 +572,8 @@ class _StickerMessageListTile extends StatelessWidget {
           child: AppNetworkImage(
             value.sticker.path,
             fit: BoxFit.cover,
-            loadingBuilder: (context) => StickerPlaceholder(value: value.sticker),
+            loadingBuilder: (context) =>
+                StickerPlaceholder(value: value.sticker),
             errorBuilder: (context) => StickerPlaceholder(value: value.sticker),
           ),
         ),

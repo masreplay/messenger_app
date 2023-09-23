@@ -28,16 +28,20 @@ class LoginCubit extends Cubit<LoginCubitState> {
       emit(LoginCubitState.data(credential));
     } on FirebaseAuthException catch (e, stackTrace) {
       log(toString(), error: e, stackTrace: stackTrace);
-      emit(LoginCubitState.error(
-        LoginCubitException.fromType(e.code),
-        stackTrace,
-      ));
+      emit(
+        LoginCubitState.error(
+          LoginCubitException.fromType(e.code),
+          stackTrace,
+        ),
+      );
     } catch (e, stackTrace) {
       log(toString(), error: e, stackTrace: stackTrace);
-      emit(LoginCubitState.error(
-        LoginCubitException.other(e),
-        stackTrace,
-      ));
+      emit(
+        LoginCubitState.error(
+          LoginCubitException.other(e),
+          stackTrace,
+        ),
+      );
     }
   }
 }

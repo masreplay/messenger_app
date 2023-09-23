@@ -22,7 +22,9 @@ MessageMetaData _$MessageMetaDataFromJson(Map<String, dynamic> json) {
 mixin _$MessageMetaData {
   String get idFrom => throw _privateConstructorUsedError;
   String get idTo => throw _privateConstructorUsedError;
-  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  @JsonKey(
+      toJson: MessageMetaData._toJsonTimestamp,
+      fromJson: MessageMetaData._fromJsonTimestamp)
   DateTime get timestamp => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +42,10 @@ abstract class $MessageMetaDataCopyWith<$Res> {
   $Res call(
       {String idFrom,
       String idTo,
-      @JsonKey(toJson: MessageMetaData._toJsonTimestamp) DateTime timestamp});
+      @JsonKey(
+          toJson: MessageMetaData._toJsonTimestamp,
+          fromJson: MessageMetaData._fromJsonTimestamp)
+      DateTime timestamp});
 }
 
 /// @nodoc
@@ -88,7 +93,10 @@ abstract class _$$_MessageMetaDataCopyWith<$Res>
   $Res call(
       {String idFrom,
       String idTo,
-      @JsonKey(toJson: MessageMetaData._toJsonTimestamp) DateTime timestamp});
+      @JsonKey(
+          toJson: MessageMetaData._toJsonTimestamp,
+          fromJson: MessageMetaData._fromJsonTimestamp)
+      DateTime timestamp});
 }
 
 /// @nodoc
@@ -130,7 +138,9 @@ class _$_MessageMetaData implements _MessageMetaData {
   const _$_MessageMetaData(
       {required this.idFrom,
       required this.idTo,
-      @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+      @JsonKey(
+          toJson: MessageMetaData._toJsonTimestamp,
+          fromJson: MessageMetaData._fromJsonTimestamp)
       required this.timestamp});
 
   factory _$_MessageMetaData.fromJson(Map<String, dynamic> json) =>
@@ -141,7 +151,9 @@ class _$_MessageMetaData implements _MessageMetaData {
   @override
   final String idTo;
   @override
-  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  @JsonKey(
+      toJson: MessageMetaData._toJsonTimestamp,
+      fromJson: MessageMetaData._fromJsonTimestamp)
   final DateTime timestamp;
 
   @override
@@ -182,7 +194,9 @@ abstract class _MessageMetaData implements MessageMetaData {
   const factory _MessageMetaData(
       {required final String idFrom,
       required final String idTo,
-      @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+      @JsonKey(
+          toJson: MessageMetaData._toJsonTimestamp,
+          fromJson: MessageMetaData._fromJsonTimestamp)
       required final DateTime timestamp}) = _$_MessageMetaData;
 
   factory _MessageMetaData.fromJson(Map<String, dynamic> json) =
@@ -193,7 +207,9 @@ abstract class _MessageMetaData implements MessageMetaData {
   @override
   String get idTo;
   @override
-  @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+  @JsonKey(
+      toJson: MessageMetaData._toJsonTimestamp,
+      fromJson: MessageMetaData._fromJsonTimestamp)
   DateTime get timestamp;
   @override
   @JsonKey(ignore: true)

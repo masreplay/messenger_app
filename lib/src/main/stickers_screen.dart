@@ -10,6 +10,7 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc.dart';
+import 'package:messenger_app/collections.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/implementation.dart';
 import 'package:messenger_app/src/main/add_sticker_dialog.dart';
@@ -19,11 +20,6 @@ import 'package:messenger_app/src/main/stickers_repo.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
-/// Firebase storage folders name
-abstract final class _FirebaseFolders {
-  static const String stickers = 'emojis';
-}
-
 /// Image file with path and name using [Record] instead of [Class]
 typedef ImageFile = ({String path, String name});
 
@@ -31,7 +27,7 @@ typedef ImageFile = ({String path, String name});
 typedef _StickersFilesState = AsyncState<List<ImageFile>, Object?>;
 
 final _stickersFolderRef =
-    FirebaseStorage.instance.ref().child(_FirebaseFolders.stickers);
+    FirebaseStorage.instance.ref().child(FirebaseFolders.stickers);
 
 /// Cubit that loads the stickers files from Firebase storage.
 @injectable

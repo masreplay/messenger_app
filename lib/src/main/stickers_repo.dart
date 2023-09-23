@@ -19,7 +19,7 @@ abstract class StickersRepository {
 @firebaseImpl
 @LazySingleton(as: StickersRepository)
 class FirebaseStickersRepository implements StickersRepository {
-  CollectionReference<Map<String, dynamic>> get _collection =>
+  CollectionReferenceMap get _collection =>
       FirebaseFirestore.instance.collection(FirebaseCollections.stickers);
 
   @override

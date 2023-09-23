@@ -15,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
     final l10n = AppLocalizations.of(context)!;
     final routes = [
       (
-        route: const DiscussionsRoute(),
+        route: const UsersRoute(),
         name: l10n.discussions,
         icon: Icons.message_outlined,
       ),

@@ -5,9 +5,9 @@ extension QueryDocumentSnapshotX
   Map<String, dynamic> map() => {"id": id, ...data()};
 }
 
-
-
-extension DocumentSnapshotX
-    on DocumentSnapshot<Map<String, dynamic>>  {
+extension DocumentSnapshotX on DocumentSnapshot<Map<String, dynamic>> {
   Map<String, dynamic> map() => {"id": id, ...?data()};
 }
+
+typedef CollectionReferenceMap = CollectionReference<Map<String, dynamic>>;
+typedef DocumentReferenceMap = DocumentReference<Map<String, dynamic>>;

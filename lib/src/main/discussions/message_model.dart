@@ -9,9 +9,6 @@ const _jsonSerializable = JsonSerializable(
   explicitToJson: true,
   createFactory: true,
   createToJson: true,
-  converters: [
-    TimeStampJsonConverter(),
-  ],
 );
 
 @freezed
@@ -20,12 +17,17 @@ class MessageMetaData with _$MessageMetaData {
   const factory MessageMetaData({
     required String idFrom,
     required String idTo,
-    @JsonKey(toJson: MessageMetaData._toJsonTimestamp)
+    @JsonKey(
+      toJson: MessageMetaData._toJsonTimestamp,
+      fromJson: MessageMetaData._fromJsonTimestamp,
+    )
     required DateTime timestamp,
   }) = _MessageMetaData;
 
   // Ignore what is passed in, always send server server timestamp
   static FieldValue _toJsonTimestamp(_) => FieldValue.serverTimestamp();
+  static DateTime _fromJsonTimestamp(String json) =>
+      DateTime.fromMillisecondsSinceEpoch(int.parse(json));
 
   factory MessageMetaData.fromJson(Map<String, dynamic> json) =>
       _$MessageMetaDataFromJson(json);
@@ -35,10 +37,12 @@ mixin _MessageMixin {
   MessageMetaData get metadata;
 }
 
-@Freezed(
+const Freezed messageFreezed = Freezed(
   unionKey: 'type',
   fallbackUnion: 'fallback',
-)
+);
+
+@messageFreezed
 class Message with _$Message, _MessageMixin {
   const Message._();
 
@@ -69,15 +73,4 @@ class Message with _$Message, _MessageMixin {
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
-}
-
-class TimeStampJsonConverter implements JsonConverter<DateTime, String> {
-  const TimeStampJsonConverter();
-
-  @override
-  DateTime fromJson(String json) =>
-      DateTime.fromMillisecondsSinceEpoch(int.parse(json));
-
-  @override
-  String toJson(DateTime object) => throw UnimplementedError();
 }

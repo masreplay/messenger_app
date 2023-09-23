@@ -28,12 +28,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    DiscussionsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DiscussionsScreen(),
-      );
-    },
     ImageRoute.name: (routeData) {
       final args = routeData.argsAs<ImageRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -80,6 +74,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const StickersScreen(),
       );
     },
+    UsersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UsersScreen(),
+      );
+    },
   };
 }
 
@@ -120,20 +120,6 @@ class DiscussionRouteArgs {
   String toString() {
     return 'DiscussionRouteArgs{key: $key, peerId: $peerId}';
   }
-}
-
-/// generated route for
-/// [DiscussionsScreen]
-class DiscussionsRoute extends PageRouteInfo<void> {
-  const DiscussionsRoute({List<PageRouteInfo>? children})
-      : super(
-          DiscussionsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DiscussionsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -253,6 +239,20 @@ class StickersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'StickersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UsersScreen]
+class UsersRoute extends PageRouteInfo<void> {
+  const UsersRoute({List<PageRouteInfo>? children})
+      : super(
+          UsersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UsersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -7,9 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/collections.dart';
-import 'package:messenger_app/models/user.dart';
+import 'package:messenger_app/firebase.dart';
 import 'package:messenger_app/src/main/discussions/message_model.dart';
 import 'package:messenger_app/src/main/discussions/sticker.dart';
+import 'package:messenger_app/src/main/id.dart';
 
 part 'chat_service.freezed.dart';
 part 'chat_service.g.dart';
@@ -24,7 +25,9 @@ class DiscussionGroup with _$DiscussionGroup {
   }) = _DiscussionGroup;
 
   factory DiscussionGroup.fromPeerId(String peerId) => DiscussionGroup(
-      userId: FirebaseAuth.instance.currentUser!.uid, peerId: peerId);
+        userId: FirebaseAuth.instance.currentUser!.uid,
+        peerId: peerId,
+      );
 
   String get id {
     if (userId.compareTo(peerId) > 0) {
@@ -38,81 +41,86 @@ class DiscussionGroup with _$DiscussionGroup {
       _$DiscussionGroupFromJson(json);
 }
 
-@injectable
-class DiscussionService {
-  final DiscussionGroup _group;
+abstract class DiscussionsRepository {
+  DiscussionGroup get group;
 
-  const DiscussionService(this._group);
+  Stream<List<Message>> watchAll({int limit = 20});
 
-  CollectionReference<Map<String, dynamic>> get _usersCollection =>
-      FirebaseFirestore.instance.collection(FirebaseCollections.users);
+  Future<void> deleteMessage(Id id);
 
-  CollectionReference<Map<String, dynamic>> get _discussion =>
-      FirebaseFirestore.instance
-          .collection(FirebaseCollections.discussions)
-          .doc(_group.id)
-          .collection(_group.id);
+  Future<MessageText> sendTextMessage(String text);
 
-  Future<UserData?> getPeerById(String peerId) async {
-    final doc = await _usersCollection.doc(peerId).get();
-    final data = doc.data();
-    return data == null ? null : UserData.fromJson(data);
+  Future<MessageSticker> sendStickerMessage(Sticker sticker);
+
+  Future<MessageImage> sendImageMessage(File file);
+}
+
+@LazySingleton(as: DiscussionsRepository)
+class FirebaseDiscussionsRepository implements DiscussionsRepository {
+  @override
+  final DiscussionGroup group;
+
+  const FirebaseDiscussionsRepository(this.group);
+
+  String _randomId() => DateTime.now().millisecondsSinceEpoch.toString();
+
+  CollectionReferenceMap get _collection =>
+      FirebaseFirestore.instance.collection(FirebaseCollections.discussions);
+
+  CollectionReferenceMap get _discussionCollection =>
+      _collection.doc(group.id).collection(group.id);
+
+  @override
+  Stream<List<Message>> watchAll({int limit = 20}) => _discussionCollection
+      .orderBy('timestamp', descending: true)
+      .limit(limit)
+      .snapshots()
+      .map((event) =>
+          event.docs.map((e) => Message.fromJson(e.data())).toList());
+
+  Future<T> _sendMessage<T extends Message>(T message) async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      return transaction.set(
+        _discussionCollection.doc(_randomId()),
+        message.toJson(),
+      );
+    });
+    return message;
   }
 
-  DocumentReference<Map<String, dynamic>> _chat() =>
-      _discussion.doc(DateTime.now().millisecondsSinceEpoch.toString());
-
-  Future<Transaction> _runTxn(Message chat) =>
-      FirebaseFirestore.instance.runTransaction(
-          (transaction) async => transaction.set(_chat(), chat.toJson()));
-
-  _getMessageMetaData() => MessageMetaData(
-        idFrom: _group.userId,
-        idTo: _group.peerId,
+  MessageMetaData _buildMessageMetaData() => MessageMetaData(
+        idFrom: group.userId,
+        idTo: group.peerId,
         timestamp: DateTime.now(),
       );
-  Future<Transaction> sendStickerMessage(Sticker sticker) {
-    final chat = Message.sticker(
-      metadata: _getMessageMetaData(),
-      sticker: sticker,
+
+  @override
+  Future<MessageSticker> sendStickerMessage(Sticker sticker) => _sendMessage(
+      MessageSticker(metadata: _buildMessageMetaData(), sticker: sticker));
+
+  @override
+  Future<MessageText> sendTextMessage(String text) => _sendMessage(
+      MessageText(metadata: _buildMessageMetaData(), content: text));
+
+  @override
+  Future<MessageImage> sendImageMessage(File file, {String? text}) async {
+    final fileName = _randomId();
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child(FirebaseFolders.chats)
+        .child(fileName);
+
+    final uploadTask = await ref.putFile(file);
+    final imageUrl = await uploadTask.ref.getDownloadURL();
+
+    final message = MessageImage(
+      metadata: _buildMessageMetaData(),
+      imageUrl: imageUrl,
+      caption: text,
     );
-    return _runTxn(chat);
+    return _sendMessage(message);
   }
 
-  Future<Transaction> sendTextMessage(String text) {
-    final chat = Message.text(
-      metadata: _getMessageMetaData(),
-      content: text,
-    );
-    return _runTxn(chat);
-  }
-
-  Future<void> deleteMessage({required String messageId}) =>
-      _discussion.doc(messageId).delete();
-
-  Stream<List<Message>> getMessages({int limit = 20}) => _discussion
-          .orderBy('timestamp', descending: true)
-          .limit(limit)
-          .snapshots()
-          .map((event) => event.docs.map((e) => Message.fromJson(e.data())).toList());
-
-  Future<void> sendImageMessage(File file) async {
-    final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final reference = FirebaseStorage.instance.ref().child(fileName);
-    final uploadTask = await reference.putFile(file);
-
-    try {
-      final imageUrl = await uploadTask.ref.getDownloadURL();
-      final chat = Message.image(
-        metadata: _getMessageMetaData(),
-        imageUrl: imageUrl,
-        caption: null,
-      );
-      await _runTxn(chat);
-    } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
+  @override
+  Future<void> deleteMessage(id) => _discussionCollection.doc(id).delete();
 }

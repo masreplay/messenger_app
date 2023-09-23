@@ -1,0 +1,25 @@
+{
+  "Cubit": {
+    "prefix": ["cubit", "bloc"],
+    "scope": "dart",
+    "body": [
+      "typedef $1State = AsyncState<>;",
+      "",
+      "@injectable",
+      "class $1Cubit extends Cubit<$1State> {",
+      "  $1Cubit() : super(const $1State.loading());",
+      "",
+      "  Future<void> run() async {",
+      "    emit(const $1State.loading());",
+      "    try {",
+      "      emit($1State.data());",
+      "    } catch (e, stackTrace) {",
+      "      log(toString(), error: e, stackTrace: stackTrace);",
+      "      emit($1State.error(StickersException.other(e), stackTrace));",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": "A for loop."
+  }
+}

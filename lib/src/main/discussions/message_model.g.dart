@@ -11,7 +11,7 @@ _$_MessageMetaData _$$_MessageMetaDataFromJson(Map<String, dynamic> json) =>
       idFrom: json['idFrom'] as String,
       idTo: json['idTo'] as String,
       timestamp:
-          const TimeStampJsonConverter().fromJson(json['timestamp'] as String),
+          MessageMetaData._fromJsonTimestamp(json['timestamp'] as String),
     );
 
 Map<String, dynamic> _$$_MessageMetaDataToJson(_$_MessageMetaData instance) =>
