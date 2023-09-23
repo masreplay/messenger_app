@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,40 +41,29 @@ class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {
   @appImpl
   final DiscussionsRepository _repository;
 
-  final Queue<DiscussionEvent> _queue = Queue<DiscussionEvent>();
-  bool _isSending = false;
-
   DiscussionCubit(this._repository) : super(const DiscussionState.initial()) {
     on<DiscussionEvent>(_mapEventToState);
   }
 
-  Stream<DiscussionState> _mapEventToState(
+  void _mapEventToState(
     DiscussionEvent event,
     Emitter<DiscussionState> emit,
-  ) async* {
-    _queue.add(event);
-    if (!_isSending) {
-      _isSending = true;
-      while (_queue.isNotEmpty) {
-        final event = _queue.first;
-        yield const DiscussionState.sendingInProgress();
-        try {
-          final message = await event.when(
-            image: _repository.sendImageMessage,
-            text: _repository.sendTextMessage,
-            sticker: _repository.sendStickerMessage,
-          );
-          _queue.removeFirst();
-          yield DiscussionState.messageSent(message);
-        } catch (e, stackTrace) {
-          yield DiscussionState.failure(e, stackTrace);
-        }
-      }
-      _isSending = false;
+  ) async {
+    emit(const DiscussionState.sendingInProgress());
+    try {
+      final message = await event.when(
+        text: _repository.sendTextMessage,
+        image: _repository.sendImageMessage,
+        sticker: _repository.sendStickerMessage,
+      );
+      emit(DiscussionState.messageSent(message));
+    } catch (e, s) {
+      emit(DiscussionState.failure(e, s));
     }
   }
 
   void sendStickerMessage(Sticker value) {
+    print('sendStickerMessage');
     add(DiscussionEvent.sticker(value));
   }
 

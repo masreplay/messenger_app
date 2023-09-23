@@ -5,16 +5,18 @@ import 'package:messenger_app/di/di.dart';
 class BlocProviderAndBuilder<B extends Cubit<S>, S> extends StatelessWidget {
   const BlocProviderAndBuilder({
     super.key,
+    this.bloc,
     this.factory,
     required this.builder,
   });
 
+  final B? bloc;
   final void Function(B bloc)? factory;
   final BlocWidgetBuilder<S> builder;
 
   @override
   Widget build(BuildContext context) {
-    final cubit = getIt.get<B>();
+    final cubit = bloc ?? getIt.get<B>();
     return BlocProvider<B>(
       create: (context) => cubit,
       child: _RunOnce(

@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/bloc.dart';
-import 'package:messenger_app/di/get_it.dart';
+import 'package:messenger_app/data/id.dart';
 import 'package:messenger_app/data/models/user.dart';
 import 'package:messenger_app/data/repo/users_repo.dart';
-import 'package:messenger_app/data/id.dart';
+import 'package:messenger_app/di/get_it.dart';
 
 typedef UserCubitState = AsyncState<UserData, Object?>;
 

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/data/models/message_model.dart';
 import 'package:messenger_app/data/models/sticker.dart';
@@ -151,7 +152,11 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
             BlocProvider(create: (_) => DiscussionCubit(repo)),
             BlocProvider(create: (_) => MessagesCubit(repo)),
           ],
-          child: _DiscussionView(data, group),
+          child: BlocProviderAndBuilder(
+            bloc: MessagesCubit(repo),
+            factory: (bloc) => bloc.run(),
+            builder: (context, state) => _DiscussionView(data, group),
+          ),
         ),
         error: DefaultErrorWidget.call(() {
           context.read<UserCubit>().run(widget.peerId);
@@ -174,12 +179,6 @@ class _DiscussionView extends StatefulHookWidget {
 }
 
 class _DiscussionViewState extends State<_DiscussionView> {
-  @override
-  void initState() {
-    context.read<MessagesCubit>().run();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final limit = useState(20);
@@ -226,6 +225,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
           Expanded(
             child: messages.maybeWhen(
               data: (data) {
+                print(data);
                 return _MessagesListView(
                   messages: data,
                   controller: scrollController,
@@ -236,10 +236,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
               orElse: DefaultLoadingWidget.new,
             ),
           ),
-          _StickersSection(
-            show: showStickers.value,
-            onChanged: context.read<DiscussionCubit>().sendStickerMessage,
-          ),
+          _StickersSection(show: showStickers.value),
           _DiscussionInputSection(
             imageController: image,
             textController: controller,
@@ -330,17 +327,13 @@ class _DiscussionViewState extends State<_DiscussionView> {
 }
 
 class _StickersSection extends HookWidget {
-  const _StickersSection({
-    required this.onChanged,
-    required this.show,
-  });
+  const _StickersSection({required this.show});
 
-  final ValueChanged<Sticker> onChanged;
   final bool show;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<StickersCubit>(context);
+    final cubit = context.watch<StickersCubit>();
 
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -354,7 +347,7 @@ class _StickersSection extends HookWidget {
           end: Offset(0, 0),
         ),
       ],
-      child: bloc.state.maybeWhen(
+      child: cubit.state.maybeWhen(
         data: (data) => Ink(
           height: 100,
           color: colorScheme.tertiaryContainer,
@@ -368,7 +361,9 @@ class _StickersSection extends HookWidget {
                     return Tooltip(
                       message: "${sticker.nickname} ${sticker.emoji}",
                       child: InkWell(
-                        onTap: () => onChanged(sticker),
+                        onTap: () => context
+                            .read<DiscussionCubit>()
+                            .sendStickerMessage(sticker),
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: AppNetworkImage(
@@ -384,7 +379,7 @@ class _StickersSection extends HookWidget {
                   },
                 ),
         ),
-        error: DefaultErrorWidget.call(bloc.run),
+        error: DefaultErrorWidget.call(cubit.run),
         orElse: DefaultLoadingWidget.new,
       ),
     );

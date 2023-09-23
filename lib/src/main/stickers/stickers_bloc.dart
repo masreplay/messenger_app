@@ -10,8 +10,7 @@ import 'package:messenger_app/data/repo/stickers_repo.dart';
 
 part 'stickers_bloc.freezed.dart';
 part 'stickers_bloc.g.dart';
-
-typedef StickersState = AsyncState<List<Sticker>, StickersException>;
+part 'stickers_state.dart';
 
 @injectable
 class StickersCubit extends Cubit<StickersState> {
