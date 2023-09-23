@@ -27,9 +27,7 @@ class StickersCubit extends Cubit<StickersState> {
       emit(StickersState.data(await _repository.getAll()));
     } catch (e, stackTrace) {
       log(toString(), error: e, stackTrace: stackTrace);
-      if (!state.isData) {
-        emit(StickersState.error(StickersException.other(e), stackTrace));
-      }
+      emit(StickersState.error(StickersException.other(e), stackTrace));
     }
   }
 }

@@ -352,7 +352,13 @@ class _StickersSection extends HookWidget {
                         onTap: () => onChanged(sticker),
                         child: AspectRatio(
                           aspectRatio: 1,
-                          child: AppNetworkImage(sticker.path),
+                          child: AppNetworkImage(
+                            sticker.path,
+                            loadingBuilder: (context) =>
+                                StickerPlaceholder(value: sticker),
+                            errorBuilder: (context) =>
+                                StickerPlaceholder(value: sticker),
+                          ),
                         ),
                       ),
                     );
@@ -544,14 +550,25 @@ class _StickerMessageListTile extends StatelessWidget {
           child: AppNetworkImage(
             value.sticker.path,
             fit: BoxFit.cover,
-            loadingBuilder: _placeholderBuilder,
+            loadingBuilder: (context) =>
+                StickerPlaceholder(value: value.sticker),
+            errorBuilder: (context) => StickerPlaceholder(value: value.sticker),
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _placeholderBuilder(BuildContext context) {
+class StickerPlaceholder extends StatelessWidget {
+  const StickerPlaceholder({
+    super.key,
+    required this.value,
+  });
+
+  final Sticker value;
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -559,13 +576,11 @@ class _StickerMessageListTile extends StatelessWidget {
         SizedBox.square(
           dimension: 24,
           child: FittedBox(
-            child: Text(
-              value.sticker.emoji,
-            ),
+            child: Text(value.emoji),
           ),
         ),
         Text(
-          value.sticker.nickname,
+          value.nickname,
           style: Theme.of(context).textTheme.labelSmall,
         ),
       ],

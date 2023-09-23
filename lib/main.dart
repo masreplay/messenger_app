@@ -33,7 +33,7 @@ Future<void> main() async {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => getIt.get<SettingsCubit>()),
-          BlocProvider(create: (_) => getIt.get<StickersCubit>()),
+          BlocProvider(create: (_) => getIt.get<StickersCubit>()..run()),
         ],
         child: const MainApp(),
       ),

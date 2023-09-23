@@ -52,8 +52,12 @@ class AppNetworkImage extends StatelessWidget {
                   fit: fit,
                   loadingBuilder: loadingBuilder == null
                       ? null
-                      : (context, child, loadingProgress) =>
-                          loadingBuilder!.call(context),
+                      : (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return loadingBuilder!.call(context);
+                        },
                   errorBuilder: errorBuilder == null
                       ? null
                       : (context, url, error) => errorBuilder!.call(context),
