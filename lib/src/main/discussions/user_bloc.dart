@@ -4,7 +4,7 @@ import 'package:messenger_app/bloc.dart';
 import 'package:messenger_app/bloc/bloc.dart';
 import 'package:messenger_app/implementation.dart';
 import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/src/main/discussions/discussions_repo.dart';
+import 'package:messenger_app/src/main/discussions/users_repo.dart';
 import 'package:messenger_app/src/main/id.dart';
 
 typedef UserState = AsyncState<UserData, Object?>;

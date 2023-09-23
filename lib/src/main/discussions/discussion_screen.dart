@@ -27,23 +27,22 @@ import 'package:messenger_app/src/main/discussions/user_bloc.dart';
 import 'package:messenger_app/src/widgets/error_widget.dart';
 import 'package:messenger_app/src/widgets/loading_widget.dart';
 
-import 'chat_service.dart';
+import 'discussions_repo.dart';
 
 part 'discussion_screen.freezed.dart';
 
-typedef DiscussionsState = AsyncStateDefault<List<Message>>;
+typedef MessagesState = AsyncStateDefault<List<Message>>;
 
 @injectable
-class DiscussionsCubit extends Cubit<DiscussionsState>
-    with AsyncStateCubitMixin {
+class MessagesCubit extends Cubit<MessagesState> with AsyncStateCubitMixin {
   final DiscussionsRepository _repository;
-  DiscussionsCubit(this._repository) : super(const DiscussionsState.loading());
+  MessagesCubit(this._repository) : super(const MessagesState.loading());
   @postConstruct
   void init() {
     _repository.watchAll().listen((event) {
-      emit(DiscussionsState.data(event));
+      emit(MessagesState.data(event));
     }).onError((error) {
-      emit(DiscussionsState.error(error, StackTrace.current));
+      emit(MessagesState.error(error, StackTrace.current));
     });
   }
 }
@@ -157,12 +156,21 @@ class DiscussionScreen extends HookWidget {
 
     final l10n = AppLocalizations.of(context)!;
 
+    final group = DiscussionGroup.fromPeerId(peerId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.discussion),
       ),
       body: state.maybeWhen(
-        data: _DiscussionView.new,
+        data: (data) {
+          return BlocBuilder<DiscussionCubit, DiscussionState>(
+            bloc: DiscussionCubit(FirebaseDiscussionsRepository(group)),
+            builder: (context, state) {
+              return _DiscussionView(data, group);
+            },
+          );
+        },
         error: DefaultErrorWidget.call(() {
           cubit.run(peerId);
         }),
@@ -172,24 +180,20 @@ class DiscussionScreen extends HookWidget {
   }
 }
 
-class _DiscussionView extends StatefulHookWidget {
-  const _DiscussionView(this.peer);
+class _DiscussionView extends HookWidget {
+  const _DiscussionView(this.peer, this.group);
 
   final UserData peer;
 
-  @override
-  State<_DiscussionView> createState() => _DiscussionViewState();
-}
+  final DiscussionGroup group;
 
-class _DiscussionViewState extends State<_DiscussionView> {
   @override
   Widget build(BuildContext context) {
     final limit = useState(20);
 
-    final group = DiscussionGroup.fromPeerId(widget.peer.uid);
-    final cubit = useBloc<DiscussionCubit>();
-    final discussionsCubit = useBloc<DiscussionsCubit>();
-    final discussions = useBlocBuilder(discussionsCubit);
+    final messagesCubit = useBloc<MessagesCubit>();
+    final messages = useBlocBuilder(messagesCubit);
+    final discussion = context.read<DiscussionCubit>();
 
     // Message
     final controller = useTextEditingController();
@@ -212,11 +216,11 @@ class _DiscussionViewState extends State<_DiscussionView> {
         title: Row(
           children: [
             UserAvatar(
-              alt: widget.peer.email,
-              photoURL: widget.peer.avatar,
+              alt: peer.email,
+              photoURL: peer.avatar,
             ),
             const Gap(),
-            Text(widget.peer.name),
+            Text(peer.name),
           ],
         ),
         actions: [
@@ -229,7 +233,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
       body: Column(
         children: [
           Expanded(
-            child: discussions.maybeWhen(
+            child: messages.maybeWhen(
               data: (data) {
                 return _MessagesListView(
                   messages: data,
@@ -243,7 +247,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
           ),
           _StickersSection(
             show: showStickers.value,
-            onChanged: cubit.sendStickerMessage,
+            onChanged: discussion.sendStickerMessage,
           ),
           _DiscussionInputSection(
             imageController: image,
@@ -278,12 +282,12 @@ class _DiscussionViewState extends State<_DiscussionView> {
               ),
             ],
             onTextSend: () {
-              cubit.sendTextMessage(controller.text);
+              discussion.sendTextMessage(controller.text);
               controller.clear();
               focusNode.requestFocus();
             },
             onImageSend: () {
-              cubit.sendImageMessage(image.value!);
+              discussion.sendImageMessage(image.value!);
               image.value = null;
             },
           ),

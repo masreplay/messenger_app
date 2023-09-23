@@ -23,18 +23,21 @@ class UsersScreen extends HookWidget {
         title: Text(l10n.discussions),
       ),
       body: state.maybeWhen(
-        data: (data) => ListView.builder(
-          padding: const EdgeInsets.all(10.0),
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            final chat = data[index];
-            return DiscussionListTile(
-              data: chat,
-              onTap: () {
-                context.router.push(DiscussionRoute(peerId: chat.uid));
-              },
-            );
-          },
+        data: (data) => RefreshIndicator(
+          onRefresh: () async => cubit.run(),
+          child: ListView.builder(
+            padding: const EdgeInsets.all(10.0),
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final chat = data[index];
+              return DiscussionListTile(
+                data: chat,
+                onTap: () {
+                  context.router.push(DiscussionRoute(peerId: chat.uid));
+                },
+              );
+            },
+          ),
         ),
         error: DefaultErrorWidget.call(cubit.run),
         orElse: DefaultLoadingWidget.new,
