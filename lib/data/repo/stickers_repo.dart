@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/data/id.dart';
+import 'package:messenger_app/data/models/sticker.dart';
 import 'package:messenger_app/firebase/collections.dart';
 import 'package:messenger_app/firebase/firebasex.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/id.dart';
 
 @singleton
 abstract class StickersRepository {

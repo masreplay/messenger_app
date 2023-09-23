@@ -9,8 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/firebase/collections.dart';
-import 'package:messenger_app/src/main/id.dart';
-import 'package:messenger_app/src/main/stickers_repo.dart';
+import 'package:messenger_app/data/id.dart';
+import 'package:messenger_app/data/repo/stickers_repo.dart';
 
 /// Image file with path and name using [Record] instead of [Class]
 typedef ImageFile = ({String path, String name});

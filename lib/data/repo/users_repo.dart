@@ -3,8 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:messenger_app/di/get_it.dart';
 import 'package:messenger_app/firebase/collections.dart';
 import 'package:messenger_app/firebase/firebasex.dart';
-import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/src/main/id.dart';
+import 'package:messenger_app/data/models/user.dart';
+import 'package:messenger_app/data/id.dart';
 
 @Singleton()
 abstract class UsersRepository {

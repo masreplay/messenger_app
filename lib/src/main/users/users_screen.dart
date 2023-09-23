@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/src/main/discussions/user_avatar.dart';
-import 'package:messenger_app/src/main/discussions/user_bloc.dart';
+import 'package:messenger_app/data/models/user.dart';
+import 'package:messenger_app/src/widgets/user_avatar.dart';
+import 'package:messenger_app/src/widgets/user_bloc.dart';
 
 @RoutePage()
 class UsersScreen extends StatelessWidget {

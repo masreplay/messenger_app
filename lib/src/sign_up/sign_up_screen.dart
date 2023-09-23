@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/data/models/sign_up_model.dart';
 import 'package:messenger_app/router/extension.dart';
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart';
-
-import 'sign_up_model.dart';
 
 @RoutePage()
 class SignUpScreen extends HookWidget {

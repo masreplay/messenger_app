@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:messenger_app/bloc/bloc_builder.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/data/models/login_model.dart';
 import 'package:messenger_app/router/extension.dart';
-import 'package:messenger_app/src/login/login_model.dart';
 
 import 'login_bloc.dart';
 

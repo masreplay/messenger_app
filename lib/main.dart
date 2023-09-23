@@ -6,8 +6,8 @@ import 'package:messenger_app/app.dart';
 import 'package:messenger_app/common_lib.dart';
 import 'package:messenger_app/firebase/firebase_options.dart';
 import 'package:messenger_app/settings/settings_bloc.dart';
-import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
-import 'package:messenger_app/src/main/discussions/user_bloc.dart';
+import 'package:messenger_app/src/main/stickers/stickers_bloc.dart';
+import 'package:messenger_app/src/widgets/user_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {

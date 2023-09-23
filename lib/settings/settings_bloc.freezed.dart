@@ -63,7 +63,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? locale = freezed,
     Object? themeMode = null,
     Object? imageCacheStatus = null,
-    Object? seedColor = null,
+    Object? seedColor = freezed,
   }) {
     return _then(_value.copyWith(
       locale: freezed == locale
@@ -78,7 +78,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
           ? _value.imageCacheStatus
           : imageCacheStatus // ignore: cast_nullable_to_non_nullable
               as ImageCacheState,
-      seedColor: null == seedColor
+      seedColor: freezed == seedColor
           ? _value.seedColor
           : seedColor // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -115,7 +115,7 @@ class __$$_AppSettingsCopyWithImpl<$Res>
     Object? locale = freezed,
     Object? themeMode = null,
     Object? imageCacheStatus = null,
-    Object? seedColor = null,
+    Object? seedColor = freezed,
   }) {
     return _then(_$_AppSettings(
       locale: freezed == locale
@@ -130,7 +130,7 @@ class __$$_AppSettingsCopyWithImpl<$Res>
           ? _value.imageCacheStatus
           : imageCacheStatus // ignore: cast_nullable_to_non_nullable
               as ImageCacheState,
-      seedColor: null == seedColor
+      seedColor: freezed == seedColor
           ? _value.seedColor
           : seedColor // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -182,14 +182,13 @@ class _$_AppSettings extends _AppSettings {
                 other.themeMode == themeMode) &&
             (identical(other.imageCacheStatus, imageCacheStatus) ||
                 other.imageCacheStatus == imageCacheStatus) &&
-            (identical(other.seedColor, seedColor) ||
-                other.seedColor == seedColor));
+            const DeepCollectionEquality().equals(other.seedColor, seedColor));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, locale, themeMode, imageCacheStatus, seedColor);
+  int get hashCode => Object.hash(runtimeType, locale, themeMode,
+      imageCacheStatus, const DeepCollectionEquality().hash(seedColor));
 
   @JsonKey(ignore: true)
   @override

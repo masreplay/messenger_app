@@ -11,20 +11,18 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
+import 'package:messenger_app/data/repo/discussions_repo.dart' as _i4;
+import 'package:messenger_app/data/repo/stickers_repo.dart' as _i9;
+import 'package:messenger_app/data/repo/users_repo.dart' as _i10;
 import 'package:messenger_app/settings/settings_bloc.dart' as _i6;
 import 'package:messenger_app/src/login/login_bloc.dart' as _i5;
 import 'package:messenger_app/src/main/add_sticker_dialog.dart' as _i11;
-import 'package:messenger_app/src/main/discussions/discussion_cubit.dart'
-    as _i3;
-import 'package:messenger_app/src/main/discussions/discussions_repo.dart'
-    as _i4;
-import 'package:messenger_app/src/main/discussions/stickers_bloc.dart' as _i12;
-import 'package:messenger_app/src/main/discussions/user_bloc.dart' as _i13;
-import 'package:messenger_app/src/main/discussions/users_repo.dart' as _i10;
-import 'package:messenger_app/src/main/stickers_repo.dart' as _i9;
-import 'package:messenger_app/src/main/stickers_screen.dart' as _i8;
+import 'package:messenger_app/src/main/discussion/discussion_cubit.dart' as _i3;
+import 'package:messenger_app/src/main/stickers/stickers_bloc.dart' as _i12;
+import 'package:messenger_app/src/main/stickers/stickers_screen.dart' as _i8;
 import 'package:messenger_app/src/main/users/users_bloc.dart' as _i14;
 import 'package:messenger_app/src/sign_up/sign_up_bloc.dart' as _i7;
+import 'package:messenger_app/src/widgets/user_bloc.dart' as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -62,10 +60,10 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i12.StickersCubit(gh<_i9.StickersRepository>()));
     gh.factory<_i13.UserCubit>(
         () => _i13.UserCubit(gh<_i10.UsersRepository>()));
-    gh.factory<_i13.UsersCubit>(
-        () => _i13.UsersCubit(gh<_i10.UsersRepository>())..run());
     gh.factory<_i14.UsersCubit>(
         () => _i14.UsersCubit(gh<_i10.UsersRepository>())..run());
+    gh.factory<_i13.UsersCubit>(
+        () => _i13.UsersCubit(gh<_i10.UsersRepository>())..run());
     return this;
   }
 }

@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:messenger_app/data/id.dart';
+import 'package:messenger_app/data/models/message_model.dart';
+import 'package:messenger_app/data/models/sticker.dart';
 import 'package:messenger_app/firebase/collections.dart';
 import 'package:messenger_app/firebase/firebasex.dart';
-import 'package:messenger_app/src/main/discussions/message_model.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/id.dart';
 
 part 'discussions_repo.freezed.dart';
 part 'discussions_repo.g.dart';
@@ -28,13 +28,8 @@ class DiscussionGroup with _$DiscussionGroup {
         peerId: peerId,
       );
 
-  String get id {
-    if (userId.compareTo(peerId) > 0) {
-      return '$userId-$peerId';
-    } else {
-      return '$peerId-$userId';
-    }
-  }
+  String get id =>
+      userId.compareTo(peerId) > 0 ? '$userId-$peerId' : '$peerId-$userId';
 
   factory DiscussionGroup.fromJson(Map<String, dynamic> json) =>
       _$DiscussionGroupFromJson(json);

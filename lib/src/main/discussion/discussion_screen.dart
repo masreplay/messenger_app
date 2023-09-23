@@ -10,35 +10,19 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/models/user.dart';
-import 'package:messenger_app/src/main/discussions/discussion_cubit.dart';
-import 'package:messenger_app/src/main/discussions/image.dart';
-import 'package:messenger_app/src/main/discussions/message_model.dart';
-import 'package:messenger_app/src/main/discussions/scroll_to_bottom.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/discussions/stickers_bloc.dart';
-import 'package:messenger_app/src/main/discussions/user_avatar.dart';
-import 'package:messenger_app/src/main/discussions/user_bloc.dart';
-
-import 'discussions_repo.dart';
+import 'package:messenger_app/data/models/message_model.dart';
+import 'package:messenger_app/data/models/sticker.dart';
+import 'package:messenger_app/data/models/user.dart';
+import 'package:messenger_app/data/repo/discussions_repo.dart';
+import 'package:messenger_app/src/main/discussion/discussion_cubit.dart';
+import 'package:messenger_app/src/main/discussion/messages_cubit.dart';
+import 'package:messenger_app/src/main/stickers/stickers_bloc.dart';
+import 'package:messenger_app/src/widgets/image.dart';
+import 'package:messenger_app/src/widgets/scroll_to_bottom.dart';
+import 'package:messenger_app/src/widgets/user_avatar.dart';
+import 'package:messenger_app/src/widgets/user_bloc.dart';
 
 part 'discussion_screen.freezed.dart';
-
-typedef MessagesState = AsyncStateDefault<List<Message>>;
-
-class MessagesCubit extends Cubit<MessagesState> with AsyncStateCubitMixin {
-  final DiscussionsRepository _repository;
-
-  MessagesCubit(this._repository) : super(const MessagesState.loading());
-
-  void run() {
-    _repository.watchAll().listen((event) {
-      emit(MessagesState.data(event));
-    }).onError((error) {
-      emit(MessagesState.error(error, StackTrace.current));
-    });
-  }
-}
 
 /// one-to-one discussion or group discussion message direction
 ///

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../src/main/discussions/image.dart';
+import '../src/widgets/image.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_bloc.g.dart';

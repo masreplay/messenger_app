@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/stickers_repo.dart';
-import 'package:messenger_app/src/main/stickers_screen.dart';
+import 'package:messenger_app/data/models/sticker.dart';
+import 'package:messenger_app/data/repo/stickers_repo.dart';
+import 'package:messenger_app/src/main/stickers/stickers_screen.dart';
 
 typedef _AddStickerCubitState = AsyncState<Sticker, Object?>;
 

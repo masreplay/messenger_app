@@ -2,14 +2,13 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/src/main/discussions/discussions_repo.dart';
-import 'package:messenger_app/src/main/discussions/message_model.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
+import 'package:messenger_app/data/models/sticker.dart';
+import 'package:messenger_app/data/repo/discussions_repo.dart';
 
-part 'discussion_cubit.freezed.dart';
+import 'discussion_event.dart';
+import 'discussion_state.dart';
 
 /// It's also could be implemented with sealed classes
 ///
@@ -37,23 +36,6 @@ part 'discussion_cubit.freezed.dart';
 ///   const SendStickerEvent(this.sticker);
 /// }
 /// ```
-
-@freezed
-class DiscussionEvent with _$DiscussionEvent {
-  const factory DiscussionEvent.image(File file) = _DiscussionEventImage;
-  const factory DiscussionEvent.text(String text) = _DiscussionEventText;
-  const factory DiscussionEvent.sticker(Sticker sticker) =
-      _DiscussionEventSticker;
-}
-
-@freezed
-class DiscussionState with _$DiscussionState {
-  const factory DiscussionState.initial() = _DiscussionStateInitial;
-  const factory DiscussionState.sendingInProgress() = _SendingInProgress;
-  const factory DiscussionState.messageSent(Message message) = _MessageSent;
-  const factory DiscussionState.failure(Object? error, StackTrace stackTrace) =
-      _DiscussionStateFailure;
-}
 
 @injectable
 class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {

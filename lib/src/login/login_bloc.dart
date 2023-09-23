@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/bloc/async_state.dart';
-import 'package:messenger_app/src/login/login_model.dart';
+import 'package:messenger_app/data/models/login_model.dart';
 
 part 'login_bloc.freezed.dart';
 part 'login_bloc.g.dart';

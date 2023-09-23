@@ -3,12 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:messenger_app/router/auth_guard.dart';
 import 'package:messenger_app/settings/settings_screen.dart';
 import 'package:messenger_app/src/login/login_screen.dart';
-import 'package:messenger_app/src/main/discussions/discussion_screen.dart';
+import 'package:messenger_app/src/main/discussion/discussion_screen.dart';
 import 'package:messenger_app/src/main/users/users_screen.dart';
-import 'package:messenger_app/src/main/discussions/image_screen.dart';
+import 'package:messenger_app/src/widgets/image_screen.dart';
 import 'package:messenger_app/src/main/main_screen.dart';
 import 'package:messenger_app/src/main/more_screen.dart';
-import 'package:messenger_app/src/main/stickers_screen.dart';
+import 'package:messenger_app/src/main/stickers/stickers_screen.dart';
 import 'package:messenger_app/src/sign_up/sign_up_screen.dart';
 
 part 'app_router.gr.dart';

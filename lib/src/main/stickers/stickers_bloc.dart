@@ -5,8 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/src/main/discussions/sticker.dart';
-import 'package:messenger_app/src/main/stickers_repo.dart';
+import 'package:messenger_app/data/models/sticker.dart';
+import 'package:messenger_app/data/repo/stickers_repo.dart';
 
 part 'stickers_bloc.freezed.dart';
 part 'stickers_bloc.g.dart';
