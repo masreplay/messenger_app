@@ -34,6 +34,7 @@
     "discussion": "Discussion",
     "stickers": "Stickers",
     "noMessages": "No messages",
+    "sendFirstSticker": "Send the first sticker",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

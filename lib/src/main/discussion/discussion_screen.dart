@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:faker/faker.dart';
 import 'package:flutter/foundation.dart';
@@ -402,7 +403,7 @@ class StickerContainer extends StatelessWidget {
 }
 
 /// A list of messages not depend on the type of the message
-class _MessagesListView extends StatefulHookWidget {
+class _MessagesListView extends HookWidget {
   const _MessagesListView({
     required this.messages,
     required this.controller,
@@ -414,17 +415,12 @@ class _MessagesListView extends StatefulHookWidget {
   final DiscussionGroup group;
 
   @override
-  State<_MessagesListView> createState() => _MessagesListViewState();
-}
-
-class _MessagesListViewState extends State<_MessagesListView> {
-  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
 
-    if (widget.messages.isEmpty) {
+    if (messages.isEmpty) {
       return BlocBuilder<StickersCubit, StickersState>(
         builder: (context, state) => state.maybeWhen(
           data: (data) {
@@ -439,9 +435,30 @@ class _MessagesListViewState extends State<_MessagesListView> {
                 ),
               );
             }
-            return Container(
-              color: Theme.of(context).colorScheme.surfaceVariant,
-              child: StickerContainer(sticker: data.first),
+            final dimension = min(MediaQuery.of(context).size.width / 3, 150.0);
+            return Center(
+              child: Container(
+                width: dimension,
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    StickerContainer(sticker: data.first),
+                    const Gap(),
+                    Text(
+                      l10n.sendFirstSticker,
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
           },
           orElse: () => Text(
@@ -456,29 +473,29 @@ class _MessagesListViewState extends State<_MessagesListView> {
     }
 
     return ScrollToBottom(
-      scrollController: widget.controller,
+      scrollController: controller,
       child: ListView.separated(
         reverse: true,
-        itemCount: widget.messages.length,
-        controller: widget.controller,
+        itemCount: messages.length,
+        controller: controller,
         padding: const EdgeInsets.all(16.0),
         separatorBuilder: (_, __) => const Gap(size: 8),
         itemBuilder: (context, index) {
           // Collecting the [MessageState] here
           final state = MessageState(
-            group: widget.group,
-            pervious: index > 0 ? widget.messages[index - 1] : null,
-            current: widget.messages[index],
-            next: index < widget.messages.length - 1
-                ? widget.messages[index + 1]
-                : null,
+            group: group,
+            pervious: index > 0 ? messages[index - 1] : null,
+            current: messages[index],
+            next: index < messages.length - 1 ? messages[index + 1] : null,
           );
 
           return MessageThemeWrapper(
             data: state,
             child: _MessageListTile(
               value: state,
-              onLongPressed: _onLongPressed,
+              onLongPressed: (value) {
+                _onLongPressed(context: context, value: value);
+              },
             ),
           );
         },
@@ -486,7 +503,10 @@ class _MessagesListViewState extends State<_MessagesListView> {
     );
   }
 
-  void _onLongPressed(MessageState value) {
+  void _onLongPressed({
+    required BuildContext context,
+    required MessageState value,
+  }) {
     final l10n = AppLocalizations.of(context)!;
     value.current.maybeMap(
       text: (value) {
