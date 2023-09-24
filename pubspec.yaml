@@ -1,5 +1,6 @@
 name: messenger_app
-description: A new Flutter project.
+description: Flutter chat application using Bloc, Freezed and Material 3
+
 publish_to: "none"
 version: 0.1.0
 
