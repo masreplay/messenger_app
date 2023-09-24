@@ -52,7 +52,7 @@ abstract class DiscussionsRepository {
   Future<MessageImage> sendImageMessage(File file, {String? caption});
 }
 
-// TODO(masreplay): Use UUID or GUID instead
+// TODO(masreplay): Use UUID or GUID instead or even better, use FieldValue.serverTimestamp()
 String _randomId() => DateTime.now().millisecondsSinceEpoch.toString();
 
 class FirebaseDiscussionsRepository implements DiscussionsRepository {
