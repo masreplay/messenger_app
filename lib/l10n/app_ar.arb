@@ -25,5 +25,17 @@
     "lightTheme": "مظهر فاتح",
     "darkTheme": "مظهر داكن",
     "unimplementedFeature": "هذه الميزة غير متوفرة حاليًا",
-    "name": "الاسم"
+    "name": "الاسم",
+    "camera": "كامرة",
+    "photo": 
+    "removeImage",
+    "image",
+    "copy",
+    "noStickers",
+    "discussion",
+    "stickers",
+    "noMessages",
+    "sendFirstSticker",
+    "delete",
+    "send"
 }
