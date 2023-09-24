@@ -26,21 +26,21 @@ In some places in the application, I put “TODO”. I did not complete the enti
 ___
 |                                |                                                                          |
 | :----------------------------: | :----------------------------------------------------------------------: |
-|             users              |              <img src="images/app/users.png" height="200">               | Ø |
-|          Add sticker           |          <image src="images/app/add-sticker.png" height="200">           |
-|          Add sticker2          |          <image src="images/app/add-sticker2.png" height="200">          |
-| Discussion starter no stickers | <image src="images/app/discussion-starter-no-stickers.png" height="200"> |
-|       Discussion starter       |       <image src="images/app/discussion-starter.png" height="200">       |
-|      Discussion starter2       |      <image src="images/app/discussion-starter2.png" height="200">       |
-|          Light theme           |          <image src="images/app/light-theme.png" height="200">           |
-|             Login              |             <image src="images/app/login.png" height="200">              |
-|          Select image          |          <image src="images/app/select-image.png" height="200">          |
-|           Send image           |           <image src="images/app/send-image.png" height="200">           |
-|         Sign up failed         |         <image src="images/app/sign-up-failed.png" height="200">         |
-|      Sign up light theme       |      <image src="images/app/sign-up-light-theme.png" height="200">       |
-|            Sign up             |            <image src="images/app/sign-up.png" height="200">             |
-|          Sticker alt           |          <image src="images/app/sticker-alt.png" height="200">           |
-|        Sticker message         |        <image src="images/app/sticker-message.png" height="200">         |
-|       Stickers dashboard       |       <image src="images/app/stickers-dashboard.png" height="200">       |
-|             Theme              |             <image src="images/app/theme.png" height="200">              |
-|             Users              |             <image src="images/app/users.png" height="200">              |
+|             users              |              <img src="images/app/users.png" height="300">               | Ø |
+|          Add sticker           |          <image src="images/app/add-sticker.png" height="300">           |
+|          Add sticker2          |          <image src="images/app/add-sticker2.png" height="300">          |
+| Discussion starter no stickers | <image src="images/app/discussion-starter-no-stickers.png" height="300"> |
+|       Discussion starter       |       <image src="images/app/discussion-starter.png" height="300">       |
+|      Discussion starter2       |      <image src="images/app/discussion-starter2.png" height="300">       |
+|          Light theme           |          <image src="images/app/light-theme.png" height="300">           |
+|             Login              |             <image src="images/app/login.png" height="300">              |
+|          Select image          |          <image src="images/app/select-image.png" height="300">          |
+|           Send image           |           <image src="images/app/send-image.png" height="300">           |
+|         Sign up failed         |         <image src="images/app/sign-up-failed.png" height="300">         |
+|      Sign up light theme       |      <image src="images/app/sign-up-light-theme.png" height="300">       |
+|            Sign up             |            <image src="images/app/sign-up.png" height="300">             |
+|          Sticker alt           |          <image src="images/app/sticker-alt.png" height="300">           |
+|        Sticker message         |        <image src="images/app/sticker-message.png" height="300">         |
+|       Stickers dashboard       |       <image src="images/app/stickers-dashboard.png" height="300">       |
+|             Theme              |             <image src="images/app/theme.png" height="300">              |
+|             Users              |             <image src="images/app/users.png" height="300">              |
