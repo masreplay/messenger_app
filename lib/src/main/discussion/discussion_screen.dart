@@ -147,15 +147,22 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     final repo = FirebaseDiscussionsRepository(group);
 
     final state = context.watch<UserCubit>().state;
+    final cubit = DiscussionCubit(repo);
 
     return Scaffold(
       body: state.maybeWhen(
-        data: (data) => MultiBlocProvider(
-          providers: [BlocProvider(create: (_) => DiscussionCubit(repo))],
+        data: (data) => BlocProvider.value(
+          value: cubit,
           child: BlocProviderAndBuilder(
             bloc: MessagesCubit(repo),
             factory: (bloc) => bloc.run(),
-            builder: (context, state) => _DiscussionView(data, group),
+            builder: (context, state) {
+              return _DiscussionView(
+                data,
+                group,
+                cubit,
+              );
+            },
           ),
         ),
         error: DefaultErrorWidget.call(() {
@@ -168,11 +175,13 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
 }
 
 class _DiscussionView extends HookWidget {
-  const _DiscussionView(this.peer, this.group);
+  const _DiscussionView(this.peer, this.group, this.cubit);
 
   final UserData peer;
 
   final DiscussionGroup group;
+
+  final DiscussionCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +201,7 @@ class _DiscussionView extends HookWidget {
       if (scrollController.offset >=
               scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
-        // TODO(masreplay): implement loading here
+        // TODO(masreplay): implement loading here and fix pagination issue
         limit.value += 20;
       }
     });
@@ -226,6 +235,9 @@ class _DiscussionView extends HookWidget {
                   messages: data,
                   controller: scrollController,
                   group: group,
+                  onDeletePressed: (value) {
+                    cubit.deleteMessage(value);
+                  },
                 );
               },
               error: DefaultErrorWidget.call(context.router.pop),
@@ -410,11 +422,13 @@ class _MessagesListView extends HookWidget {
     required this.messages,
     required this.controller,
     required this.group,
+    required this.onDeletePressed,
   });
 
   final List<Message> messages;
   final ScrollController controller;
   final DiscussionGroup group;
+  final ValueChanged<Message> onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -511,41 +525,50 @@ class _MessagesListView extends HookWidget {
   }) {
     final l10n = AppLocalizations.of(context)!;
     value.current.maybeMap(
-      text: (value) {
+      text: (message) {
+        // TODO(masreplay): implement any feature here
         showModalBottomSheet(
           context: context,
           showDragHandle: true,
           builder: (context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.copy_outlined),
-                  title: Text(l10n.copy),
-                  onTap: () {
-                    Clipboard.setData(ClipboardData(text: value.content.text));
-                    context.router.pop();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.delete_outline),
-                  title: Text(l10n.delete),
-                  onTap: () {
-                    context.read<DiscussionCubit>().deleteMessage(value);
-                    context.router.pop();
-                  },
-                ),
-              ],
-            );
+            return BlocBuilder<DiscussionCubit, DiscussionState>(
+                builder: (context, state) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.copy_outlined),
+                    title: Text(l10n.copy),
+                    onTap: () {
+                      Clipboard.setData(
+                          ClipboardData(text: message.content.text));
+                      context.router.pop();
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.delete_outline),
+                    title: Text(l10n.delete),
+                    onTap: () {
+                      onDeletePressed(message);
+                      context.router.pop();
+                    },
+                  ),
+                ],
+              );
+            });
           },
         );
       },
       image: (value) {
+        // TODO(masreplay): implement any feature here
         context.router.push(
           ImageRoute(imageUrl: value.content.imageUrl),
         );
       },
-      orElse: context.showUnimplementedSnackBar,
+      orElse: () {
+        // TODO(masreplay): implement any feature here
+        context.showUnimplementedSnackBar();
+      },
     );
   }
 }
