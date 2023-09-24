@@ -20,6 +20,7 @@ mixin _$DiscussionState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
     required TResult Function(Message message) messageSent,
     required TResult Function(Object? error, StackTrace stackTrace) failure,
   }) =>
@@ -28,6 +29,7 @@ mixin _$DiscussionState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
     TResult? Function(Message message)? messageSent,
     TResult? Function(Object? error, StackTrace stackTrace)? failure,
   }) =>
@@ -36,6 +38,7 @@ mixin _$DiscussionState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
     TResult Function(Message message)? messageSent,
     TResult Function(Object? error, StackTrace stackTrace)? failure,
     required TResult orElse(),
@@ -46,6 +49,7 @@ mixin _$DiscussionState {
     required TResult Function(DiscussionStateInitial value) initial,
     required TResult Function(DiscussionStateSendingInProgress value)
         sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
     required TResult Function(DiscussionStateMessageSent value) messageSent,
     required TResult Function(DiscussionStateFailure value) failure,
   }) =>
@@ -55,6 +59,7 @@ mixin _$DiscussionState {
     TResult? Function(DiscussionStateInitial value)? initial,
     TResult? Function(DiscussionStateSendingInProgress value)?
         sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
     TResult? Function(DiscussionStateMessageSent value)? messageSent,
     TResult? Function(DiscussionStateFailure value)? failure,
   }) =>
@@ -63,6 +68,7 @@ mixin _$DiscussionState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DiscussionStateInitial value)? initial,
     TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
     TResult Function(DiscussionStateMessageSent value)? messageSent,
     TResult Function(DiscussionStateFailure value)? failure,
     required TResult orElse(),
@@ -128,6 +134,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
     required TResult Function(Message message) messageSent,
     required TResult Function(Object? error, StackTrace stackTrace) failure,
   }) {
@@ -139,6 +146,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
     TResult? Function(Message message)? messageSent,
     TResult? Function(Object? error, StackTrace stackTrace)? failure,
   }) {
@@ -150,6 +158,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
     TResult Function(Message message)? messageSent,
     TResult Function(Object? error, StackTrace stackTrace)? failure,
     required TResult orElse(),
@@ -166,6 +175,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
     required TResult Function(DiscussionStateInitial value) initial,
     required TResult Function(DiscussionStateSendingInProgress value)
         sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
     required TResult Function(DiscussionStateMessageSent value) messageSent,
     required TResult Function(DiscussionStateFailure value) failure,
   }) {
@@ -178,6 +188,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
     TResult? Function(DiscussionStateInitial value)? initial,
     TResult? Function(DiscussionStateSendingInProgress value)?
         sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
     TResult? Function(DiscussionStateMessageSent value)? messageSent,
     TResult? Function(DiscussionStateFailure value)? failure,
   }) {
@@ -189,6 +200,7 @@ class _$DiscussionStateInitial implements DiscussionStateInitial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DiscussionStateInitial value)? initial,
     TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
     TResult Function(DiscussionStateMessageSent value)? messageSent,
     TResult Function(DiscussionStateFailure value)? failure,
     required TResult orElse(),
@@ -249,6 +261,7 @@ class _$DiscussionStateSendingInProgress
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
     required TResult Function(Message message) messageSent,
     required TResult Function(Object? error, StackTrace stackTrace) failure,
   }) {
@@ -260,6 +273,7 @@ class _$DiscussionStateSendingInProgress
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
     TResult? Function(Message message)? messageSent,
     TResult? Function(Object? error, StackTrace stackTrace)? failure,
   }) {
@@ -271,6 +285,7 @@ class _$DiscussionStateSendingInProgress
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
     TResult Function(Message message)? messageSent,
     TResult Function(Object? error, StackTrace stackTrace)? failure,
     required TResult orElse(),
@@ -287,6 +302,7 @@ class _$DiscussionStateSendingInProgress
     required TResult Function(DiscussionStateInitial value) initial,
     required TResult Function(DiscussionStateSendingInProgress value)
         sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
     required TResult Function(DiscussionStateMessageSent value) messageSent,
     required TResult Function(DiscussionStateFailure value) failure,
   }) {
@@ -299,6 +315,7 @@ class _$DiscussionStateSendingInProgress
     TResult? Function(DiscussionStateInitial value)? initial,
     TResult? Function(DiscussionStateSendingInProgress value)?
         sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
     TResult? Function(DiscussionStateMessageSent value)? messageSent,
     TResult? Function(DiscussionStateFailure value)? failure,
   }) {
@@ -310,6 +327,7 @@ class _$DiscussionStateSendingInProgress
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DiscussionStateInitial value)? initial,
     TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
     TResult Function(DiscussionStateMessageSent value)? messageSent,
     TResult Function(DiscussionStateFailure value)? failure,
     required TResult orElse(),
@@ -324,6 +342,171 @@ class _$DiscussionStateSendingInProgress
 abstract class DiscussionStateSendingInProgress implements DiscussionState {
   const factory DiscussionStateSendingInProgress() =
       _$DiscussionStateSendingInProgress;
+}
+
+/// @nodoc
+abstract class _$$DiscussionStateDeletedCopyWith<$Res> {
+  factory _$$DiscussionStateDeletedCopyWith(_$DiscussionStateDeleted value,
+          $Res Function(_$DiscussionStateDeleted) then) =
+      __$$DiscussionStateDeletedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Message message});
+
+  $MessageCopyWith<$Res> get message;
+}
+
+/// @nodoc
+class __$$DiscussionStateDeletedCopyWithImpl<$Res>
+    extends _$DiscussionStateCopyWithImpl<$Res, _$DiscussionStateDeleted>
+    implements _$$DiscussionStateDeletedCopyWith<$Res> {
+  __$$DiscussionStateDeletedCopyWithImpl(_$DiscussionStateDeleted _value,
+      $Res Function(_$DiscussionStateDeleted) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DiscussionStateDeleted(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as Message,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageCopyWith<$Res> get message {
+    return $MessageCopyWith<$Res>(_value.message, (value) {
+      return _then(_value.copyWith(message: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DiscussionStateDeleted implements DiscussionStateDeleted {
+  const _$DiscussionStateDeleted(this.message);
+
+  @override
+  final Message message;
+
+  @override
+  String toString() {
+    return 'DiscussionState.messageDeleted(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DiscussionStateDeleted &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DiscussionStateDeletedCopyWith<_$DiscussionStateDeleted> get copyWith =>
+      __$$DiscussionStateDeletedCopyWithImpl<_$DiscussionStateDeleted>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
+    required TResult Function(Message message) messageSent,
+    required TResult Function(Object? error, StackTrace stackTrace) failure,
+  }) {
+    return messageDeleted(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
+    TResult? Function(Message message)? messageSent,
+    TResult? Function(Object? error, StackTrace stackTrace)? failure,
+  }) {
+    return messageDeleted?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
+    TResult Function(Message message)? messageSent,
+    TResult Function(Object? error, StackTrace stackTrace)? failure,
+    required TResult orElse(),
+  }) {
+    if (messageDeleted != null) {
+      return messageDeleted(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DiscussionStateInitial value) initial,
+    required TResult Function(DiscussionStateSendingInProgress value)
+        sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
+    required TResult Function(DiscussionStateMessageSent value) messageSent,
+    required TResult Function(DiscussionStateFailure value) failure,
+  }) {
+    return messageDeleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DiscussionStateInitial value)? initial,
+    TResult? Function(DiscussionStateSendingInProgress value)?
+        sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
+    TResult? Function(DiscussionStateMessageSent value)? messageSent,
+    TResult? Function(DiscussionStateFailure value)? failure,
+  }) {
+    return messageDeleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DiscussionStateInitial value)? initial,
+    TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
+    TResult Function(DiscussionStateMessageSent value)? messageSent,
+    TResult Function(DiscussionStateFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (messageDeleted != null) {
+      return messageDeleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DiscussionStateDeleted implements DiscussionState {
+  const factory DiscussionStateDeleted(final Message message) =
+      _$DiscussionStateDeleted;
+
+  Message get message;
+  @JsonKey(ignore: true)
+  _$$DiscussionStateDeletedCopyWith<_$DiscussionStateDeleted> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -405,6 +588,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
     required TResult Function(Message message) messageSent,
     required TResult Function(Object? error, StackTrace stackTrace) failure,
   }) {
@@ -416,6 +600,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
     TResult? Function(Message message)? messageSent,
     TResult? Function(Object? error, StackTrace stackTrace)? failure,
   }) {
@@ -427,6 +612,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
     TResult Function(Message message)? messageSent,
     TResult Function(Object? error, StackTrace stackTrace)? failure,
     required TResult orElse(),
@@ -443,6 +629,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
     required TResult Function(DiscussionStateInitial value) initial,
     required TResult Function(DiscussionStateSendingInProgress value)
         sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
     required TResult Function(DiscussionStateMessageSent value) messageSent,
     required TResult Function(DiscussionStateFailure value) failure,
   }) {
@@ -455,6 +642,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
     TResult? Function(DiscussionStateInitial value)? initial,
     TResult? Function(DiscussionStateSendingInProgress value)?
         sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
     TResult? Function(DiscussionStateMessageSent value)? messageSent,
     TResult? Function(DiscussionStateFailure value)? failure,
   }) {
@@ -466,6 +654,7 @@ class _$DiscussionStateMessageSent implements DiscussionStateMessageSent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DiscussionStateInitial value)? initial,
     TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
     TResult Function(DiscussionStateMessageSent value)? messageSent,
     TResult Function(DiscussionStateFailure value)? failure,
     required TResult orElse(),
@@ -561,6 +750,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() sendingInProgress,
+    required TResult Function(Message message) messageDeleted,
     required TResult Function(Message message) messageSent,
     required TResult Function(Object? error, StackTrace stackTrace) failure,
   }) {
@@ -572,6 +762,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? sendingInProgress,
+    TResult? Function(Message message)? messageDeleted,
     TResult? Function(Message message)? messageSent,
     TResult? Function(Object? error, StackTrace stackTrace)? failure,
   }) {
@@ -583,6 +774,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? sendingInProgress,
+    TResult Function(Message message)? messageDeleted,
     TResult Function(Message message)? messageSent,
     TResult Function(Object? error, StackTrace stackTrace)? failure,
     required TResult orElse(),
@@ -599,6 +791,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
     required TResult Function(DiscussionStateInitial value) initial,
     required TResult Function(DiscussionStateSendingInProgress value)
         sendingInProgress,
+    required TResult Function(DiscussionStateDeleted value) messageDeleted,
     required TResult Function(DiscussionStateMessageSent value) messageSent,
     required TResult Function(DiscussionStateFailure value) failure,
   }) {
@@ -611,6 +804,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
     TResult? Function(DiscussionStateInitial value)? initial,
     TResult? Function(DiscussionStateSendingInProgress value)?
         sendingInProgress,
+    TResult? Function(DiscussionStateDeleted value)? messageDeleted,
     TResult? Function(DiscussionStateMessageSent value)? messageSent,
     TResult? Function(DiscussionStateFailure value)? failure,
   }) {
@@ -622,6 +816,7 @@ class _$DiscussionStateFailure implements DiscussionStateFailure {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DiscussionStateInitial value)? initial,
     TResult Function(DiscussionStateSendingInProgress value)? sendingInProgress,
+    TResult Function(DiscussionStateDeleted value)? messageDeleted,
     TResult Function(DiscussionStateMessageSent value)? messageSent,
     TResult Function(DiscussionStateFailure value)? failure,
     required TResult orElse(),

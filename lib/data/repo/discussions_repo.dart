@@ -49,15 +49,16 @@ abstract class DiscussionsRepository {
 
   Future<MessageSticker> sendStickerMessage(Sticker sticker);
 
-  Future<MessageImage> sendImageMessage(File file);
+  Future<MessageImage> sendImageMessage(File file, {String? caption});
 }
+
+// TODO(masreplay): Use UUID or GUID instead
+String _randomId() => DateTime.now().millisecondsSinceEpoch.toString();
 
 class FirebaseDiscussionsRepository implements DiscussionsRepository {
   final DiscussionGroup _group;
 
   const FirebaseDiscussionsRepository(this._group);
-
-  String _randomId() => DateTime.now().millisecondsSinceEpoch.toString();
 
   CollectionReferenceMap get _collection =>
       FirebaseFirestore.instance.collection(FirebaseCollections.discussions);
@@ -66,126 +67,66 @@ class FirebaseDiscussionsRepository implements DiscussionsRepository {
       _collection.doc(_group.id).collection(_group.id);
 
   @override
-  Stream<List<Message>> watchAll({int limit = 20}) => FirebaseFirestore.instance
-      .collection(FirebaseCollections.discussions)
-      .doc(_group.id)
-      .collection(_group.id)
+  Stream<List<Message>> watchAll({int limit = 20}) => _discussionCollection
       .orderBy('metadata.timestamp', descending: true)
       .limit(limit)
       .snapshots()
-      .map((event) =>
-          event.docs.map((e) => Message.fromJson(e.data())).toList());
+      .map(
+          (event) => event.docs.map((e) => Message.fromJson(e.map())).toList());
 
-  Future<T> _sendMessage<T extends Message>(T message) async {
-    await FirebaseFirestore.instance
-        .runTransaction((transaction) async => transaction.set(
-              _discussionCollection.doc(_randomId()),
-              message.toJson(),
-            ));
-    return message;
-  }
-
-  MessageMetaData _buildMessageMetaData() => MessageMetaData(
+  MessageMetaData _buildMessageData() => MessageMetaData(
         idFrom: _group.userId,
         idTo: _group.peerId,
         timestamp: DateTime.now(),
       );
 
+  DocumentReferenceMap _buildMessageRef() =>
+      _discussionCollection.doc(_randomId());
+
+  Future<R> _sendMessage<T extends MessageAdd, R extends Message>(
+    T message,
+  ) async {
+    final ref = _buildMessageRef();
+    await FirebaseFirestore.instance.runTransaction(
+      (transaction) async => transaction.set(ref, message.toJson()),
+    );
+    return MessageSticker.fromJson((await ref.get()).map()) as R;
+  }
+
   @override
   Future<MessageSticker> sendStickerMessage(Sticker sticker) => _sendMessage(
-      MessageSticker(metadata: _buildMessageMetaData(), sticker: sticker));
+        MessageAddSticker(
+          content: MessageContentSticker(sticker: sticker),
+          metadata: _buildMessageData(),
+        ),
+      );
 
   @override
   Future<MessageText> sendTextMessage(String text) => _sendMessage(
-      MessageText(metadata: _buildMessageMetaData(), content: text));
+        MessageAddText(
+          content: MessageContentText(text: text),
+          metadata: _buildMessageData(),
+        ),
+      );
 
   @override
-  Future<MessageImage> sendImageMessage(File file, {String? text}) async {
-    final fileName = _randomId();
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child(FirebaseFolders.chats)
-        .child(fileName);
+  Future<MessageImage> sendImageMessage(File file, {String? caption}) async {
+    final url = await FirebaseStorage.instance
+        .ref('images/${_randomId()}')
+        .putFile(file)
+        .then((value) => value.ref.getDownloadURL());
 
-    final uploadTask = await ref.putFile(file);
-    final imageUrl = await uploadTask.ref.getDownloadURL();
-
-    final message = MessageImage(
-      metadata: _buildMessageMetaData(),
-      imageUrl: imageUrl,
-      caption: text,
+    return _sendMessage(
+      MessageAddImage(
+        content: MessageContentImage(
+          caption: caption,
+          imageUrl: url,
+        ),
+        metadata: _buildMessageData(),
+      ),
     );
-    return _sendMessage(message);
   }
 
   @override
   Future<void> deleteMessage(id) => _discussionCollection.doc(id).delete();
 }
-
-//   CollectionReference<Map<String, dynamic>> get _discussion =>
-//       FirebaseFirestore.instance
-//           .collection(FirebaseCollections.discussions)
-//           .doc(_group.id)
-//           .collection(_group.id);
-
-  
-//   DocumentReference<Map<String, dynamic>> _chat() =>
-//       _discussion.doc(DateTime.now().millisecondsSinceEpoch.toString());
-
-//   Future<Transaction> _runTxn(Message chat) =>
-//       FirebaseFirestore.instance.runTransaction(
-//           (transaction) async => transaction.set(_chat(), chat.toJson()));
-
-//   Future<Transaction> sendStickerMessage(Sticker sticker) {
-//     final chat = Message.sticker(
-//       idFrom: _group.userId,
-//       idTo: _group.peerId,
-//       timestamp: DateTime.now(),
-//       sticker: sticker,
-//     );
-//     return _runTxn(chat);
-//   }
-
-//   Future<Transaction> sendTextMessage(String text) {
-//     final chat = Message.text(
-//       idFrom: _group.userId,
-//       idTo: _group.peerId,
-//       timestamp: DateTime.now(),
-//       content: text,
-//     );
-//     return _runTxn(chat);
-//   }
-
-//   Future<void> deleteMessage({required String messageId}) =>
-//       _discussion.doc(messageId).delete();
-
-//   Stream<List<Message>> getMessages({int limit = 20}) => _discussion
-//       .orderBy('timestamp', descending: true)
-//       .limit(limit)
-//       .snapshots()
-//       .map((event) =>
-//           event.docs.map((e) => Message.fromJson(e.data())).toList());
-
-//   Future<void> sendImageMessage(File file) async {
-//     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-//     final reference = FirebaseStorage.instance.ref().child(fileName);
-//     final uploadTask = reference.putFile(file);
-
-//     try {
-//       TaskSnapshot snapshot = await uploadTask;
-//       final imageUrl = await snapshot.ref.getDownloadURL();
-//       final chat = Message.image(
-//         idFrom: _group.userId,
-//         idTo: _group.peerId,
-//         timestamp: DateTime.now(),
-//         imageUrl: imageUrl,
-//         caption: null,
-//       );
-//       await _runTxn(chat);
-//     } on FirebaseException catch (e) {
-//       if (kDebugMode) {
-//         print(e);
-//       }
-//     }
-//   }
-// }

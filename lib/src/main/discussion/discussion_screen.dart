@@ -387,8 +387,10 @@ class StickerContainer extends StatelessWidget {
     return Tooltip(
       message: "${sticker.nickname} ${sticker.emoji}",
       child: InkWell(
-        onTap: () =>
-            context.read<DiscussionCubit>().sendStickerMessage(sticker),
+        onTap: () {
+          context.read<DiscussionCubit>().sendStickerMessage(sticker);
+        },
+        borderRadius: BorderRadius.circular(8.0),
         child: AspectRatio(
           aspectRatio: 1,
           child: AppNetworkImage(
@@ -437,7 +439,7 @@ class _MessagesListView extends HookWidget {
             }
             final dimension = min(MediaQuery.of(context).size.width / 3, 150.0);
             return Center(
-              child: Container(
+              child: Ink(
                 width: dimension,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -521,9 +523,15 @@ class _MessagesListView extends HookWidget {
                   leading: const Icon(Icons.copy_outlined),
                   title: Text(l10n.copy),
                   onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(text: value.content),
-                    );
+                    Clipboard.setData(ClipboardData(text: value.content.text));
+                    context.router.pop();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(l10n.delete),
+                  onTap: () {
+                    context.read<DiscussionCubit>().deleteMessage(value);
                     context.router.pop();
                   },
                 ),
@@ -534,7 +542,7 @@ class _MessagesListView extends HookWidget {
       },
       image: (value) {
         context.router.push(
-          ImageRoute(imageUrl: value.imageUrl),
+          ImageRoute(imageUrl: value.content.imageUrl),
         );
       },
       orElse: context.showUnimplementedSnackBar,
@@ -613,6 +621,7 @@ class _StickerMessageListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sticker = value.content.sticker;
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: SizedBox.square(
@@ -620,11 +629,10 @@ class _StickerMessageListTile extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1,
           child: AppNetworkImage(
-            value.sticker.path,
+            sticker.path,
             fit: BoxFit.cover,
-            loadingBuilder: (context) =>
-                StickerPlaceholder(value: value.sticker),
-            errorBuilder: (context) => StickerPlaceholder(value: value.sticker),
+            loadingBuilder: (context) => StickerPlaceholder(value: sticker),
+            errorBuilder: (context) => StickerPlaceholder(value: sticker),
           ),
         ),
       ),
@@ -773,9 +781,9 @@ class _ImageMessageListTile extends StatelessWidget {
             child: ClipRRect(
               borderRadius: messageTheme.borderRadius,
               child: Hero(
-                tag: value.imageUrl,
+                tag: value.content.imageUrl,
                 child: AppNetworkImage(
-                  value.imageUrl,
+                  value.content.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -821,7 +829,7 @@ class _TextMessageListTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            message.content,
+            message.content.text,
             style: messageTheme.textStyle,
           ),
           Text(

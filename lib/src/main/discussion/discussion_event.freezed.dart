@@ -18,45 +18,51 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DiscussionEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(File file) image,
-    required TResult Function(String text) text,
-    required TResult Function(Sticker sticker) sticker,
+    required TResult Function(Message message) deleteMessage,
+    required TResult Function(File file) sendImage,
+    required TResult Function(String text) sendText,
+    required TResult Function(Sticker sticker) sendSticker,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(File file)? image,
-    TResult? Function(String text)? text,
-    TResult? Function(Sticker sticker)? sticker,
+    TResult? Function(Message message)? deleteMessage,
+    TResult? Function(File file)? sendImage,
+    TResult? Function(String text)? sendText,
+    TResult? Function(Sticker sticker)? sendSticker,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(File file)? image,
-    TResult Function(String text)? text,
-    TResult Function(Sticker sticker)? sticker,
+    TResult Function(Message message)? deleteMessage,
+    TResult Function(File file)? sendImage,
+    TResult Function(String text)? sendText,
+    TResult Function(Sticker sticker)? sendSticker,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DiscussionEventImage value) image,
-    required TResult Function(DiscussionEventText value) text,
-    required TResult Function(DiscussionEventSticker value) sticker,
+    required TResult Function(DiscussionEventDelete value) deleteMessage,
+    required TResult Function(DiscussionEventImage value) sendImage,
+    required TResult Function(DiscussionEventText value) sendText,
+    required TResult Function(DiscussionEventSticker value) sendSticker,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DiscussionEventImage value)? image,
-    TResult? Function(DiscussionEventText value)? text,
-    TResult? Function(DiscussionEventSticker value)? sticker,
+    TResult? Function(DiscussionEventDelete value)? deleteMessage,
+    TResult? Function(DiscussionEventImage value)? sendImage,
+    TResult? Function(DiscussionEventText value)? sendText,
+    TResult? Function(DiscussionEventSticker value)? sendSticker,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DiscussionEventImage value)? image,
-    TResult Function(DiscussionEventText value)? text,
-    TResult Function(DiscussionEventSticker value)? sticker,
+    TResult Function(DiscussionEventDelete value)? deleteMessage,
+    TResult Function(DiscussionEventImage value)? sendImage,
+    TResult Function(DiscussionEventText value)? sendText,
+    TResult Function(DiscussionEventSticker value)? sendSticker,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -78,6 +84,163 @@ class _$DiscussionEventCopyWithImpl<$Res, $Val extends DiscussionEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$DiscussionEventDeleteCopyWith<$Res> {
+  factory _$$DiscussionEventDeleteCopyWith(_$DiscussionEventDelete value,
+          $Res Function(_$DiscussionEventDelete) then) =
+      __$$DiscussionEventDeleteCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Message message});
+
+  $MessageCopyWith<$Res> get message;
+}
+
+/// @nodoc
+class __$$DiscussionEventDeleteCopyWithImpl<$Res>
+    extends _$DiscussionEventCopyWithImpl<$Res, _$DiscussionEventDelete>
+    implements _$$DiscussionEventDeleteCopyWith<$Res> {
+  __$$DiscussionEventDeleteCopyWithImpl(_$DiscussionEventDelete _value,
+      $Res Function(_$DiscussionEventDelete) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DiscussionEventDelete(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as Message,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MessageCopyWith<$Res> get message {
+    return $MessageCopyWith<$Res>(_value.message, (value) {
+      return _then(_value.copyWith(message: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DiscussionEventDelete implements DiscussionEventDelete {
+  const _$DiscussionEventDelete(this.message);
+
+  @override
+  final Message message;
+
+  @override
+  String toString() {
+    return 'DiscussionEvent.deleteMessage(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DiscussionEventDelete &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DiscussionEventDeleteCopyWith<_$DiscussionEventDelete> get copyWith =>
+      __$$DiscussionEventDeleteCopyWithImpl<_$DiscussionEventDelete>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Message message) deleteMessage,
+    required TResult Function(File file) sendImage,
+    required TResult Function(String text) sendText,
+    required TResult Function(Sticker sticker) sendSticker,
+  }) {
+    return deleteMessage(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Message message)? deleteMessage,
+    TResult? Function(File file)? sendImage,
+    TResult? Function(String text)? sendText,
+    TResult? Function(Sticker sticker)? sendSticker,
+  }) {
+    return deleteMessage?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Message message)? deleteMessage,
+    TResult Function(File file)? sendImage,
+    TResult Function(String text)? sendText,
+    TResult Function(Sticker sticker)? sendSticker,
+    required TResult orElse(),
+  }) {
+    if (deleteMessage != null) {
+      return deleteMessage(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DiscussionEventDelete value) deleteMessage,
+    required TResult Function(DiscussionEventImage value) sendImage,
+    required TResult Function(DiscussionEventText value) sendText,
+    required TResult Function(DiscussionEventSticker value) sendSticker,
+  }) {
+    return deleteMessage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DiscussionEventDelete value)? deleteMessage,
+    TResult? Function(DiscussionEventImage value)? sendImage,
+    TResult? Function(DiscussionEventText value)? sendText,
+    TResult? Function(DiscussionEventSticker value)? sendSticker,
+  }) {
+    return deleteMessage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DiscussionEventDelete value)? deleteMessage,
+    TResult Function(DiscussionEventImage value)? sendImage,
+    TResult Function(DiscussionEventText value)? sendText,
+    TResult Function(DiscussionEventSticker value)? sendSticker,
+    required TResult orElse(),
+  }) {
+    if (deleteMessage != null) {
+      return deleteMessage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DiscussionEventDelete implements DiscussionEvent {
+  const factory DiscussionEventDelete(final Message message) =
+      _$DiscussionEventDelete;
+
+  Message get message;
+  @JsonKey(ignore: true)
+  _$$DiscussionEventDeleteCopyWith<_$DiscussionEventDelete> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -121,7 +284,7 @@ class _$DiscussionEventImage implements DiscussionEventImage {
 
   @override
   String toString() {
-    return 'DiscussionEvent.image(file: $file)';
+    return 'DiscussionEvent.sendImage(file: $file)';
   }
 
   @override
@@ -145,33 +308,36 @@ class _$DiscussionEventImage implements DiscussionEventImage {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(File file) image,
-    required TResult Function(String text) text,
-    required TResult Function(Sticker sticker) sticker,
+    required TResult Function(Message message) deleteMessage,
+    required TResult Function(File file) sendImage,
+    required TResult Function(String text) sendText,
+    required TResult Function(Sticker sticker) sendSticker,
   }) {
-    return image(file);
+    return sendImage(file);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(File file)? image,
-    TResult? Function(String text)? text,
-    TResult? Function(Sticker sticker)? sticker,
+    TResult? Function(Message message)? deleteMessage,
+    TResult? Function(File file)? sendImage,
+    TResult? Function(String text)? sendText,
+    TResult? Function(Sticker sticker)? sendSticker,
   }) {
-    return image?.call(file);
+    return sendImage?.call(file);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(File file)? image,
-    TResult Function(String text)? text,
-    TResult Function(Sticker sticker)? sticker,
+    TResult Function(Message message)? deleteMessage,
+    TResult Function(File file)? sendImage,
+    TResult Function(String text)? sendText,
+    TResult Function(Sticker sticker)? sendSticker,
     required TResult orElse(),
   }) {
-    if (image != null) {
-      return image(file);
+    if (sendImage != null) {
+      return sendImage(file);
     }
     return orElse();
   }
@@ -179,33 +345,36 @@ class _$DiscussionEventImage implements DiscussionEventImage {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DiscussionEventImage value) image,
-    required TResult Function(DiscussionEventText value) text,
-    required TResult Function(DiscussionEventSticker value) sticker,
+    required TResult Function(DiscussionEventDelete value) deleteMessage,
+    required TResult Function(DiscussionEventImage value) sendImage,
+    required TResult Function(DiscussionEventText value) sendText,
+    required TResult Function(DiscussionEventSticker value) sendSticker,
   }) {
-    return image(this);
+    return sendImage(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DiscussionEventImage value)? image,
-    TResult? Function(DiscussionEventText value)? text,
-    TResult? Function(DiscussionEventSticker value)? sticker,
+    TResult? Function(DiscussionEventDelete value)? deleteMessage,
+    TResult? Function(DiscussionEventImage value)? sendImage,
+    TResult? Function(DiscussionEventText value)? sendText,
+    TResult? Function(DiscussionEventSticker value)? sendSticker,
   }) {
-    return image?.call(this);
+    return sendImage?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DiscussionEventImage value)? image,
-    TResult Function(DiscussionEventText value)? text,
-    TResult Function(DiscussionEventSticker value)? sticker,
+    TResult Function(DiscussionEventDelete value)? deleteMessage,
+    TResult Function(DiscussionEventImage value)? sendImage,
+    TResult Function(DiscussionEventText value)? sendText,
+    TResult Function(DiscussionEventSticker value)? sendSticker,
     required TResult orElse(),
   }) {
-    if (image != null) {
-      return image(this);
+    if (sendImage != null) {
+      return sendImage(this);
     }
     return orElse();
   }
@@ -261,7 +430,7 @@ class _$DiscussionEventText implements DiscussionEventText {
 
   @override
   String toString() {
-    return 'DiscussionEvent.text(text: $text)';
+    return 'DiscussionEvent.sendText(text: $text)';
   }
 
   @override
@@ -285,33 +454,36 @@ class _$DiscussionEventText implements DiscussionEventText {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(File file) image,
-    required TResult Function(String text) text,
-    required TResult Function(Sticker sticker) sticker,
+    required TResult Function(Message message) deleteMessage,
+    required TResult Function(File file) sendImage,
+    required TResult Function(String text) sendText,
+    required TResult Function(Sticker sticker) sendSticker,
   }) {
-    return text(this.text);
+    return sendText(text);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(File file)? image,
-    TResult? Function(String text)? text,
-    TResult? Function(Sticker sticker)? sticker,
+    TResult? Function(Message message)? deleteMessage,
+    TResult? Function(File file)? sendImage,
+    TResult? Function(String text)? sendText,
+    TResult? Function(Sticker sticker)? sendSticker,
   }) {
-    return text?.call(this.text);
+    return sendText?.call(text);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(File file)? image,
-    TResult Function(String text)? text,
-    TResult Function(Sticker sticker)? sticker,
+    TResult Function(Message message)? deleteMessage,
+    TResult Function(File file)? sendImage,
+    TResult Function(String text)? sendText,
+    TResult Function(Sticker sticker)? sendSticker,
     required TResult orElse(),
   }) {
-    if (text != null) {
-      return text(this.text);
+    if (sendText != null) {
+      return sendText(text);
     }
     return orElse();
   }
@@ -319,33 +491,36 @@ class _$DiscussionEventText implements DiscussionEventText {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DiscussionEventImage value) image,
-    required TResult Function(DiscussionEventText value) text,
-    required TResult Function(DiscussionEventSticker value) sticker,
+    required TResult Function(DiscussionEventDelete value) deleteMessage,
+    required TResult Function(DiscussionEventImage value) sendImage,
+    required TResult Function(DiscussionEventText value) sendText,
+    required TResult Function(DiscussionEventSticker value) sendSticker,
   }) {
-    return text(this);
+    return sendText(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DiscussionEventImage value)? image,
-    TResult? Function(DiscussionEventText value)? text,
-    TResult? Function(DiscussionEventSticker value)? sticker,
+    TResult? Function(DiscussionEventDelete value)? deleteMessage,
+    TResult? Function(DiscussionEventImage value)? sendImage,
+    TResult? Function(DiscussionEventText value)? sendText,
+    TResult? Function(DiscussionEventSticker value)? sendSticker,
   }) {
-    return text?.call(this);
+    return sendText?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DiscussionEventImage value)? image,
-    TResult Function(DiscussionEventText value)? text,
-    TResult Function(DiscussionEventSticker value)? sticker,
+    TResult Function(DiscussionEventDelete value)? deleteMessage,
+    TResult Function(DiscussionEventImage value)? sendImage,
+    TResult Function(DiscussionEventText value)? sendText,
+    TResult Function(DiscussionEventSticker value)? sendSticker,
     required TResult orElse(),
   }) {
-    if (text != null) {
-      return text(this);
+    if (sendText != null) {
+      return sendText(this);
     }
     return orElse();
   }
@@ -411,7 +586,7 @@ class _$DiscussionEventSticker implements DiscussionEventSticker {
 
   @override
   String toString() {
-    return 'DiscussionEvent.sticker(sticker: $sticker)';
+    return 'DiscussionEvent.sendSticker(sticker: $sticker)';
   }
 
   @override
@@ -435,33 +610,36 @@ class _$DiscussionEventSticker implements DiscussionEventSticker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(File file) image,
-    required TResult Function(String text) text,
-    required TResult Function(Sticker sticker) sticker,
+    required TResult Function(Message message) deleteMessage,
+    required TResult Function(File file) sendImage,
+    required TResult Function(String text) sendText,
+    required TResult Function(Sticker sticker) sendSticker,
   }) {
-    return sticker(this.sticker);
+    return sendSticker(sticker);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(File file)? image,
-    TResult? Function(String text)? text,
-    TResult? Function(Sticker sticker)? sticker,
+    TResult? Function(Message message)? deleteMessage,
+    TResult? Function(File file)? sendImage,
+    TResult? Function(String text)? sendText,
+    TResult? Function(Sticker sticker)? sendSticker,
   }) {
-    return sticker?.call(this.sticker);
+    return sendSticker?.call(sticker);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(File file)? image,
-    TResult Function(String text)? text,
-    TResult Function(Sticker sticker)? sticker,
+    TResult Function(Message message)? deleteMessage,
+    TResult Function(File file)? sendImage,
+    TResult Function(String text)? sendText,
+    TResult Function(Sticker sticker)? sendSticker,
     required TResult orElse(),
   }) {
-    if (sticker != null) {
-      return sticker(this.sticker);
+    if (sendSticker != null) {
+      return sendSticker(sticker);
     }
     return orElse();
   }
@@ -469,33 +647,36 @@ class _$DiscussionEventSticker implements DiscussionEventSticker {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DiscussionEventImage value) image,
-    required TResult Function(DiscussionEventText value) text,
-    required TResult Function(DiscussionEventSticker value) sticker,
+    required TResult Function(DiscussionEventDelete value) deleteMessage,
+    required TResult Function(DiscussionEventImage value) sendImage,
+    required TResult Function(DiscussionEventText value) sendText,
+    required TResult Function(DiscussionEventSticker value) sendSticker,
   }) {
-    return sticker(this);
+    return sendSticker(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DiscussionEventImage value)? image,
-    TResult? Function(DiscussionEventText value)? text,
-    TResult? Function(DiscussionEventSticker value)? sticker,
+    TResult? Function(DiscussionEventDelete value)? deleteMessage,
+    TResult? Function(DiscussionEventImage value)? sendImage,
+    TResult? Function(DiscussionEventText value)? sendText,
+    TResult? Function(DiscussionEventSticker value)? sendSticker,
   }) {
-    return sticker?.call(this);
+    return sendSticker?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DiscussionEventImage value)? image,
-    TResult Function(DiscussionEventText value)? text,
-    TResult Function(DiscussionEventSticker value)? sticker,
+    TResult Function(DiscussionEventDelete value)? deleteMessage,
+    TResult Function(DiscussionEventImage value)? sendImage,
+    TResult Function(DiscussionEventText value)? sendText,
+    TResult Function(DiscussionEventSticker value)? sendSticker,
     required TResult orElse(),
   }) {
-    if (sticker != null) {
-      return sticker(this);
+    if (sendSticker != null) {
+      return sendSticker(this);
     }
     return orElse();
   }

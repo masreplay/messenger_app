@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
+import 'package:messenger_app/data/models/message_model.dart';
 import 'package:messenger_app/data/models/sticker.dart';
 import 'package:messenger_app/data/repo/discussions_repo.dart';
 
@@ -52,12 +53,25 @@ class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {
   ) async {
     emit(const DiscussionState.sendingInProgress());
     try {
-      final message = await event.when(
-        text: _repository.sendTextMessage,
-        image: _repository.sendImageMessage,
-        sticker: _repository.sendStickerMessage,
+      event.when(
+        sendText: (value) async {
+          final data = await _repository.sendTextMessage(value);
+          emit(DiscussionState.messageSent(data));
+        },
+        sendImage: (value) async {
+          final data = await _repository.sendImageMessage(value);
+          emit(DiscussionState.messageSent(data));
+        },
+        sendSticker: (value) async {
+          final data = await _repository.sendStickerMessage(value);
+          emit(DiscussionState.messageSent(data));
+        },
+        deleteMessage: (message) async {
+          await _repository.deleteMessage(message.id);
+
+          emit(DiscussionState.messageDeleted(message));
+        },
       );
-      emit(DiscussionState.messageSent(message));
     } catch (e, s) {
       emit(DiscussionState.failure(e, s));
     }
@@ -65,14 +79,18 @@ class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {
 
   void sendStickerMessage(Sticker value) {
     debugPrint('sendStickerMessage');
-    add(DiscussionEvent.sticker(value));
+    add(DiscussionEvent.sendSticker(value));
   }
 
   void sendTextMessage(String text) {
-    add(DiscussionEvent.text(text));
+    add(DiscussionEvent.sendText(text));
   }
 
   void sendImageMessage(File file) {
-    add(DiscussionEvent.image(file));
+    add(DiscussionEvent.sendImage(file));
+  }
+
+  void deleteMessage(Message message) {
+    add(DiscussionEvent.deleteMessage(message));
   }
 }

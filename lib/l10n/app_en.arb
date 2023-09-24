@@ -35,6 +35,7 @@
     "stickers": "Stickers",
     "noMessages": "No messages",
     "sendFirstSticker": "Send the first sticker",
+    "delete": "Delete",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

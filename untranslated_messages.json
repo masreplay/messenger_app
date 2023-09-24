@@ -10,6 +10,7 @@
     "stickers",
     "noMessages",
     "sendFirstSticker",
+    "delete",
     "send"
   ]
 }
