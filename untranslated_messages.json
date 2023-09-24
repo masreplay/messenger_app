@@ -7,6 +7,8 @@
     "copy",
     "noStickers",
     "discussion",
+    "stickers",
+    "noMessages",
     "send"
   ]
 }

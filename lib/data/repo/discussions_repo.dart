@@ -28,16 +28,19 @@ class DiscussionGroup with _$DiscussionGroup {
         peerId: peerId,
       );
 
-  String get id =>
-      userId.compareTo(peerId) > 0 ? '$userId-$peerId' : '$peerId-$userId';
+  String get id {
+    if (userId.compareTo(peerId) > 0) {
+      return '$userId-$peerId';
+    } else {
+      return '$peerId-$userId';
+    }
+  }
 
   factory DiscussionGroup.fromJson(Map<String, dynamic> json) =>
       _$DiscussionGroupFromJson(json);
 }
 
 abstract class DiscussionsRepository {
-  DiscussionGroup get group;
-
   Stream<List<Message>> watchAll({int limit = 20});
 
   Future<void> deleteMessage(Id id);
@@ -50,10 +53,9 @@ abstract class DiscussionsRepository {
 }
 
 class FirebaseDiscussionsRepository implements DiscussionsRepository {
-  @override
-  final DiscussionGroup group;
+  final DiscussionGroup _group;
 
-  const FirebaseDiscussionsRepository(this.group);
+  const FirebaseDiscussionsRepository(this._group);
 
   String _randomId() => DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -61,29 +63,31 @@ class FirebaseDiscussionsRepository implements DiscussionsRepository {
       FirebaseFirestore.instance.collection(FirebaseCollections.discussions);
 
   CollectionReferenceMap get _discussionCollection =>
-      _collection.doc(group.id).collection(group.id);
+      _collection.doc(_group.id).collection(_group.id);
 
   @override
-  Stream<List<Message>> watchAll({int limit = 20}) => _discussionCollection
-      .orderBy('timestamp', descending: true)
+  Stream<List<Message>> watchAll({int limit = 20}) => FirebaseFirestore.instance
+      .collection(FirebaseCollections.discussions)
+      .doc(_group.id)
+      .collection(_group.id)
+      .orderBy('metadata.timestamp', descending: true)
       .limit(limit)
       .snapshots()
       .map((event) =>
           event.docs.map((e) => Message.fromJson(e.data())).toList());
 
   Future<T> _sendMessage<T extends Message>(T message) async {
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
-      return transaction.set(
-        _discussionCollection.doc(_randomId()),
-        message.toJson(),
-      );
-    });
+    await FirebaseFirestore.instance
+        .runTransaction((transaction) async => transaction.set(
+              _discussionCollection.doc(_randomId()),
+              message.toJson(),
+            ));
     return message;
   }
 
   MessageMetaData _buildMessageMetaData() => MessageMetaData(
-        idFrom: group.userId,
-        idTo: group.peerId,
+        idFrom: _group.userId,
+        idTo: _group.peerId,
         timestamp: DateTime.now(),
       );
 
@@ -117,3 +121,71 @@ class FirebaseDiscussionsRepository implements DiscussionsRepository {
   @override
   Future<void> deleteMessage(id) => _discussionCollection.doc(id).delete();
 }
+
+//   CollectionReference<Map<String, dynamic>> get _discussion =>
+//       FirebaseFirestore.instance
+//           .collection(FirebaseCollections.discussions)
+//           .doc(_group.id)
+//           .collection(_group.id);
+
+  
+//   DocumentReference<Map<String, dynamic>> _chat() =>
+//       _discussion.doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+//   Future<Transaction> _runTxn(Message chat) =>
+//       FirebaseFirestore.instance.runTransaction(
+//           (transaction) async => transaction.set(_chat(), chat.toJson()));
+
+//   Future<Transaction> sendStickerMessage(Sticker sticker) {
+//     final chat = Message.sticker(
+//       idFrom: _group.userId,
+//       idTo: _group.peerId,
+//       timestamp: DateTime.now(),
+//       sticker: sticker,
+//     );
+//     return _runTxn(chat);
+//   }
+
+//   Future<Transaction> sendTextMessage(String text) {
+//     final chat = Message.text(
+//       idFrom: _group.userId,
+//       idTo: _group.peerId,
+//       timestamp: DateTime.now(),
+//       content: text,
+//     );
+//     return _runTxn(chat);
+//   }
+
+//   Future<void> deleteMessage({required String messageId}) =>
+//       _discussion.doc(messageId).delete();
+
+//   Stream<List<Message>> getMessages({int limit = 20}) => _discussion
+//       .orderBy('timestamp', descending: true)
+//       .limit(limit)
+//       .snapshots()
+//       .map((event) =>
+//           event.docs.map((e) => Message.fromJson(e.data())).toList());
+
+//   Future<void> sendImageMessage(File file) async {
+//     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+//     final reference = FirebaseStorage.instance.ref().child(fileName);
+//     final uploadTask = reference.putFile(file);
+
+//     try {
+//       TaskSnapshot snapshot = await uploadTask;
+//       final imageUrl = await snapshot.ref.getDownloadURL();
+//       final chat = Message.image(
+//         idFrom: _group.userId,
+//         idTo: _group.peerId,
+//         timestamp: DateTime.now(),
+//         imageUrl: imageUrl,
+//         caption: null,
+//       );
+//       await _runTxn(chat);
+//     } on FirebaseException catch (e) {
+//       if (kDebugMode) {
+//         print(e);
+//       }
+//     }
+//   }
+// }

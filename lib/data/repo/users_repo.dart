@@ -23,13 +23,8 @@ class FirebaseUsersRepository implements UsersRepository {
       FirebaseFirestore.instance.collection(FirebaseCollections.users);
 
   @override
-  Stream<List<UserData>> watchAll() {
-    return _collection.limit(10).snapshots().map((event) {
-      return event.docs.map((e) {
-        return UserData.fromJson(e.data());
-      }).toList();
-    });
-  }
+  Stream<List<UserData>> watchAll() => _collection.limit(10).snapshots().map(
+      (event) => event.docs.map((e) => UserData.fromJson(e.data())).toList());
 
   @override
   Future<UserData> get(Id id) async {

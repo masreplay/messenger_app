@@ -32,6 +32,8 @@
     "unsupportedMessage": "Unsupported message",
     "noStickers": "No stickers",
     "discussion": "Discussion",
+    "stickers": "Stickers",
+    "noMessages": "No messages",
     "send": "Send",
     "@validationMinLength": {
         "placeholders": {

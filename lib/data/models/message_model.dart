@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'sticker.dart';
@@ -26,7 +25,8 @@ class MessageMetaData with _$MessageMetaData {
   }) = _MessageMetaData;
 
   // Ignore what is passed in, always send server server timestamp
-  static FieldValue _toJsonTimestamp(_) => FieldValue.serverTimestamp();
+  static String _toJsonTimestamp(_) =>
+      DateTime.now().millisecondsSinceEpoch.toString();
   static DateTime _fromJsonTimestamp(String json) =>
       DateTime.fromMillisecondsSinceEpoch(int.parse(json));
 

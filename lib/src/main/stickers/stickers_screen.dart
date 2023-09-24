@@ -3,14 +3,18 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger_app/common_lib.dart';
-import 'package:messenger_app/firebase/collections.dart';
 import 'package:messenger_app/data/id.dart';
+import 'package:messenger_app/data/models/sticker.dart';
 import 'package:messenger_app/data/repo/stickers_repo.dart';
+import 'package:messenger_app/firebase/collections.dart';
+import 'package:messenger_app/src/main/stickers/add_sticker_dialog.dart';
+import 'package:messenger_app/src/main/stickers/stickers_bloc.dart';
 
 /// Image file with path and name using [Record] instead of [Class]
 typedef ImageFile = ({String path, String name});
@@ -89,126 +93,157 @@ class StickersScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final stickers = context.watch<StickersCubit>().state;
+    final l10n = AppLocalizations.of(context)!;
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt.get<StickersFilesCubit>()),
+        BlocProvider(create: (_) => getIt.get<UploadStickerFileCubit>()),
+        BlocProvider(create: (_) => getIt.get<DeleteStickerCubit>()),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.stickers),
+        ),
+        floatingActionButton:
+            BlocBuilder<UploadStickerFileCubit, UploadStickerFileState>(
+          builder: (context, state) {
+            return FloatingActionButton(
+              onPressed: () async {
+                final value = await ImagePicker().pickImage(
+                  source: ImageSource.gallery,
+                );
+                if (value == null) return;
+                if (!context.mounted) return;
+                final cubit = context.read<UploadStickerFileCubit>();
+                await cubit.run(value);
+                cubit.state.whenOrNull(
+                  data: (data) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AddStickerDialog(data),
+                    );
+                  },
+                  error: (error, stackTrace) {
+                    context.showDefaultErrorSnackBar();
+                  },
+                );
+              },
+              child: state.maybeWhen(
+                orElse: () => const Icon(Icons.add),
+                loading: () => const SizedBox.square(
+                  dimension: 24,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          },
+        ),
+        body: stickers.maybeWhen(
+          data: (stickers) => RefreshIndicator(
+            onRefresh: context.read<StickersCubit>().run,
+            child: BlocBuilder<StickersFilesCubit, _StickersFilesState>(
+              builder: (context, state) => state.maybeWhen(
+                data: (files) => ListView.builder(
+                  itemCount: files.length,
+                  itemBuilder: (context, index) {
+                    final item = files[index];
+                    final sticker = stickers.firstWhereOrNull(
+                      (element) => element.path == item.path,
+                    );
+                    return _StickerListTile(item: item, sticker: sticker);
+                  },
+                ),
+                error: DefaultErrorWidget.call(
+                  context.read<StickersFilesCubit>().run,
+                ),
+                orElse: DefaultLoadingWidget.new,
+              ),
+            ),
+          ),
+          error: DefaultErrorWidget.call(context.read<StickersCubit>().run),
+          orElse: DefaultLoadingWidget.new,
+        ),
+      ),
+    );
   }
-  // {
-  //   final stickersCubit = useBloc<StickersCubit>(closeOnDispose: false);
-  //   final stickers = useBlocBuilder(stickersCubit);
-
-  //   final filesCubit = useBloc<StickersFilesCubit>();
-  //   final files = useBlocBuilder(filesCubit);
-
-  //   final uploadCubit = useBloc<UploadStickerFileCubit>();
-
-  //   final deleteCubit = useBloc<DeleteStickerCubit>();
-
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Stickers'),
-  //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: () async {
-  //         final value = await ImagePicker().pickImage(
-  //           source: ImageSource.gallery,
-  //         );
-  //         if (value == null) return;
-
-  //         await uploadCubit.run(value);
-  //         uploadCubit.state.whenOrNull(
-  //           data: (data) {
-  //             showDialog(
-  //               context: context,
-  //               builder: (context) => AddStickerDialog(data),
-  //             );
-  //           },
-  //           error: (error, stackTrace) {
-  //             context.showDefaultErrorSnackBar();
-  //           },
-  //         );
-  //       },
-  //       child: const Icon(Icons.add),
-  //     ),
-  //     body: stickers.maybeWhen(
-  //       data: (stickers) => RefreshIndicator(
-  //         onRefresh: stickersCubit.run,
-  //         child: files.maybeWhen(
-  //           data: (files) => ListView.builder(
-  //             itemCount: files.length,
-  //             itemBuilder: (context, index) {
-  //               final item = files[index];
-  //               final sticker = stickers
-  //                   .firstWhereOrNull((element) => element.path == item.path);
-  //               return ListTile(
-  //                 leading: SizedBox.square(
-  //                   dimension: 56,
-  //                   child: Image.network(item.path),
-  //                 ),
-  //                 title: sticker == null ? null : Text(sticker.nickname),
-  //                 subtitle: Text(
-  //                   item.name,
-  //                   maxLines: 1,
-  //                   overflow: TextOverflow.ellipsis,
-  //                 ),
-  //                 trailing: Row(
-  //                   mainAxisSize: MainAxisSize.min,
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   mainAxisAlignment: MainAxisAlignment.end,
-  //                   children: [
-  //                     IconButton(
-  //                       onPressed: () {
-  //                         Clipboard.setData(ClipboardData(text: item.path));
-  //                       },
-  //                       icon: const Icon(Icons.copy),
-  //                     ),
-  //                     if (sticker == null)
-  //                       IconButton(
-  //                         onPressed: () {
-  //                           showDialog(
-  //                             context: context,
-  //                             builder: (context) => AddStickerDialog(item),
-  //                           );
-  //                         },
-  //                         icon: const Icon(Icons.add),
-  //                       ),
-  //                     if (sticker != null) ...[
-  //                       SizedBox.square(
-  //                         dimension: 48,
-  //                         child: FittedBox(
-  //                           child: Text(sticker.emoji),
-  //                         ),
-  //                       ),
-  //                       IconButton(
-  //                         onPressed: () async {
-  //                           await deleteCubit.run(sticker.id);
-  //                           deleteCubit.state.whenOrNull(data: (_) {
-  //                             stickersCubit.run();
-  //                           });
-  //                         },
-  //                         icon: const Icon(Icons.delete),
-  //                       ),
-  //                     ]
-  //                   ],
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //           error: DefaultErrorWidget.call(filesCubit.run),
-  //           orElse: DefaultLoadingWidget.new,
-  //         ),
-  //       ),
-  //       error: DefaultErrorWidget.call(stickersCubit.run),
-  //       orElse: DefaultLoadingWidget.new,
-  //     ),
-  //   );
-  // }
 }
 
-// extension<T> on List<T> {
-//   T? firstWhereOrNull(bool Function(T element) test) {
-//     try {
-//       return firstWhere(test);
-//     } catch (_) {
-//       return null;
-//     }
-//   }
-// }
+class _StickerListTile extends StatelessWidget {
+  final ImageFile item;
+  final Sticker? sticker;
+
+  const _StickerListTile({
+    required this.item,
+    this.sticker,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Sticker? sticker = this.sticker;
+    return ListTile(
+      leading: SizedBox.square(
+        dimension: 56,
+        child: Image.network(item.path),
+      ),
+      title: sticker == null ? null : Text(sticker.nickname),
+      subtitle: Text(
+        item.name,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: item.path));
+            },
+            icon: const Icon(Icons.copy),
+          ),
+          if (sticker == null)
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AddStickerDialog(item),
+                );
+              },
+              icon: const Icon(Icons.add),
+            ),
+          if (sticker != null) ...[
+            SizedBox.square(
+              dimension: 48,
+              child: FittedBox(
+                child: Text(sticker.emoji),
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                final cubit = context.read<DeleteStickerCubit>();
+                await cubit.run(sticker.id);
+                cubit.state.whenOrNull(data: (_) {
+                  context.read<StickersCubit>().run();
+                });
+              },
+              icon: const Icon(Icons.delete),
+            ),
+          ]
+        ],
+      ),
+    );
+  }
+}
+
+extension<T> on List<T> {
+  T? firstWhereOrNull(bool Function(T element) test) {
+    try {
+      return firstWhere(test);
+    } catch (_) {
+      return null;
+    }
+  }
+}

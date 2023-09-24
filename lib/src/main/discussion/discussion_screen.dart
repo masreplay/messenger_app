@@ -16,6 +16,7 @@ import 'package:messenger_app/data/models/sticker.dart';
 import 'package:messenger_app/data/models/user.dart';
 import 'package:messenger_app/data/repo/discussions_repo.dart';
 import 'package:messenger_app/src/main/discussion/discussion_cubit.dart';
+import 'package:messenger_app/src/main/discussion/discussion_state.dart';
 import 'package:messenger_app/src/main/discussion/messages_cubit.dart';
 import 'package:messenger_app/src/main/stickers/stickers_bloc.dart';
 import 'package:messenger_app/src/widgets/image.dart';
@@ -135,6 +136,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
   @override
   void initState() {
     context.read<UserCubit>().run(widget.peerId);
+
     super.initState();
   }
 
@@ -148,10 +150,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
     return Scaffold(
       body: state.maybeWhen(
         data: (data) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => DiscussionCubit(repo)),
-            BlocProvider(create: (_) => MessagesCubit(repo)),
-          ],
+          providers: [BlocProvider(create: (_) => DiscussionCubit(repo))],
           child: BlocProviderAndBuilder(
             bloc: MessagesCubit(repo),
             factory: (bloc) => bloc.run(),
@@ -167,18 +166,13 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
   }
 }
 
-class _DiscussionView extends StatefulHookWidget {
+class _DiscussionView extends HookWidget {
   const _DiscussionView(this.peer, this.group);
 
   final UserData peer;
 
   final DiscussionGroup group;
 
-  @override
-  State<_DiscussionView> createState() => _DiscussionViewState();
-}
-
-class _DiscussionViewState extends State<_DiscussionView> {
   @override
   Widget build(BuildContext context) {
     final limit = useState(20);
@@ -197,6 +191,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
       if (scrollController.offset >=
               scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
+        // TODO(masreplay): implement loading here
         limit.value += 20;
       }
     });
@@ -206,11 +201,11 @@ class _DiscussionViewState extends State<_DiscussionView> {
         title: Row(
           children: [
             UserAvatar(
-              alt: widget.peer.email,
-              photoURL: widget.peer.avatar,
+              alt: peer.email,
+              photoURL: peer.avatar,
             ),
             const Gap(),
-            Text(widget.peer.name),
+            Text(peer.name),
           ],
         ),
         actions: [
@@ -229,7 +224,7 @@ class _DiscussionViewState extends State<_DiscussionView> {
                 return _MessagesListView(
                   messages: data,
                   controller: scrollController,
-                  group: widget.group,
+                  group: group,
                 );
               },
               error: DefaultErrorWidget.call(context.router.pop),
@@ -358,24 +353,7 @@ class _StickersSection extends HookWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     final sticker = data[index];
-                    return Tooltip(
-                      message: "${sticker.nickname} ${sticker.emoji}",
-                      child: InkWell(
-                        onTap: () => context
-                            .read<DiscussionCubit>()
-                            .sendStickerMessage(sticker),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: AppNetworkImage(
-                            sticker.path,
-                            loadingBuilder: (context) =>
-                                StickerPlaceholder(value: sticker),
-                            errorBuilder: (context) =>
-                                StickerPlaceholder(value: sticker),
-                          ),
-                        ),
-                      ),
-                    );
+                    return StickerContainer(sticker: sticker);
                   },
                 ),
         ),
@@ -394,6 +372,33 @@ class _StickersSection extends HookWidget {
               ),
         ),
       );
+}
+
+class StickerContainer extends StatelessWidget {
+  final Sticker sticker;
+
+  const StickerContainer({
+    super.key,
+    required this.sticker,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: "${sticker.nickname} ${sticker.emoji}",
+      child: InkWell(
+        onTap: () =>
+            context.read<DiscussionCubit>().sendStickerMessage(sticker),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: AppNetworkImage(
+            sticker.path,
+            loadingBuilder: (context) => StickerPlaceholder(value: sticker),
+            errorBuilder: (context) => StickerPlaceholder(value: sticker),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// A list of messages not depend on the type of the message
@@ -415,6 +420,41 @@ class _MessagesListView extends StatefulHookWidget {
 class _MessagesListViewState extends State<_MessagesListView> {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+
+    if (widget.messages.isEmpty) {
+      return BlocBuilder<StickersCubit, StickersState>(
+        builder: (context, state) => state.maybeWhen(
+          data: (data) {
+            if (data.isEmpty) {
+              return Center(
+                child: Text(
+                  l10n.noMessages,
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }
+            return Container(
+              color: Theme.of(context).colorScheme.surfaceVariant,
+              child: StickerContainer(sticker: data.first),
+            );
+          },
+          orElse: () => Text(
+            l10n.noMessages,
+            style: textTheme.headlineMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+    }
+
     return ScrollToBottom(
       scrollController: widget.controller,
       child: ListView.separated(
@@ -653,7 +693,7 @@ class MessageThemeWrapper extends StatelessWidget {
     );
   }
 
-  _buildBorderRadius() {
+  BorderRadius _buildBorderRadius() {
     const sharpRadius = Radius.circular(0.0);
     final borderRadius = BorderRadius.circular(24.0);
 
@@ -686,6 +726,8 @@ class MessageThemeWrapper extends StatelessWidget {
             bottomLeft: sharpRadius,
           ),
       };
+    } else {
+      return borderRadius;
     }
   }
 }
@@ -902,6 +944,12 @@ class _DiscussionInputSection extends StatelessWidget {
               );
             },
           ),
+          BlocBuilder<DiscussionCubit, DiscussionState>(
+            builder: (context, state) => state.maybeWhen(
+              sendingInProgress: () => const LinearProgressIndicator(),
+              orElse: SizedBox.shrink,
+            ),
+          )
         ],
       ),
     );
