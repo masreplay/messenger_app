@@ -52,29 +52,42 @@ class DiscussionCubit extends Bloc<DiscussionEvent, DiscussionState> {
     Emitter<DiscussionState> emit,
   ) async {
     emit(const DiscussionState.sendingInProgress());
-    try {
-      event.when(
-        sendText: (value) async {
+
+    await event.when(
+      sendText: (value) async {
+        try {
           final data = await _repository.sendTextMessage(value);
           emit(DiscussionState.messageSent(data));
-        },
-        sendImage: (value) async {
+        } catch (e, s) {
+          emit(DiscussionState.failure(e, s));
+        }
+      },
+      sendImage: (value) async {
+        try {
           final data = await _repository.sendImageMessage(value);
           emit(DiscussionState.messageSent(data));
-        },
-        sendSticker: (value) async {
+        } catch (e, s) {
+          emit(DiscussionState.failure(e, s));
+        }
+      },
+      sendSticker: (value) async {
+        try {
           final data = await _repository.sendStickerMessage(value);
           emit(DiscussionState.messageSent(data));
-        },
-        deleteMessage: (message) async {
+        } catch (e, s) {
+          emit(DiscussionState.failure(e, s));
+        }
+      },
+      deleteMessage: (message) async {
+        try {
           await _repository.deleteMessage(message.id);
 
           emit(DiscussionState.messageDeleted(message));
-        },
-      );
-    } catch (e, s) {
-      emit(DiscussionState.failure(e, s));
-    }
+        } catch (e, s) {
+          emit(DiscussionState.failure(e, s));
+        }
+      },
+    );
   }
 
   void sendStickerMessage(Sticker value) {
