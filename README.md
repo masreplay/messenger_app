@@ -26,7 +26,7 @@ In some places in the application, I put “TODO”. I did not complete the enti
 ___
 |                                |                                                                          |
 | :----------------------------: | :----------------------------------------------------------------------: |
-|             users              |              <img src="images/app/users.png" height="300">               | Ø |
+|             users              |              <img src="images/app/users.png" height="300">               |
 |          Add sticker           |          <image src="images/app/add-sticker.png" height="300">           |
 |          Add sticker2          |          <image src="images/app/add-sticker2.png" height="300">          |
 | Discussion starter no stickers | <image src="images/app/discussion-starter-no-stickers.png" height="300"> |
